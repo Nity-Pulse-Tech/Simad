@@ -3,6 +3,8 @@ from typing import TYPE_CHECKING
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import UserManager as DjangoUserManager
 
+from simad.global_data.enum import UserTypeChoices
+
 if TYPE_CHECKING:
     from .models import User  # noqa: F401
 
@@ -26,11 +28,15 @@ class UserManager(DjangoUserManager["User"]):
     def create_user(self, email: str, password: str | None = None, **extra_fields):  # type: ignore[override]
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
+        extra_fields.setdefault("is_active", False)  # must verify email or phone
+        extra_fields.setdefault("user_type", UserTypeChoices.CUSTOMER)
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email: str, password: str | None = None, **extra_fields):  # type: ignore[override]
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_active", True)  # superuser is always active
+        extra_fields.setdefault("user_type", UserTypeChoices.ADMIN)
 
         if extra_fields.get("is_staff") is not True:
             msg = "Superuser must have is_staff=True."
@@ -38,5 +44,22 @@ class UserManager(DjangoUserManager["User"]):
         if extra_fields.get("is_superuser") is not True:
             msg = "Superuser must have is_superuser=True."
             raise ValueError(msg)
+        if extra_fields.get("is_active") is not True:
+            msg = "Superuser must have is_active=True."
+            raise ValueError(msg)
 
         return self._create_user(email, password, **extra_fields)
+
+    def create_user_with_phone(self, phone_number: str, password: str | None = None, **extra_fields):
+        """Create a user using phone number as identifier."""
+        if not phone_number:
+            msg = "The given phone number must be set"
+            raise ValueError(msg)
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_superuser", False)
+        extra_fields.setdefault("is_active", False)
+        extra_fields.setdefault("user_type", UserTypeChoices.CUSTOMER)
+        user = self.model(phone_number=phone_number, **extra_fields)
+        user.password = make_password(password)
+        user.save(using=self._db)
+        return user

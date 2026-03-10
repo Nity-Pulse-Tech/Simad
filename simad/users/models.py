@@ -1,39 +1,109 @@
-
-from typing import ClassVar
-
 from django.contrib.auth.models import AbstractUser
-from django.db.models import CharField
-from django.db.models import EmailField
-from django.urls import reverse
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from .managers import UserManager
+from simad.core.models import SIMADBASEMODEL
+from simad.global_data.enum import GenderChoices
+from simad.global_data.enum import UserTypeChoices
+from simad.users.managers import UserManager
 
 
-class User(AbstractUser):
+class User(AbstractUser, SIMADBASEMODEL):
     """
     Default custom user model for SIMAD.
-    If adding fields that need to be filled at user signup,
-    check forms.SignupForm and forms.SocialSignupForms accordingly.
+
+    Authentication supports both email and phone number.
+    New users are inactive (is_active=False) until they verify
+    via email or phone OTP.
     """
 
-    # First and last name do not cover name patterns around the globe
-    name = CharField(_("Name of User"), blank=True, max_length=255)
-    first_name = None  # type: ignore[assignment]
-    last_name = None  # type: ignore[assignment]
-    email = EmailField(_("email address"), unique=True)
-    username = None  # type: ignore[assignment]
+
+
+    first_name = models.CharField(_("First Name"), max_length=100)
+    last_name = models.CharField(_("Last Name"), max_length=100)
+    email = models.EmailField(_("Email Address"), unique=True, blank=True, null=True)
+    phone_number = models.CharField(
+        _("Phone Number"),
+        max_length=20,
+        unique=True,
+        blank=True,
+        null=True,
+        help_text=_("Used as an alternative login identifier and for OTP verification."),
+    )
+    user_type = models.CharField(
+        _("User Type"),
+        max_length=50,
+        choices=UserTypeChoices.choices,
+        default=UserTypeChoices.CUSTOMER,
+    )
+    is_active = models.BooleanField(
+        _("Active"),
+        default=False,
+        help_text=_(
+            "Designates whether this user account should be considered active. "
+            "Users must verify their email or phone number before being activated."
+        ),
+    )
+    is_email_verified = models.BooleanField(_("Email Verified"), default=False)
+    is_phone_verified = models.BooleanField(_("Phone Verified"), default=False)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["phone_number"]
 
-    objects: ClassVar[UserManager] = UserManager()
+    objects = UserManager()
 
-    def get_absolute_url(self) -> str:
-        """Get URL for user's detail view.
+    class Meta(AbstractUser.Meta):
+        swappable = "AUTH_USER_MODEL"
+        verbose_name = _("User")
+        verbose_name_plural = _("Users")
 
-        Returns:
-            str: URL for user detail.
+    def __str__(self):
+        return self.email or self.phone_number or str(self.id)
 
-        """
-        return reverse("users:detail", kwargs={"pk": self.id})
+    @property
+    def full_name(self) -> str:
+        return f"{self.first_name} {self.last_name}".strip()
+
+
+class UserProfile(SIMADBASEMODEL):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="profile"
+    )
+    bio = models.TextField(_("Bio"), blank=True)
+    birth_date = models.DateField(_("Birth Date"), null=True, blank=True)
+    gender = models.CharField(
+        _("Gender"),
+        max_length=20,
+        choices=GenderChoices.choices,
+        default=GenderChoices.OTHER,
+    )
+    avatar = models.ImageField(
+        _("Avatar"), upload_to="avatars/", null=True, blank=True
+    )
+
+    class Meta:
+        verbose_name = _("User Profile")
+        verbose_name_plural = _("User Profiles")
+
+    def __str__(self):
+        return f"Profile of {self.user}"
+
+
+class Address(SIMADBASEMODEL):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="addresses"
+    )
+    address_line1 = models.CharField(_("Address Line 1"), max_length=255)
+    address_line2 = models.CharField(_("Address Line 2"), max_length=255, blank=True)
+    city = models.CharField(_("City"), max_length=100)
+    state_province = models.CharField(_("State / Province"), max_length=100)
+    postal_code = models.CharField(_("Postal Code"), max_length=20)
+    country = models.CharField(_("Country"), max_length=100)
+    is_default = models.BooleanField(_("Default Address"), default=False)
+
+    class Meta:
+        verbose_name = _("Address")
+        verbose_name_plural = _("Addresses")
+
+    def __str__(self):
+        return f"{self.address_line1}, {self.city}"
