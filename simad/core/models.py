@@ -17,6 +17,11 @@ class SIMADBASEMODEL(ActivatorModel, TimeStampedModel):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
+    # Override TimeStampedModel fields to be nullable to avoid migration prompts
+    # when added to existing models (like User).
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    modified = models.DateTimeField(auto_now=True, null=True, blank=True)
+
     class Meta:
         abstract = True
         ordering = ["-created"]

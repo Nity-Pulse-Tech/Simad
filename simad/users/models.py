@@ -17,10 +17,10 @@ class User(AbstractUser, SIMADBASEMODEL):
     via email or phone OTP.
     """
 
+    username = None  # type: ignore[assignment]
 
-
-    first_name = models.CharField(_("First Name"), max_length=100)
-    last_name = models.CharField(_("Last Name"), max_length=100)
+    first_name = models.CharField(_("First Name"), max_length=100, blank=True, default="")
+    last_name = models.CharField(_("Last Name"), max_length=100, blank=True, default="")
     email = models.EmailField(_("Email Address"), unique=True, blank=True, null=True)
     phone_number = models.CharField(
         _("Phone Number"),
@@ -93,12 +93,12 @@ class Address(SIMADBASEMODEL):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="addresses"
     )
-    address_line1 = models.CharField(_("Address Line 1"), max_length=255)
-    address_line2 = models.CharField(_("Address Line 2"), max_length=255, blank=True)
-    city = models.CharField(_("City"), max_length=100)
-    state_province = models.CharField(_("State / Province"), max_length=100)
-    postal_code = models.CharField(_("Postal Code"), max_length=20)
-    country = models.CharField(_("Country"), max_length=100)
+    address_line1 = models.CharField(_("Address Line 1"), max_length=255, default="")
+    address_line2 = models.CharField(_("Address Line 2"), max_length=255, blank=True, default="")
+    city = models.CharField(_("City"), max_length=100, default="")
+    state_province = models.CharField(_("State / Province"), max_length=100, default="")
+    postal_code = models.CharField(_("Postal Code"), max_length=20, default="")
+    country = models.CharField(_("Country"), max_length=100, default="")
     is_default = models.BooleanField(_("Default Address"), default=False)
 
     class Meta:

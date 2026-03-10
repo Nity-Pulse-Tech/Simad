@@ -15,8 +15,8 @@ from simad.users.models import User
 # ──────────────────────────────────────────────
 
 class Category(SIMADBASEMODEL):
-    name = models.CharField(_("Name"), max_length=150)
-    slug = models.SlugField(_("Slug"), unique=True)
+    name = models.CharField(_("Name"), max_length=150, default="")
+    slug = models.SlugField(_("Slug"), unique=True, default="")
     description = models.TextField(_("Description"), blank=True)
     image = models.ImageField(
         _("Image"), upload_to="categories/", null=True, blank=True
@@ -53,11 +53,11 @@ class Product(SIMADBASEMODEL):
         related_name="products",
         verbose_name=_("Category"),
     )
-    name = models.CharField(_("Name"), max_length=255)
-    slug = models.SlugField(_("Slug"), unique=True)
-    description = models.TextField(_("Description"), blank=True)
+    name = models.CharField(_("Name"), max_length=255, default="")
+    slug = models.SlugField(_("Slug"), unique=True, default="")
+    description = models.TextField(_("Description"), blank=True, default="")
     short_description = models.CharField(
-        _("Short Description"), max_length=500, blank=True
+        _("Short Description"), max_length=500, blank=True, default=""
     )
     product_type = models.CharField(
         _("Product Type"),
@@ -122,7 +122,7 @@ class ProductImage(SIMADBASEMODEL):
         Product, on_delete=models.CASCADE, related_name="images"
     )
     image = models.ImageField(_("Image"), upload_to="products/images/")
-    alt_text = models.CharField(_("Alt Text"), max_length=255, blank=True)
+    alt_text = models.CharField(_("Alt Text"), max_length=255, blank=True, default="")
     is_primary = models.BooleanField(_("Primary Image"), default=False)
     order = models.PositiveIntegerField(_("Display Order"), default=0)
 
@@ -141,7 +141,7 @@ class ProductVideo(SIMADBASEMODEL):
     )
     video = models.FileField(_("Video"), upload_to="products/videos/", null=True, blank=True)
     video_url = models.URLField(_("Video URL (YouTube/Vimeo)"), blank=True)
-    title = models.CharField(_("Title"), max_length=255, blank=True)
+    title = models.CharField(_("Title"), max_length=255, blank=True, default="")
     thumbnail = models.ImageField(
         _("Thumbnail"), upload_to="products/video_thumbs/", null=True, blank=True
     )
@@ -179,7 +179,7 @@ class ProductSpecification(SIMADBASEMODEL):
 # ──────────────────────────────────────────────
 
 class Promotion(SIMADBASEMODEL):
-    title = models.CharField(_("Title"), max_length=255)
+    title = models.CharField(_("Title"), max_length=255, default="")
     description = models.TextField(_("Description"), blank=True)
     promotion_type = models.CharField(
         _("Promotion Type"),
@@ -190,7 +190,7 @@ class Promotion(SIMADBASEMODEL):
     discount_value = models.DecimalField(
         _("Discount Value"), max_digits=10, decimal_places=2
     )
-    code = models.CharField(_("Promo Code"), max_length=50, blank=True, unique=True)
+    code = models.CharField(_("Promo Code"), max_length=50, blank=True, unique=True, default="")
     min_order_amount = models.DecimalField(
         _("Minimum Order Amount"), max_digits=12, decimal_places=2, default=0
     )
@@ -249,8 +249,8 @@ class FlashSale(SIMADBASEMODEL):
 # ──────────────────────────────────────────────
 
 class ArticleCategory(SIMADBASEMODEL):
-    name = models.CharField(_("Name"), max_length=150)
-    slug = models.SlugField(_("Slug"), unique=True)
+    name = models.CharField(_("Name"), max_length=150, default="")
+    slug = models.SlugField(_("Slug"), unique=True, default="")
     description = models.TextField(_("Description"), blank=True)
 
     class Meta:
@@ -277,10 +277,10 @@ class Article(SIMADBASEMODEL):
         blank=True,
         related_name="articles",
     )
-    title = models.CharField(_("Title"), max_length=255)
-    slug = models.SlugField(_("Slug"), unique=True)
-    summary = models.CharField(_("Summary"), max_length=500, blank=True)
-    content = models.TextField(_("Content"))
+    title = models.CharField(_("Title"), max_length=255, default="")
+    slug = models.SlugField(_("Slug"), unique=True, default="")
+    summary = models.CharField(_("Summary"), max_length=500, blank=True, default="")
+    content = models.TextField(_("Content"), default="")
     cover_image = models.ImageField(
         _("Cover Image"), upload_to="articles/", null=True, blank=True
     )
@@ -321,8 +321,8 @@ class Testimonial(SIMADBASEMODEL):
         blank=True,
         related_name="testimonials",
     )
-    full_name = models.CharField(_("Full Name"), max_length=150)
-    content = models.TextField(_("Testimonial Content"))
+    full_name = models.CharField(_("Full Name"), max_length=150, default="")
+    content = models.TextField(_("Testimonial Content"), default="")
     rating = models.IntegerField(
         _("Rating"),
         choices=ReviewRatingChoices.choices,
@@ -363,16 +363,16 @@ class ProductReview(SIMADBASEMODEL):
         related_name="reviews",
     )
     # For anonymous / guest reviewers
-    reviewer_name = models.CharField(_("Reviewer Name"), max_length=150, blank=True)
-    reviewer_email = models.EmailField(_("Reviewer Email"), blank=True)
+    reviewer_name = models.CharField(_("Reviewer Name"), max_length=150, blank=True, default="")
+    reviewer_email = models.EmailField(_("Reviewer Email"), blank=True, default="")
 
     rating = models.IntegerField(
         _("Rating"),
         choices=ReviewRatingChoices.choices,
         default=ReviewRatingChoices.FIVE,
     )
-    title = models.CharField(_("Review Title"), max_length=255, blank=True)
-    body = models.TextField(_("Review Body"))
+    title = models.CharField(_("Review Title"), max_length=255, blank=True, default="")
+    body = models.TextField(_("Review Body"), default="")
 
     # Verify the reviewer actually purchased the product
     is_verified_purchase = models.BooleanField(_("Verified Purchase"), default=False)

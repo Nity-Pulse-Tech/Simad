@@ -67,7 +67,7 @@ class Order(SIMADBASEMODEL):
     user = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, related_name="orders"
     )
-    reference = models.CharField(_("Reference"), max_length=64, unique=True)
+    reference = models.CharField(_("Reference"), max_length=64, unique=True, default="")
     order_type = models.CharField(
         _("Order Type"),
         max_length=20,
@@ -117,7 +117,7 @@ class OrderItem(SIMADBASEMODEL):
     product = models.ForeignKey(
         "catalog.Product", on_delete=models.SET_NULL, null=True, related_name="order_items"
     )
-    product_name = models.CharField(_("Product Name at Order"), max_length=255)
+    product_name = models.CharField(_("Product Name at Order"), max_length=255, default="")
     quantity = models.PositiveIntegerField(_("Quantity"), default=1)
     unit_price = models.DecimalField(
         _("Unit Price at Order"), max_digits=12, decimal_places=2
@@ -149,7 +149,7 @@ class Payment(SIMADBASEMODEL):
     user = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, related_name="payments"
     )
-    reference = models.CharField(_("Payment Reference"), max_length=100, unique=True)
+    reference = models.CharField(_("Payment Reference"), max_length=100, unique=True, default="")
     method = models.CharField(
         _("Payment Method"),
         max_length=30,
@@ -201,10 +201,8 @@ class Delivery(SIMADBASEMODEL):
         choices=DeliveryStatusChoices.choices,
         default=DeliveryStatusChoices.PENDING,
     )
-    tracking_number = models.CharField(
-        _("Tracking Number"), max_length=100, blank=True
-    )
-    carrier_name = models.CharField(_("Carrier Name"), max_length=100, blank=True)
+    tracking_number = models.CharField(_("Tracking Number"), max_length=100, blank=True, default="")
+    carrier_name = models.CharField(_("Carrier Name"), max_length=100, blank=True, default="")
     estimated_delivery_date = models.DateField(
         _("Estimated Delivery Date"), null=True, blank=True
     )
@@ -232,8 +230,8 @@ class DeliveryTracking(SIMADBASEMODEL):
         max_length=30,
         choices=DeliveryStatusChoices.choices,
     )
-    location = models.CharField(_("Location"), max_length=255, blank=True)
-    description = models.TextField(_("Description"), blank=True)
+    location = models.CharField(_("Location"), max_length=255, blank=True, default="")
+    description = models.TextField(_("Description"), blank=True, default="")
     timestamp = models.DateTimeField(_("Event Timestamp"), auto_now_add=True)
 
     class Meta:
