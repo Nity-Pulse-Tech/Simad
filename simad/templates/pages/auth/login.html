@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Connexion | SIMAD.cm - Excellence en Hygiène Industrielle</title>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Nunito for headings, DM Sans for body -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=Nunito:ital,wght@0,200..1000;1,200..1000&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            simad: {
+              primary: '#1A4A8A',
+              dark: '#0f2c52',
+              light: '#f8fafc'
+            }
+          },
+          fontFamily: {
+            heading: ['Nunito', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="typography">
+    body {
+      font-family: 'DM Sans', sans-serif;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Nunito', sans-serif;
+    }
+  </style>
+<style data-purpose="layout-custom">
+    /* Custom overlay for the background image to ensure text readability */
+    .bg-overlay {
+      background: linear-gradient(rgba(26, 74, 138, 0.7), rgba(15, 44, 82, 0.85));
+    }
+    /* Smooth transitions for inputs */
+    input:focus {
+      border-color: #1A4A8A !important;
+      ring-color: #1A4A8A !important;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen">
+<main class="w-full h-screen flex overflow-hidden" data-purpose="split-screen-container">
+<!-- BEGIN: Left Visual Side -->
+<section class="hidden lg:flex lg:w-1/2 relative h-full flex-col justify-center items-center text-white p-12 overflow-hidden" data-purpose="brand-visual-side">
+<!-- Background Image -->
+<img alt="Environnement professionnel propre" class="absolute inset-0 object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1Z8M-0bXG4MGpsbBd2eewDvJCKpTpOXS3KW1P0phqmFXkn8r-I0rbmXjP08Rl3uUXyeoltrRYTFs-W8vpchtaLbd80H2YLb8GR8OhisSHx5kotNxnd6h0YsquG7AWw0lkIwTW6HlI4FNUh0qKHCJpBkDWB2R-IZuI_7okywax1IPiOAX7a884Lkv84g4-qrQr-M7f4G8P8NcJa2QPKq04WMmSLrw4XF0HRptISdtBRuE4gyTwzh-hNzGmFzkvQMNp7Hhhg1Bcs_c"/>
+<!-- Gradient Overlay -->
+<div class="absolute inset-0 bg-overlay"></div>
+<!-- Content -->
+<div class="relative z-10 max-w-lg text-center">
+<!-- Brand Identity -->
+<div class="mb-8" data-purpose="logo-container">
+<h1 class="text-5xl font-extrabold tracking-tight mb-2">SIMAD<span class="text-blue-300">.cm</span></h1>
+<div class="h-1 w-20 bg-blue-400 mx-auto"></div>
+</div>
+<!-- Value Proposition -->
+<h2 class="text-4xl font-bold leading-tight mb-6">
+          Accédez à l'excellence en hygiène industrielle.
+        </h2>
+<p class="text-lg text-blue-100 font-light max-w-md mx-auto">
+          Optimisez vos standards de propreté avec des solutions professionnelles conçues pour la performance et la sécurité de vos environnements.
+        </p>
+</div>
+<!-- Footer Branding Info -->
+<div class="absolute bottom-10 left-12 right-12 z-10 flex justify-between items-center text-sm text-blue-200">
+<p>© 2024 SIMAD.cm</p>
+<p>Expertise &amp; Confiance</p>
+</div>
+</section>
+<!-- END: Left Visual Side -->
+<!-- BEGIN: Right Login Form Side -->
+<section class="w-full lg:w-1/2 bg-white flex flex-col justify-center items-center p-8 sm:p-12 md:p-24 overflow-y-auto" data-purpose="login-form-side">
+<div class="w-full max-w-md">
+<!-- Mobile Logo (visible only on small screens) -->
+<div class="lg:hidden mb-8 text-center" data-purpose="mobile-logo">
+<h2 class="text-3xl font-bold text-simad-primary">SIMAD.cm</h2>
+</div>
+<!-- Header Text -->
+<header class="mb-10 text-center lg:text-left">
+<h2 class="text-3xl font-bold text-gray-900 mb-2">Bienvenue</h2>
+<p class="text-gray-500">Veuillez vous connecter à votre compte professionnel.</p>
+</header>
+<!-- Login Form -->
+<form action="#" class="space-y-6" data-purpose="auth-form" method="POST">
+<!-- Email Field -->
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1" for="email">Adresse Email</label>
+<input class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-simad-primary focus:border-simad-primary sm:text-sm transition-colors" id="email" name="email" placeholder="nom@entreprise.com" required="" type="email"/>
+</div>
+<!-- Password Field -->
+<div>
+<div class="flex items-center justify-between mb-1">
+<label class="block text-sm font-medium text-gray-700" for="password">Mot de passe</label>
+<a class="text-sm font-semibold text-simad-primary hover:text-simad-dark transition-colors" href="#">
+                Mot de passe oublié ?
+              </a>
+</div>
+<input class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-simad-primary focus:border-simad-primary sm:text-sm transition-colors" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+<!-- Remember Me -->
+<div class="flex items-center">
+<input class="h-4 w-4 text-simad-primary focus:ring-simad-primary border-gray-300 rounded" id="remember-me" name="remember-me" type="checkbox"/>
+<label class="ml-2 block text-sm text-gray-700" for="remember-me">
+              Se souvenir de moi
+            </label>
+</div>
+<!-- CTA Button -->
+<button class="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white bg-simad-primary hover:bg-simad-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-simad-primary transition-all duration-200 uppercase tracking-wider" type="submit">
+            Se connecter
+          </button>
+</form>
+<!-- Social Login / Alternative -->
+<div class="mt-8" data-purpose="alternative-login">
+<div class="relative">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-gray-200"></div>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="px-2 bg-white text-gray-500 uppercase tracking-tight text-xs">Ou continuer avec</span>
+</div>
+</div>
+<div class="mt-6 flex justify-center space-x-4">
+<button class="flex-1 flex justify-center items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+<svg class="h-5 w-5 mr-2" fill="currentColor" viewbox="0 0 24 24"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.908 3.152-1.928 4.176-1.02 1.024-2.304 1.896-4.592 1.896-3.576 0-6.448-2.88-6.448-6.448s2.872-6.448 6.448-6.448c1.92 0 3.392.76 4.416 1.744l2.328-2.328C18.592 4.432 16.032 3.2 12.48 3.2 7.512 3.2 3.2 7.512 3.2 12.48s4.312 9.28 9.28 9.28c2.68 0 4.712-.896 6.312-2.576 1.632-1.632 2.144-3.92 2.144-5.744 0-.544-.048-1.072-.128-1.552H12.48z"></path></svg>
+               Google
+             </button>
+</div>
+</div>
+<!-- Signup Link -->
+<footer class="mt-10 text-center">
+<p class="text-sm text-gray-600">
+            Nouveau sur la plateforme ? 
+            <a class="font-semibold text-simad-primary hover:text-simad-dark transition-colors" href="#">
+              Créer un compte professionnel
+            </a>
+</p>
+</footer>
+</div>
+</section>
+<!-- END: Right Login Form Side -->
+</main>
+</body></html>
