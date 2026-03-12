@@ -23,6 +23,15 @@
             sans: ['DM Sans', 'sans-serif'],
             heading: ['Inter', 'Nunito', 'sans-serif'],
           },
+          animation: {
+            'fade-in': 'fadeIn 1s ease-out forwards',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(10px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
         }
       }
     }
@@ -64,23 +73,69 @@
 <!-- END: MainHeader -->
 <main>
 <!-- BEGIN: HeroSection -->
-<section class="relative bg-slate-900 overflow-hidden hero-max-height flex items-center">
-<!-- Background Image with Overlay -->
-<div class="absolute inset-0 z-0">
-<img alt="Hygiène Professionnelle" class="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQlFE3FNK-fqxQ6Of_DItmZ0aIss1ki2H0YVZUwHlV1oTcgKdREu0B4Qo4LW4ZLIGat4aqVeIdXXvMoPzw7Djcak8_WHsJEFdH_AAOjDWLwzCi2Xx2KUEs0E30OdXhsd5rHZ9fdomMfR6BiuaxdZgRIXAt9VREIHpd1LzQhUxzs5SucOA8filsvjl40UknRTHFctnazpAG4rehGIFBXZV8WynL6OzS5GAYfRb5UNbj2X2BFZnIYZ6muPug_sDl4EgA0PuSmFliKrc"/>
-<div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 to-transparent"></div>
-</div>
-<div class="container mx-auto px-4 relative z-10 text-white">
-<div class="max-w-2xl">
-<span class="inline-block bg-accent px-4 py-1 rounded-full text-sm font-bold mb-4 uppercase tracking-wider">Expertise Certifiée</span>
-<h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">Des solutions professionnelles pour l'hygiène et la propreté</h1>
-<p class="text-xl text-slate-200 mb-8 leading-relaxed">SIMAD accompagne les entreprises, hôpitaux et restaurants avec des équipements et consommables de nettoyage de haute performance.</p>
-<div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-<button class="bg-primary hover:bg-blue-800 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg transition-all">Commander maintenant</button>
-<button class="bg-white/10 hover:bg-white/20 text-white border border-white/30 backdrop-blur-sm px-8 py-4 rounded-xl font-bold text-lg transition-all">Découvrir les produits</button>
-</div>
-</div>
-</div>
+<section class="relative bg-slate-900 overflow-hidden min-h-[85vh] flex items-center">
+    <!-- Premium Video Background -->
+    <div class="absolute inset-0 z-0">
+        <video 
+            autoplay 
+            muted 
+            loop 
+            playsinline 
+            class="w-full h-full object-cover opacity-50"
+        >
+            <source src="/static/images/videos/hero_background.mp4" type="video/mp4">
+            <source src="/static/images/videos/copy_1CF53C70-8A31-4CB0-B08A-EE78650FC1F6.mov" type="video/quicktime">
+            <!-- Fallback for browsers that don't support video -->
+            Your browser does not support the video tag.
+        </video>
+        <!-- Sophisticated Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-slate-900/40"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-transparent to-transparent"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 relative z-10 text-white py-20">
+        <div class="max-w-3xl">
+            <div class="inline-flex items-center gap-2 bg-primary/20 backdrop-blur-md border border-primary/30 px-4 py-1.5 rounded-full text-blue-300 text-xs font-bold mb-8 uppercase tracking-[0.2em] animate-fade-in">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                Expertise Certifiée • Excellence Industrielle
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-black leading-[1.1] mb-8 tracking-tight">
+                La Référence de <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">l'Hygiène Pro</span> au Cameroun
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-medium">
+                SIMAD transforme vos standards de propreté avec des équipements de pointe et des consommables haute performance pour les professionnels exigeants.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center gap-5">
+                <button class="w-full sm:w-auto bg-primary hover:bg-blue-700 text-white px-10 py-5 rounded-2xl font-black text-lg shadow-2xl shadow-primary/40 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3">
+                    Découvrir nos Solutions
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </button>
+                <button class="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white border border-white/20 backdrop-blur-xl px-10 py-5 rounded-2xl font-bold text-lg transition-all hover:bg-white/15">
+                    Consulter le Catalogue
+                </button>
+            </div>
+            
+            <!-- Trust Indicators -->
+            <div class="mt-16 flex flex-wrap items-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                <div class="flex items-center gap-2">
+                    <span class="text-sm font-bold tracking-widest uppercase">Partenaire de confiance</span>
+                </div>
+                <!-- Placeholder for mini-logos or trust icons -->
+                <div class="h-px w-12 bg-white/20"></div>
+                <div class="text-xs font-medium uppercase tracking-tighter">Hôpitaux • Hôtels • Industries • Restaurants</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Visual Accent Element -->
+    <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-background to-transparent z-10"></div>
 </section>
 <!-- END: HeroSection -->
 <!-- BEGIN: AboutSection -->
