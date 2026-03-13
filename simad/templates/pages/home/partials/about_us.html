@@ -1,24 +1,69 @@
-<section class="py-20 bg-white">
+<section id="about-section" class="py-20 bg-white overflow-hidden">
 <div class="container mx-auto px-4">
 <div class="flex flex-col lg:flex-row items-center gap-12">
-<div class="w-full lg:w-1/2">
+<div class="w-full lg:w-1/2 opacity-0" id="about-image-container">
 <div class="relative">
 <img alt="Équipe SIMAD" class="rounded-2xl shadow-2xl w-full h-[450px] object-cover" src="/static/images/img/about_us.webp"/>
-<div class="absolute -bottom-6 -right-6 bg-primary p-8 rounded-2xl hidden md:block">
+<div class="absolute -bottom-6 -right-6 bg-primary p-8 rounded-2xl hidden md:block" id="about-experience-badge">
 <p class="text-white text-4xl font-bold">15+</p>
 <p class="text-blue-100 text-sm">Années d'expérience</p>
 </div>
 </div>
 </div>
 <div class="w-full lg:w-1/2 space-y-6">
-<h2 class="text-3xl md:text-5xl font-black text-primary font-display tracking-tight leading-tight italic">À propos de <span class="not-italic">SIMAD</span></h2>
-<p class="text-lg text-slate-600 leading-relaxed">Depuis plus d'une décennie, SIMAD s'impose comme le leader de la distribution de solutions d'hygiène professionnelle au Cameroun. Nous ne vendons pas seulement des produits ; nous offrons des protocoles de nettoyage complets pour garantir un environnement sain.</p>
-<p class="text-lg text-slate-600 leading-relaxed">Notre mission est d'élever les standards de propreté à travers des innovations technologiques et des produits respectueux de l'environnement.</p>
+<h2 class="text-3xl md:text-5xl font-black text-primary font-display tracking-tight leading-tight italic opacity-0 reveal-text">À propos de <span class="not-italic">SIMAD</span></h2>
+<p class="text-lg text-slate-600 leading-relaxed opacity-0 reveal-text">Depuis plus d'une décennie, SIMAD s'impose comme le leader de la distribution de solutions d'hygiène professionnelle au Cameroun. Nous ne vendons pas seulement des produits ; nous offrons des protocoles de nettoyage complets pour garantir un environnement sain.</p>
+<p class="text-lg text-slate-600 leading-relaxed opacity-0 reveal-text">Notre mission est d'élever les standards de propreté à travers des innovations technologiques et des produits respectueux de l'environnement.</p>
 <ul class="space-y-3">
-<li class="flex items-center text-slate-700 font-medium"><svg class="w-5 h-5 text-accent mr-3" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" fill-rule="evenodd"></path></svg> Standards Européens</li>
-<li class="flex items-center text-slate-700 font-medium"><svg class="w-5 h-5 text-accent mr-3" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" fill-rule="evenodd"></path></svg> Accompagnement technique</li>
+<li class="flex items-center text-slate-700 font-medium opacity-0 reveal-text"><svg class="w-5 h-5 text-accent mr-3" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" fill-rule="evenodd"></path></svg> Standards Européens</li>
+<li class="flex items-center text-slate-700 font-medium opacity-0 reveal-text"><svg class="w-5 h-5 text-accent mr-3" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" fill-rule="evenodd"></path></svg> Accompagnement technique</li>
 </ul>
 </div>
 </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const aboutSection = document.querySelector('#about-section');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Image Entrance
+                anime({
+                    targets: '#about-image-container',
+                    translateX: [-100, 0],
+                    opacity: [0, 1],
+                    duration: 1200,
+                    easing: 'easeOutExpo'
+                });
+
+                // Badge Spring
+                anime({
+                    targets: '#about-experience-badge',
+                    scale: [0, 1],
+                    opacity: [0, 1],
+                    delay: 800,
+                    duration: 1000,
+                    easing: 'spring(1, 80, 10, 0)'
+                });
+
+                // Text Staggered Reveal
+                anime({
+                    targets: '.reveal-text',
+                    translateX: [50, 0],
+                    opacity: [0, 1],
+                    delay: anime.stagger(200, {start: 400}),
+                    duration: 1000,
+                    easing: 'easeOutQuad'
+                });
+
+                observer.unobserve(aboutSection);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    observer.observe(aboutSection);
+});
+</script>
 </section>

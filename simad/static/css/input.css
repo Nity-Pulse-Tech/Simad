@@ -116,25 +116,25 @@
 @theme {
   --breakpoint-admin-nav-bar: 875px;
 
+  --color-primary: #1A4A8A;
+  --color-accent: #1E8A53;
+  --color-secondary: #d4a017;
+  --color-tertiary: #0A2540;
+  --color-tertiaryBlack: #ff6227;
+  --color-background: #F8FAFC;
+  --color-cancel: #676565;
+
+  --font-sans: "DM Sans", sans-serif;
+  --font-heading: "Inter", "Nunito", sans-serif;
+  --font-display: "Outfit", sans-serif;
   --font-montserrat: "Montserrat", sans-serif;
   --font-lato: "Lato", sans-serif;
   --font-poppins: "Poppins", sans-serif;
 
-  --font-weight-light: 300;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-
-  --color-primary: #1A4A8A;
-  --color-secondary: #d4a017;
-  --color-tertiary: #0A2540;
-  --color-tertiaryBlack: #ff6227;
-  --color-cancel: #676565;
-
   --container-padding: 12px;
   --container-padding-md: 2px;
 
+  --animation-fade-in: fadeIn 1s ease-out forwards;
   --animation-movingY: move 3s linear infinite;
   --animation-spin: spin 1s linear infinite;
   --animation-ping: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
@@ -143,6 +143,11 @@
 }
 
 /* Rest of your file remains unchanged */
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
 
 @keyframes move {
   50% {
@@ -267,7 +272,31 @@
 
   html {
     scroll-behavior: smooth;
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-sans);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-background);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+
+  .hero-max-height {
+    max-height: 650px;
+    min-height: 500px;
+  }
+
+  .product-card:hover {
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+  }
+
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
   }
 
   .font-montserrat {
