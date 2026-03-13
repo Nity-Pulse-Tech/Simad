@@ -4,4 +4,4 @@ class LoginView(TemplateView):
     template_name = "pages/auth/login.html"
 
 class SignupView(TemplateView):
-    template_name = "pages/auth/sigup.html"
+    template_name = "pages/auth/signup.html"
