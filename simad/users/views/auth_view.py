@@ -1,13 +1,19 @@
+import uuid
 import random
+import logging
+from django.conf import settings
 from django.core.cache import cache
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from django.shortcuts import redirect
-from django.views.generic import TemplateView, FormView
-from django.urls import reverse_lazy
+from django.shortcuts import redirect, render
+from django.views.generic import TemplateView, View
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login
 from django.contrib import messages
 from ..models import User
+from ..utils import send_whatsapp_verification_link
+
+logger = logging.getLogger(__name__)
 
 class LoginView(TemplateView):
     template_name = "pages/auth/login.html"
@@ -58,6 +64,8 @@ class SignupView(TemplateView):
             if len(names) > 1:
                 user.last_name = names[1]
             user.save()
+        
+        logger.info(f"New user created: {email}, activation method: {verification_method}")
 
         # Generate 6-digit OTP
         otp = str(random.randint(100000, 999999))
@@ -79,20 +87,24 @@ class SignupView(TemplateView):
                 html_message=html_message,
                 fail_silently=False,
             )
+            logger.info(f"Email verification sent to {email}")
         elif verification_method == 'whatsapp':
-            # Placeholder for WhatsApp logic
-            # For now, still send email as fallback or per user request "so for now user email please"
-            context = {'otp_code': otp, 'user': user}
-            html_message = render_to_string('email/otp_email.html', context)
-            send_mail(
-                subject="Your Verification Code - SIMAD",
-                message=f"Your verification code is {otp}",
-                from_email=None,
-                recipient_list=[email],
-                html_message=html_message,
-                fail_silently=False,
+            # Generate a unique token for WhatsApp verification (since it's a link)
+            token = str(uuid.uuid4())
+            cache_key = f"whatsapp_activation_{token}"
+            cache.set(cache_key, email, timeout=86400) # Valid for 24 hours
+            
+            # Construct the activation URL
+            activation_url = request.build_absolute_uri(
+                reverse('users:activate-account', kwargs={'token': token})
             )
-            messages.info(request, "OTP sent to your email (WhatsApp integration coming soon).")
+            
+            # Send WhatsApp via Meta Cloud API
+            send_whatsapp_verification_link(user, activation_url)
+            
+            messages.info(request, "A verification link has been sent to your WhatsApp.")
+            request.session['verification_email'] = email
+            return redirect('users:whatsapp-sent')
         
         # Store email in session to know who we are verifying
         request.session['verification_email'] = email
@@ -102,6 +114,13 @@ class SignupView(TemplateView):
 
 class VerifyCodeView(TemplateView):
     template_name = "pages/auth/verify_code.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        email = self.request.session.get('verification_email')
+        if email:
+            context['resend_count'] = cache.get(f"resend_count_{email}", 0)
+        return context
 
     def post(self, request, *args, **kwargs):
         email = request.session.get('verification_email')
@@ -126,8 +145,113 @@ class VerifyCodeView(TemplateView):
             cache.delete(cache_key)
             del request.session['verification_email']
             
+            logger.info(f"User {email} successfully verified via OTP.")
             messages.success(request, "Account verified successfully!")
             return redirect('users:redirect')
         else:
+            logger.warning(f"Failed verification attempt for {email}. Incorrect code: {entered_code}")
             messages.error(request, "Invalid or expired code.")
             return self.get(request, *args, **kwargs)
+class WhatsAppSentView(TemplateView):
+    template_name = "pages/auth/whatsapp_sent.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        email = self.request.session.get('verification_email')
+        context['email'] = email
+        if email:
+            context['resend_count'] = cache.get(f"resend_count_{email}", 0)
+        return context
+
+class ActivateAccountView(View):
+    def get(self, request, token, *args, **kwargs):
+        cache_key = f"whatsapp_activation_{token}"
+        email = cache.get(cache_key)
+        
+        if not email:
+            messages.error(request, "Link is invalid or has expired.")
+            return redirect('users:signup')
+            
+        try:
+            user = User.objects.get(email=email)
+            user.is_active = True
+            user.is_email_verified = True # Or WhatsApp verified if we add the field
+            user.save()
+            
+            # Log the user in
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            
+            # Cleanup
+            cache.delete(cache_key)
+            if 'verification_email' in request.session:
+                del request.session['verification_email']
+                
+            messages.success(request, "Account activated successfully! Welcome to SIMAD.")
+            return redirect('users:redirect')
+        except User.DoesNotExist:
+            messages.error(request, "User not found.")
+            return redirect('users:signup')
+
+class ResendVerificationView(View):
+    def post(self, request, *args, **kwargs):
+        email = request.session.get('verification_email')
+        if not email:
+            return redirect('users:signup')
+            
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return redirect('users:signup')
+
+        # Throttling logic
+        cooldown_key = f"resend_cooldown_{email}"
+        count_key = f"resend_count_{email}"
+        
+        if cache.get(cooldown_key):
+            messages.error(request, "Please wait before requesting another message.")
+            return redirect(request.META.get('HTTP_REFERER', 'users:signup'))
+            
+        resend_count = cache.get(count_key, 0)
+        
+        # Determine verification method (we could store this in session too)
+        # For now, if they are on whatsapp-sent, it's whatsapp.
+        # Otherwise, if they are on verify-code, it's email.
+        # Let's check session record or referrer
+        verification_method = 'email'
+        if 'whatsapp' in request.META.get('HTTP_REFERER', ''):
+            verification_method = 'whatsapp'
+            
+        if verification_method == 'email':
+            # Regenerate OTP
+            otp = str(random.randint(100000, 999999))
+            cache.set(f"otp_verification_{email}", otp, timeout=600)
+            
+            context = {'otp_code': otp, 'user': user}
+            html_message = render_to_string('email/otp_email.html', context)
+            send_mail(
+                subject="Your Verification Code - SIMAD",
+                message=f"Your verification code is {otp}",
+                from_email=None,
+                recipient_list=[email],
+                html_message=html_message,
+                fail_silently=False,
+            )
+            logger.info(f"Email verification RESENT to {email}")
+            messages.success(request, f"A new code has been sent to {email}.")
+        else:
+            # Regenerate Token
+            token = str(uuid.uuid4())
+            cache.set(f"whatsapp_activation_{token}", email, timeout=86400)
+            activation_url = request.build_absolute_uri(
+                reverse('users:activate-account', kwargs={'token': token})
+            )
+            send_whatsapp_verification_link(user, activation_url)
+            logger.info(f"WhatsApp verification RESENT to {user.phone_number}")
+            messages.success(request, "A new link has been sent to your WhatsApp.")
+            
+        # Set cooldown for next resend
+        cooldown_time = 60 if resend_count == 0 else 120
+        cache.set(cooldown_key, True, timeout=cooldown_time)
+        cache.set(count_key, resend_count + 1, timeout=3600) # Reset count after 1 hour
+        
+        return redirect(request.META.get('HTTP_REFERER', 'users:signup'))

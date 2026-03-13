@@ -51,7 +51,7 @@
 
         <!-- Right Side: Code Input -->
         <div class="flex w-full flex-col lg:w-1/2 justify-center px-6 py-12 md:px-12 lg:px-20 bg-white dark:bg-background-dark overflow-y-auto" 
-             x-data="verificationInputs()">
+             x-data="verificationInputs({{ resend_count|default:0 }})">
             <div class="mx-auto w-full max-w-md text-center">
                 <!-- Mobile Header -->
                 <div class="lg:hidden mb-8">
@@ -109,8 +109,16 @@
                     
                     <p class="mt-8 text-sm text-slate-500">
                         Didn't receive the code? 
-                        <a href="#" class="text-primary font-bold hover:underline">Resend code</a>
+                        <template x-if="!canResend">
+                            <span class="text-slate-400 ml-1">Resend in <span x-text="timer"></span>s</span>
+                        </template>
+                        <template x-if="canResend">
+                            <button type="button" @click="resend()" class="text-primary font-bold hover:underline ml-1">Resend code</button>
+                        </template>
                     </p>
+                    <form x-ref="resendForm" action="{% url 'users:resend-verification' %}" method="POST" class="hidden">
+                        {% csrf_token %}
+                    </form>
                 </form>
             </div>
         </div>
@@ -138,10 +146,25 @@
     {% endif %}
 
     <script>
-        function verificationInputs() {
+        function verificationInputs(resendCount = 0) {
             return {
                 code: Array(6).fill(''),
                 loading: false,
+                timer: resendCount === 0 ? 60 : 120,
+                canResend: false,
+                init() {
+                    let interval = setInterval(() => {
+                        if (this.timer > 0) {
+                            this.timer--;
+                        } else {
+                            this.canResend = true;
+                            clearInterval(interval);
+                        }
+                    }, 1000);
+                },
+                resend() {
+                    this.$refs.resendForm.submit();
+                },
                 get isComplete() {
                     return this.code.every(digit => digit !== '' && !isNaN(digit));
                 },

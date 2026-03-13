@@ -20,6 +20,7 @@ if READ_DOT_ENV_FILE:
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = env.bool("DJANGO_DEBUG", False)
+SITE_URL = env("SITE_URL", default="http://127.0.0.1:8000")
 # Local time zone. Choices are
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # though not all of them may be available with every OS.
@@ -335,3 +336,7 @@ SOCIALACCOUNT_FORMS = {"signup": "simad.users.forms.UserSocialSignupForm"}
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+# WhatsApp Cloud API
+WHATSAPP_API_TOKEN = env("WHATSAPP_API_TOKEN", default="")
+WHATSAPP_PHONE_NUMBER_ID = env("WHATSAPP_PHONE_NUMBER_ID", default="")
+WHATSAPP_TEMPLATE_NAME = env("WHATSAPP_TEMPLATE_NAME", default="activated")
