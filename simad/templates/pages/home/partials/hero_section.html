@@ -1,3 +1,4 @@
+{% load static %}
 <section class="relative bg-slate-900 overflow-hidden min-h-[85vh] flex items-center">
     <!-- Premium Video Background -->
     <div class="absolute inset-0 z-0">
@@ -8,8 +9,8 @@
             playsinline 
             class="w-full h-full object-cover opacity-50"
         >
-            <source src="/static/images/videos/hero_background.mp4" type="video/mp4">
-            <source src="/static/images/videos/copy_1CF53C70-8A31-4CB0-B08A-EE78650FC1F6.mov" type="video/quicktime">
+            <source src="{% static 'images/videos/hero_background.mp4' %}" type="video/mp4">
+            <source src="{% static 'images/videos/copy_1CF53C70-8A31-4CB0-B08A-EE78650FC1F6.mov' %}" type="video/quicktime">
             <!-- Fallback for browsers that don't support video -->
             Your browser does not support the video tag.
         </video>

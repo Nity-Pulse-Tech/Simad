@@ -1,9 +1,10 @@
+{% load static %}
 <section id="about-section" class="py-20 bg-white overflow-hidden">
 <div class="container mx-auto px-4">
 <div class="flex flex-col lg:flex-row items-center gap-12">
 <div class="w-full lg:w-1/2 opacity-0" id="about-image-container">
 <div class="relative">
-<img alt="Équipe SIMAD" class="rounded-2xl shadow-2xl w-full h-[450px] object-cover" src="/static/images/img/about_us.webp"/>
+<img alt="Équipe SIMAD" class="rounded-2xl shadow-2xl w-full h-[450px] object-cover" src="{% static 'images/img/about_us.webp' %}"/>
 <div class="absolute -bottom-6 -right-6 bg-primary p-8 rounded-2xl hidden md:block" id="about-experience-badge">
 <p class="text-white text-4xl font-bold">15+</p>
 <p class="text-blue-100 text-sm">Années d'expérience</p>
