@@ -4,43 +4,24 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Check WhatsApp | SIMAD.cm</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script src="/static/js/common/toast_manager.js" defer></script>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#1a4a89",
-                        "whatsapp": "#25D366",
-                        "background-light": "#f6f7f8",
-                        "background-dark": "#121820",
-                    },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"],
-                        "body": ["DM Sans", "sans-serif"]
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         body { font-family: 'DM Sans', sans-serif; }
         h1, h2, h3, .font-display { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center overflow-hidden">
+<body class="bg-background-light text-slate-900 min-h-screen flex items-center justify-center overflow-hidden">
     <div class="flex h-screen w-full flex-col lg:flex-row">
         <!-- Left Side: Branding -->
-        <div class="relative hidden lg:flex lg:w-1/2 bg-primary overflow-hidden items-center justify-center">
-            <div class="absolute inset-0 z-0 opacity-40">
+        <div class="relative hidden lg:flex lg:w-1/2 overflow-hidden items-center justify-center bg-slate-900">
+            <div class="absolute inset-0 z-0">
                 <img alt="WhatsApp verification" class="h-full w-full object-cover" src="/static/images/img/whatsap.webp"/>
             </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-transparent z-10"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-slate-900/20 z-10"></div>
             <div class="relative z-20 p-12 text-center">
                 <img src="/static/images/logo/logo.webp" alt="SIMAD Logo" class="h-24 w-auto object-contain mx-auto mb-8 filter drop-shadow-2xl">
                 <h1 class="text-white text-4xl font-black leading-tight tracking-tight mb-4 font-display">Check your WhatsApp</h1>
@@ -49,7 +30,7 @@
         </div>
 
         <!-- Right Side: Content -->
-        <div class="flex w-full flex-col lg:w-1/2 justify-center px-6 py-12 md:px-12 lg:px-20 bg-white dark:bg-background-dark overflow-y-auto"
+        <div class="flex w-full flex-col lg:w-1/2 justify-center px-6 py-12 md:px-12 lg:px-20 bg-white overflow-y-auto"
              x-data="{ 
                 loading: false,
                 timer: {{ resend_count|default:0 }} == 0 ? 60 : 120, 
@@ -77,19 +58,19 @@
                         <img src="/static/images/img/whatsap.webp" class="h-14 w-14 relative z-10">
                     </div>
                     
-                    <h2 class="text-3xl font-black text-slate-900 dark:text-white font-display mb-4">Activation Link Sent!</h2>
-                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed mb-8">
+                    <h2 class="text-3xl font-black text-slate-900 font-display mb-4">Activation Link Sent!</h2>
+                    <p class="text-slate-500 leading-relaxed mb-8">
                         Hi, we've sent a one-click activation link to your WhatsApp. Please click the "Verify account" button in the message to finalize your set-up.
                     </p>
 
-                    <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 w-full mb-8">
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 w-full mb-8">
                         <div class="flex items-start gap-4 text-left">
                             <div class="bg-primary/10 p-2 rounded-lg text-primary">
                                 <span class="material-symbols-outlined">info</span>
                             </div>
                             <div>
-                                <h4 class="font-bold text-slate-900 dark:text-white text-sm mb-1">What to do:</h4>
-                                <ul class="text-xs text-slate-500 dark:text-slate-400 space-y-2">
+                                <h4 class="font-bold text-slate-900 text-sm mb-1">What to do:</h4>
+                                <ul class="text-xs text-slate-500 space-y-2">
                                     <li class="flex items-center gap-2">
                                         <span class="w-1 h-1 bg-primary rounded-full"></span>
                                         Open the WhatsApp message from SIMAD
@@ -108,12 +89,12 @@
                     </div>
 
                     <div class="space-y-4 w-full">
-                        <a href="/users/signup/" class="w-full inline-flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 py-4 px-6 rounded-xl font-bold text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+                        <a href="/users/signup/" class="w-full inline-flex items-center justify-center gap-2 bg-slate-100 text-slate-700 py-4 px-6 rounded-xl font-bold text-sm hover:bg-slate-200 transition-all">
                             <span class="material-symbols-outlined text-lg">arrow_back</span>
                             <span>Change verification method</span>
                         </a>
                         
-                        <p class="text-xs text-slate-400 dark:text-slate-500">
+                        <p class="text-xs text-slate-400">
                             Didn't get the message? 
                             <template x-if="!canResend">
                                 <span class="text-slate-400 ml-1">Resend in <span x-text="timer"></span>s</span>

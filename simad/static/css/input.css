@@ -117,22 +117,21 @@
 @theme {
   --breakpoint-admin-nav-bar: 875px;
 
-  --color-primary: #1A4A8A;
-  --color-secondary: #1E8A53;
+  --color-primary: #1a4a89;
+  --color-secondary: #10b981;
   --color-accent: #d4a017;
   --color-accent-green: #10b981;
   --color-tertiary: #0A2540;
-  --color-tertiaryBlack: #ff6227;
-  --color-background: #F8FAFC;
-  --color-background-light: #f8f6f6;
-  --color-background-dark: #221610;
+  --color-background: #f6f7f8;
+  --color-background-light: #f6f7f8;
+  --color-background-dark: #121820;
   --color-cancel: #676565;
 
-  --font-sans: "DM Sans", sans-serif;
+  --font-sans: "Inter", "DM Sans", sans-serif;
   --font-heading: "Inter", "Nunito", sans-serif;
-  --font-display: "Outfit", sans-serif;
+  --font-display: "Inter", "Outfit", sans-serif;
   --font-public: "Public Sans", sans-serif;
-  --font-montserrat: "Montserrat", sans-serif;
+  --font-montserrat: "Inter", "Montserrat", sans-serif;
   --font-lato: "Lato", sans-serif;
   --font-poppins: "Poppins", sans-serif;
 
@@ -145,6 +144,12 @@
   --animation-ping: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
   --animation-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animation-bounce: bounce 1s infinite;
+
+  /* Custom border-radius from Tailwind CDN config */
+  --radius: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
 }
 
 /* Rest of your file remains unchanged */
@@ -268,9 +273,12 @@
   transition: all 0.3s ease-in-out;
 }
 
-.collapsible-content {
-  transition: max-height 0.3s ease-in-out;
-  overflow: hidden;
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.filled {
+  font-variation-settings: 'FILL' 1;
 }
 
 @layer components {

@@ -1,350 +1,257 @@
-<!DOCTYPE html>
+{% extends 'pages/base.html' %}
+{% load static %}
 
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#1A4A8A",
-                        "secondary": "#1E8A53",
-                        "background-light": "#f8f6f6",
-                        "background-dark": "#221610",
-                    },
-                    fontFamily: {
-                        "display": ["Public Sans"]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-                },
-            },
-        }
-    </script>
-<style>
-        body { font-family: 'Public Sans', sans-serif; }
-        .material-symbols-outlined { font-size: 20px; }
-    </style>
-</head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
-<!-- Top Navigation Bar -->
-<header class="sticky top-0 z-50 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex items-center justify-between h-16">
-<div class="flex items-center gap-8">
-<div class="flex items-center gap-2 text-primary">
-<span class="material-symbols-outlined text-3xl font-bold">cleaning_services</span>
-<h2 class="text-xl font-bold leading-tight tracking-tight">SIMAD.cm</h2>
-</div>
-<nav class="hidden md:flex items-center gap-6">
-<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Home</a>
-<a class="text-primary text-sm font-bold border-b-2 border-primary pb-5 mt-5" href="#">Products</a>
-<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Solutions</a>
-<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">About</a>
-</nav>
-</div>
-<div class="flex items-center gap-4">
-<div class="hidden sm:flex items-center bg-slate-100 dark:bg-slate-800 rounded-xl px-3 py-1.5 border border-transparent focus-within:border-primary transition-all">
-<span class="material-symbols-outlined text-slate-400">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-sm w-48 lg:w-64 placeholder:text-slate-400" placeholder="Search catalog..." type="text"/>
-</div>
-<button class="relative p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all">
-<span class="material-symbols-outlined">shopping_cart</span>
-<span class="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-secondary text-[10px] font-bold text-white">3</span>
-</button>
-<button class="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all">
-<span class="material-symbols-outlined">account_circle</span>
-</button>
-</div>
-</div>
-</div>
-</header>
+{% block content %}
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-<!-- Breadcrumbs & Header -->
-<div class="mb-8">
-<nav class="flex text-sm text-slate-500 mb-4">
-<a class="hover:text-primary" href="#">Home</a>
-<span class="mx-2">/</span>
-<span class="text-slate-900 dark:text-slate-100 font-medium">Product Catalogue</span>
-</nav>
-<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-<div>
-<h1 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Professional Cleaning Solutions</h1>
-<p class="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl text-lg">High-performance detergents and disinfectants engineered for absolute hygiene across all surfaces.</p>
-</div>
-<button class="inline-flex items-center gap-2 bg-primary text-white px-6 py-2.5 rounded-xl font-bold hover:bg-primary/90 transition-all shadow-sm">
-<span class="material-symbols-outlined">download</span>
-                    Download Catalog PDF
-                </button>
-</div>
-</div>
-<div class="flex flex-col lg:flex-row gap-8">
-<!-- Sidebar Filters -->
-<aside class="w-full lg:w-64 flex-shrink-0 space-y-8">
-<!-- Range -->
-<div>
-<h3 class="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-4">
-<span class="material-symbols-outlined text-primary">group</span> Range
-                    </h3>
-<div class="space-y-2">
-<label class="flex items-center gap-3 cursor-pointer group">
-<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
-<span class="text-slate-600 dark:text-slate-400 group-hover:text-primary transition-colors">Particulier</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group">
-<input checked="" class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
-<span class="text-slate-600 dark:text-slate-400 group-hover:text-primary transition-colors">Professionnel</span>
-</label>
-</div>
-</div>
-<!-- Surface Type -->
-<div>
-<h3 class="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-4">
-<span class="material-symbols-outlined text-primary">layers</span> Surface Type
-                    </h3>
-<div class="space-y-2">
-<label class="flex items-center gap-3 cursor-pointer group">
-<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
-<span class="text-slate-600 dark:text-slate-400 group-hover:text-primary transition-colors">Carrelage</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group">
-<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
-<span class="text-slate-600 dark:text-slate-400 group-hover:text-primary transition-colors">Inox</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group">
-<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
-<span class="text-slate-600 dark:text-slate-400 group-hover:text-primary transition-colors">Bois</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group">
-<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
-<span class="text-slate-600 dark:text-slate-400 group-hover:text-primary transition-colors">Verre</span>
-</label>
-</div>
-</div>
-<!-- Problem Type -->
-<div>
-<h3 class="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-4">
-<span class="material-symbols-outlined text-primary">report_problem</span> Problem Type
-                    </h3>
-<div class="space-y-2">
-<label class="flex items-center gap-3 cursor-pointer group">
-<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
-<span class="text-slate-600 dark:text-slate-400 group-hover:text-primary transition-colors">Désinfection</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group">
-<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
-<span class="text-slate-600 dark:text-slate-400 group-hover:text-primary transition-colors">Calcaire</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group">
-<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
-<span class="text-slate-600 dark:text-slate-400 group-hover:text-primary transition-colors">Graisse</span>
-</label>
-</div>
-</div>
-<!-- Format -->
-<div>
-<h3 class="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-4">
-<span class="material-symbols-outlined text-primary">package_2</span> Format
-                    </h3>
-<div class="grid grid-cols-2 gap-2">
-<button class="px-3 py-2 text-xs font-bold border border-slate-200 dark:border-slate-700 rounded-lg hover:border-primary hover:text-primary transition-all">500ml</button>
-<button class="px-3 py-2 text-xs font-bold border border-primary text-primary bg-primary/10 rounded-lg transition-all">1L</button>
-<button class="px-3 py-2 text-xs font-bold border border-slate-200 dark:border-slate-700 rounded-lg hover:border-primary hover:text-primary transition-all">5L</button>
-<button class="px-3 py-2 text-xs font-bold border border-slate-200 dark:border-slate-700 rounded-lg hover:border-primary hover:text-primary transition-all">20L</button>
-</div>
-</div>
-<!-- Reset Button -->
-<button class="w-full py-3 flex items-center justify-center gap-2 text-slate-500 hover:text-slate-800 dark:hover:text-white text-sm font-medium border border-dashed border-slate-300 dark:border-slate-700 rounded-xl transition-all">
-<span class="material-symbols-outlined">restart_alt</span> Reset Filters
-                </button>
-</aside>
-<!-- Product Grid -->
-<div class="flex-1">
-<!-- Sorting Bar -->
-<div class="flex items-center justify-between mb-6 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
-<p class="text-sm font-medium text-slate-500"><span class="text-slate-900 dark:text-white font-bold">42</span> Products Found</p>
-<div class="flex items-center gap-4">
-<label class="hidden sm:block text-sm font-medium text-slate-500">Sort by:</label>
-<select class="bg-transparent border-none text-sm font-bold text-slate-900 dark:text-white focus:ring-0 cursor-pointer">
-<option>Popularity</option>
-<option>Price: Low to High</option>
-<option>Price: High to Low</option>
-<option>Newest First</option>
-</select>
-</div>
-</div>
-<!-- Cards Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-<!-- Product Card 1 -->
-<div class="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all flex flex-col">
-<div class="relative aspect-square bg-slate-100 dark:bg-slate-800 p-8 flex items-center justify-center overflow-hidden">
-<img alt="Professional Disinfectant Spray" class="object-contain h-full w-full group-hover:scale-105 transition-transform duration-500" data-alt="Blue spray bottle for industrial disinfection" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEHQfdnbJrXQSs-SCNo7GqOCZzP2aQFHDYfCXP3kvORgCLMjL0W8kysWbPISVwTYtIeSMIgu5zCdrndsE6XZjGqRp45xtVjvZoMPC1q_xNwpLjNFt40G1EXzceasY36D7PQzIWVWjN2o7P5ntz1XBPZM1NsRlNIaK32HSp5kQkZfvT3FEm2FS3412jGSWhKsx7ddJAQW-F7t2fkBmlCKXncoLfJTdP1OJWVpviFp3093-VmYSAdGgToOT2phI8lWRKjAoFPnndZAY"/>
-<span class="absolute top-4 left-4 bg-secondary text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded">Bestseller</span>
-</div>
-<div class="p-5 flex flex-col flex-1">
-<div class="flex-1">
-<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Disinfection</span>
-<h3 class="text-lg font-bold text-slate-900 dark:text-white mt-1 group-hover:text-primary transition-colors">SimaPure Ultra 1L</h3>
-<p class="text-sm text-slate-500 dark:text-slate-400 mt-2 line-clamp-2">Medical-grade disinfectant effective against 99.9% of bacteria and viruses. Safe for all non-porous surfaces.</p>
-</div>
-<div class="mt-6 flex items-center justify-between">
-<div class="flex flex-col">
-<span class="text-xs text-slate-400 line-through">12,500 CFA</span>
-<span class="text-xl font-black text-slate-900 dark:text-white">9,900 CFA</span>
-</div>
-<button class="bg-primary hover:bg-primary/90 text-white p-3 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center">
-<span class="material-symbols-outlined">add_shopping_cart</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Product Card 2 -->
-<div class="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all flex flex-col">
-<div class="relative aspect-square bg-slate-100 dark:bg-slate-800 p-8 flex items-center justify-center overflow-hidden">
-<img alt="Industrial Degreaser" class="object-contain h-full w-full group-hover:scale-105 transition-transform duration-500" data-alt="Yellow gallon of industrial strength degreaser" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr2p4m6IotbUzyPBFUCcopyVg9eL6Jj2GtSF6fLRp6m4MYvEaQLta0Tx2LbZrmM2s7Fprs2J6vaQNU5eIoDARLP3oCzFwcu4OUQM0hPoTl7Znc1JhpV_TU1viZnnQjXe50LDn4fvhJT7EY987xxOMzxgXTvOAsbZN6ceDSUxkZCDVQXndKnUXJCcv5HYv3Mm3t8GLQ-HNL7NCF2kk3V2lryIM3hAp3vs7fttutUbq6TfKigN7f3_6XCCfsmQ0S6BBVM2nFseubPxo"/>
-</div>
-<div class="p-5 flex flex-col flex-1">
-<div class="flex-1">
-<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Degreasing</span>
-<h3 class="text-lg font-bold text-slate-900 dark:text-white mt-1 group-hover:text-primary transition-colors">SimaGrip Pro 5L</h3>
-<p class="text-sm text-slate-500 dark:text-slate-400 mt-2 line-clamp-2">Powerful industrial degreaser for kitchens and workshops. Rapid action on burnt-on fats and mineral oils.</p>
-</div>
-<div class="mt-6 flex items-center justify-between">
-<div class="flex flex-col">
-<span class="text-xl font-black text-slate-900 dark:text-white">24,500 CFA</span>
-</div>
-<button class="bg-primary hover:bg-primary/90 text-white p-3 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center">
-<span class="material-symbols-outlined">add_shopping_cart</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Product Card 3 -->
-<div class="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all flex flex-col">
-<div class="relative aspect-square bg-slate-100 dark:bg-slate-800 p-8 flex items-center justify-center overflow-hidden">
-<img alt="Floor Cleaner" class="object-contain h-full w-full group-hover:scale-105 transition-transform duration-500" data-alt="Green liquid floor cleaner in clear bottle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB75KE5-nCKyGpYv3GeXByFLV0RIYcgDwGXKx0rCqYQN0y3dn03XMPz0x1nfNIQ_K-MOEjcy2zPUlyoowUMZziJJfMHyBT_Sx1pSR0d1DAwf9EZ1KIIKNwOV66YvkkLPl_sR1ZlGYcbFRU0D9_zGU_r5V0UGvz4513xvzVClHo6IZ21PJGEgTGSaO0LMhbUMs0N05UcoqnLBFjP8sNIWKH3X9NEx0wHEZDeylhK9UbIiLP1uEvqiZ78YtnNGq0DKQIWATPV_irlvQM"/>
-<span class="absolute top-4 left-4 bg-primary text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded">New</span>
-</div>
-<div class="p-5 flex flex-col flex-1">
-<div class="flex-1">
-<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Surfaces</span>
-<h3 class="text-lg font-bold text-slate-900 dark:text-white mt-1 group-hover:text-primary transition-colors">SimaShine Floor 1L</h3>
-<p class="text-sm text-slate-500 dark:text-slate-400 mt-2 line-clamp-2">Neutral pH cleaner for tiles, marble and wood. Leaves a streak-free shine and fresh citrus scent.</p>
-</div>
-<div class="mt-6 flex items-center justify-between">
-<div class="flex flex-col">
-<span class="text-xl font-black text-slate-900 dark:text-white">6,800 CFA</span>
-</div>
-<button class="bg-primary hover:bg-primary/90 text-white p-3 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center">
-<span class="material-symbols-outlined">add_shopping_cart</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Product Card 4 -->
-<div class="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all flex flex-col">
-<div class="relative aspect-square bg-slate-100 dark:bg-slate-800 p-8 flex items-center justify-center overflow-hidden">
-<img alt="Limescale Remover" class="object-contain h-full w-full group-hover:scale-105 transition-transform duration-500" data-alt="White bottle for kitchen and bathroom limescale cleaning" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxdKkDRXKvlG5q2AbsHS8mzEsYKOkPjpEZ6GCQkMxYs6sldsuPKmPLp8qGXDW6Yx1Xe16TFuu7lU8LhJ-BZmMISJ1eWs9ZkDlY1_Uv2Ll0gwVPV5nfs9HbvFWqUMNzzyjUe4LHwWKETgaqjkcGm_J26jBdrj091P4gqdJex84JtIJK_CwwYma0fqVSnGQ3efFF5mTB92U4Em0xSaFXqrlF2A0MA1uhAcRDYRukiiSe1NJ7VNYRD4JKhSiqPQgwM2UzRuoZbO0unrI"/>
-</div>
-<div class="p-5 flex flex-col flex-1">
-<div class="flex-1">
-<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Limescale</span>
-<h3 class="text-lg font-bold text-slate-900 dark:text-white mt-1 group-hover:text-primary transition-colors">SimaScale Off 500ml</h3>
-<p class="text-sm text-slate-500 dark:text-slate-400 mt-2 line-clamp-2">High-acid formula specifically designed to dissolve stubborn calcium deposits on taps and shower heads.</p>
-</div>
-<div class="mt-6 flex items-center justify-between">
-<div class="flex flex-col">
-<span class="text-xl font-black text-slate-900 dark:text-white">4,200 CFA</span>
-</div>
-<button class="bg-primary hover:bg-primary/90 text-white p-3 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center">
-<span class="material-symbols-outlined">add_shopping_cart</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Product Card 5 -->
-<div class="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all flex flex-col">
-<div class="relative aspect-square bg-slate-100 dark:bg-slate-800 p-8 flex items-center justify-center overflow-hidden">
-<img alt="Glass Cleaner" class="object-contain h-full w-full group-hover:scale-105 transition-transform duration-500" data-alt="Light blue spray bottle for windows and glass" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_KczOBK4H3QbY6SmEfe8O1BIYJxAGKvITualCg8LtV9qC299MTqv1uFN1pcOTWOV3JTNJ-yWeLHfW5vyZJ6R-4atKlV9nVLUmTgWgCpNgwSIJHN90hZ_-BW_eZUalzyzEh1Pjr4rb74xOzMKTdcuUWvtQnGInnmNtIc7qKnH-lrF0lGYrmQ-k5xBPC_YXlsN2puibGBroz47s02jmV8g2hRDm4_EcHKSxzCu-W2ovENBxn9cdjgyLR7n30HYgzn8jF96A5kgZj6c"/>
-</div>
-<div class="p-5 flex flex-col flex-1">
-<div class="flex-1">
-<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Glass</span>
-<h3 class="text-lg font-bold text-slate-900 dark:text-white mt-1 group-hover:text-primary transition-colors">SimaView Crystal 1L</h3>
-<p class="text-sm text-slate-500 dark:text-slate-400 mt-2 line-clamp-2">Ammonia-free glass cleaner. Provides high-clarity visibility and prevents dust buildup through anti-static effect.</p>
-</div>
-<div class="mt-6 flex items-center justify-between">
-<div class="flex flex-col">
-<span class="text-xl font-black text-slate-900 dark:text-white">5,500 CFA</span>
-</div>
-<button class="bg-primary hover:bg-primary/90 text-white p-3 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center">
-<span class="material-symbols-outlined">add_shopping_cart</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Product Card 6 -->
-<div class="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all flex flex-col">
-<div class="relative aspect-square bg-slate-100 dark:bg-slate-800 p-8 flex items-center justify-center overflow-hidden">
-<img alt="Bulk Disinfectant" class="object-contain h-full w-full group-hover:scale-105 transition-transform duration-500" data-alt="Large white industrial tank for floor disinfection" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJRwps_UT8AxKl9lUu__cROAmKInN7GJqChw7iTBaGmmDgSzsQ9wCFYqwhz5fORklzNXlUzNMLsYzhTdn7aXnliJiBWgzHiRU-D8CCNiJkMIjw6IkN4FUYRQGSuyKszI_5diasp7FMjHUwiTJ6sHHm70PYTaXk5DBMOz9lrkI0j7sS7nKJ08crrNodM4VEdQy79b46SH20uOqFVTkGJVoMMN550TaZwI0PHF_7pRwS1mON8IZXgZ_qCn-wNUeWGD7G6XhJTzvijCc"/>
-<span class="absolute top-4 left-4 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded">Pro Only</span>
-</div>
-<div class="p-5 flex flex-col flex-1">
-<div class="flex-1">
-<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Industrial</span>
-<h3 class="text-lg font-bold text-slate-900 dark:text-white mt-1 group-hover:text-primary transition-colors">SimaPure Bulk 20L</h3>
-<p class="text-sm text-slate-500 dark:text-slate-400 mt-2 line-clamp-2">Economical bulk format for large facilities and cleaning companies. Highly concentrated formula.</p>
-</div>
-<div class="mt-6 flex items-center justify-between">
-<div class="flex flex-col">
-<span class="text-xl font-black text-slate-900 dark:text-white">85,000 CFA</span>
-</div>
-<button class="bg-primary hover:bg-primary/90 text-white p-3 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center">
-<span class="material-symbols-outlined">add_shopping_cart</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Pagination -->
-<div class="mt-12 flex justify-center">
-<nav class="flex items-center gap-1">
-<button class="p-2 text-slate-400 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">chevron_left</span>
-</button>
-<button class="w-10 h-10 rounded-lg bg-primary text-white font-bold">1</button>
-<button class="w-10 h-10 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold transition-all">2</button>
-<button class="w-10 h-10 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold transition-all">3</button>
-<span class="px-2 text-slate-400">...</span>
-<button class="w-10 h-10 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold transition-all">8</button>
-<button class="p-2 text-slate-400 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">chevron_right</span>
-</button>
-</nav>
-</div>
-</div>
-</div>
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+    <div>
+      <nav class="flex items-center gap-2 text-sm text-slate-500 mb-4">
+        <a class="hover:text-primary transition-colors" href="{% url 'core:home' %}">
+          <span class="material-symbols-outlined text-sm align-middle">home</span> Accueil
+        </a>
+        <span class="material-symbols-outlined text-xs text-slate-300">chevron_right</span>
+        <span class="text-slate-900 font-bold uppercase tracking-wider text-[11px]">Catalogue</span>
+      </nav>
+      <h1 class="text-4xl md:text-5xl font-black text-slate-900 leading-tight">
+        Solutions de <span class="text-primary">Nettoyage</span><br/>Professionnelles
+      </h1>
+    </div>
+    <div class="shrink-0">
+      <span class="bg-primary text-white text-xs font-black px-4 py-2 rounded-full uppercase tracking-widest shadow-lg shadow-primary/20">
+        42 Produits
+      </span>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+    <!-- ── Sidebar ── -->
+    <aside class="col-span-1 lg:col-span-3 space-y-8">
+      <!-- Search -->
+      <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+        <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">search</span> Recherche
+        </h4>
+        <div class="relative">
+          <input type="text" placeholder="Désinfectant, savon..." class="w-full bg-slate-50 border-none focus:ring-2 focus:ring-primary/20 rounded-xl py-3 pl-4 pr-10 text-sm font-semibold text-slate-700"/>
+          <button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined font-bold">arrow_forward</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+        <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">category</span> Gamme
+        </h4>
+        <div class="space-y-3">
+          <label class="flex items-center gap-3 group cursor-pointer">
+            <input type="checkbox" class="w-5 h-5 rounded border-slate-200 text-primary focus:ring-primary/20 transition-all"/>
+            <span class="text-sm font-bold text-slate-600 group-hover:text-primary transition-colors">Particulier</span>
+          </label>
+          <label class="flex items-center gap-3 group cursor-pointer">
+            <input type="checkbox" checked class="w-5 h-5 rounded border-slate-200 text-primary focus:ring-primary/20 transition-all"/>
+            <span class="text-sm font-bold text-slate-600 group-hover:text-primary transition-colors">Professionnel</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Surface Type -->
+      <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+        <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">layers</span> Surface
+        </h4>
+        <div class="space-y-2">
+          <button class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-transparent hover:border-primary/20 hover:bg-white transition-all group">
+            <span class="text-sm font-bold text-slate-600 group-hover:text-primary">Carrelage</span>
+            <span class="text-[10px] bg-slate-200 text-slate-500 px-2 py-0.5 rounded-full font-black group-hover:bg-primary/10 group-hover:text-primary">12</span>
+          </button>
+          <button class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-transparent hover:border-primary/20 hover:bg-white transition-all group">
+            <span class="text-sm font-bold text-slate-600 group-hover:text-primary">Inox & Métal</span>
+            <span class="text-[10px] bg-slate-200 text-slate-500 px-2 py-0.5 rounded-full font-black group-hover:bg-primary/10 group-hover:text-primary">8</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── Products Content ── -->
+    <div class="lg:col-span-9">
+      <!-- Toolbar -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+        <div class="flex items-center gap-4 w-full sm:w-auto">
+          <div class="flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl border border-slate-100 shadow-sm w-full sm:w-auto">
+            <span class="material-symbols-outlined text-slate-400 text-lg">sort</span>
+            <select class="bg-transparent border-none focus:ring-0 text-sm font-bold text-slate-700 p-0 pr-8">
+              <option>Popularité</option>
+              <option>Les plus récents</option>
+              <option>Prix: Croissant</option>
+              <option>Prix: Décroissant</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-2 p-1.5 bg-white rounded-xl border border-slate-100 shadow-sm">
+          <button class="p-2 rounded-lg bg-primary text-white shadow-md shadow-primary/20 transition-all">
+            <span class="material-symbols-outlined text-lg block">grid_view</span>
+          </button>
+          <button class="p-2 rounded-lg text-slate-400 hover:bg-slate-50 transition-all">
+            <span class="material-symbols-outlined text-lg block">view_list</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Cards Grid -->
+      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+
+        {% for i in "1234" %}
+
+        <!-- Card 1 – Bestseller -->
+        <div class="prod-card">
+          <div class="card-img">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEHQfdnbJrXQSs-SCNo7GqOCZzP2aQFHDYfCXP3kvORgCLMjL0W8kysWbPISVwTYtIeSMIgu5zCdrndsE6XZjGqRp45xtVjvZoMPC1q_xNwpLjNFt40G1EXzceasY36D7PQzIWVWjN2o7P5ntz1XBPZM1NsRlNIaK32HSp5kQkZfvT3FEm2FS3412jGSWhKsx7ddJAQW-F7t2fkBmlCKXncoLfJTdP1OJWVpviFp3093-VmYSAdGgToOT2phI8lWRKjAoFPnndZAY" alt="SimaPure Ultra 1L"/>
+            <span class="card-badge badge-bestseller">Bestseller</span>
+            <div class="card-actions">
+              <button class="action-btn material-symbols-outlined">favorite</button>
+              <button class="action-btn share material-symbols-outlined">share</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <span class="card-cat">Désinfection</span>
+            <a href="{% url 'core:product-detail' slug='simapure-ultra-1l' %}" class="card-name">SimaPure Ultra 1L</a>
+            <p class="card-desc">Désinfectant de qualité médicale efficace contre 99,9% des bactéries et virus.</p>
+            <div class="card-footer">
+              <div class="price-block">
+                <span class="price-old">12 500</span>
+                <span class="price-now">9 900 <sup>CFA</sup></span>
+              </div>
+              <button class="cart-btn material-symbols-outlined">shopping_cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="prod-card">
+          <div class="card-img">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr2p4m6IotbUzyPBFUCcopyVg9eL6Jj2GtSF6fLRp6m4MYvEaQLta0Tx2LbZrmM2s7Fprs2J6vaQNU5eIoDARLP3oCzFwcu4OUQM0hPoTl7Znc1JhpV_TU1viZnnQjXe50LDn4fvhJT7EY987xxOMzxgXTvOAsbZN6ceDSUxkZCDVQXndKnUXJCcv5HYv3Mm3t8GLQ-HNL7NCF2kk3V2lryIM3hAp3vs7fttutUbq6TfKigN7f3_6XCCfsmQ0S6BBVM2nFseubPxo" alt="SimaGrip Pro 5L"/>
+            <div class="card-actions">
+              <button class="action-btn material-symbols-outlined">favorite</button>
+              <button class="action-btn share material-symbols-outlined">share</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <span class="card-cat">Dégraissant</span>
+            <a href="" class="card-name">SimaGrip Pro 5L</a>
+            <p class="card-desc">Dégraissant industriel puissant pour les cuisines et les ateliers professionnels.</p>
+            <div class="card-footer">
+              <div class="price-block">
+                <span class="price-now">24 500 <sup>CFA</sup></span>
+              </div>
+              <button class="cart-btn material-symbols-outlined">shopping_cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 – Nouveau -->
+        <div class="prod-card">
+          <div class="card-img">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB75KE5-nCKyGpYv3GeXByFLV0RIYcgDwGXKx0rCqYQN0y3dn03XMPz0x1nfNIQ_K-MOEjcy2zPUlyoowUMZziJJfMHyBT_Sx1pSR0d1DAwf9EZ1KIIKNwOV66YvkkLPl_sR1ZlGYcbFRU0D9_zGU_r5V0UGvz4513xvzVClHo6IZ21PJGEgTGSaO0LMhbUMs0N05UcoqnLBFjP8sNIWKH3X9NEx0wHEZDeylhK9UbIiLP1uEvqiZ78YtnNGq0DKQIWATPV_irlvQM" alt="SimaShine Floor 1L"/>
+            <span class="card-badge badge-new">Nouveau</span>
+            <div class="card-actions">
+              <button class="action-btn material-symbols-outlined">favorite</button>
+              <button class="action-btn share material-symbols-outlined">share</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <span class="card-cat">Sols</span>
+            <a href="" class="card-name">SimaShine Floor 1L</a>
+            <p class="card-desc">Nettoyant au pH neutre pour carrelage, marbre et bois. Brillance sans traces.</p>
+            <div class="card-footer">
+              <div class="price-block">
+                <span class="price-now">6 800 <sup>CFA</sup></span>
+              </div>
+              <button class="cart-btn material-symbols-outlined">shopping_cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="prod-card">
+          <div class="card-img">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxdKkDRXKvlG5q2AbsHS8mzEsYKOkPjpEZ6GCQkMxYs6sldsuPKmPLp8qGXDW6Yx1Xe16TFuu7lU8LhJ-BZmMISJ1eWs9ZkDlY1_Uv2Ll0gwVPV5nfs9HbvFWqUMNzzyjUe4LHwWKETgaqjkcGm_J26jBdrj091P4gqdJex84JtIJK_CwwYma0fqVSnGQ3efFF5mTB92U4Em0xSaFXqrlF2A0MA1uhAcRDYRukiiSe1NJ7VNYRD4JKhSiqPQgwM2UzRuoZbO0unrI" alt="SimaScale Off 500ml"/>
+            <div class="card-actions">
+              <button class="action-btn material-symbols-outlined">favorite</button>
+              <button class="action-btn share material-symbols-outlined">share</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <span class="card-cat">Calcaire</span>
+            <a href="" class="card-name">SimaScale Off 500ml</a>
+            <p class="card-desc">Formule hautement acide pour dissoudre les dépôts de calcaire tenaces.</p>
+            <div class="card-footer">
+              <div class="price-block">
+                <span class="price-now">4 200 <sup>CFA</sup></span>
+              </div>
+              <button class="cart-btn material-symbols-outlined">shopping_cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="prod-card">
+          <div class="card-img">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_KczOBK4H3QbY6SmEfe8O1BIYJxAGKvITualCg8LtV9qC299MTqv1uFN1pcOTWOV3JTNJ-yWeLHfW5vyZJ6R-4atKlV9nVLUmTgWgCpNgwSIJHN90hZ_-BW_eZUalzyzEh1Pjr4rb74xOzMKTdcuUWvtQnGInnmNtIc7qKnH-lrF0lGYrmQ-k5xBPC_YXlsN2puibGBroz47s02jmV8g2hRDm4_EcHKSxzCu-W2ovENBxn9cdjgyLR7n30HYgzn8jF96A5kgZj6c" alt="SimaView Crystal 1L"/>
+            <div class="card-actions">
+              <button class="action-btn material-symbols-outlined">favorite</button>
+              <button class="action-btn share material-symbols-outlined">share</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <span class="card-cat">Vitre</span>
+            <a href="" class="card-name">SimaView Crystal 1L</a>
+            <p class="card-desc">Nettoyant pour vitres sans ammoniaque. Visibilité cristalline garantie.</p>
+            <div class="card-footer">
+              <div class="price-block">
+                <span class="price-now">5 500 <sup>CFA</sup></span>
+              </div>
+              <button class="cart-btn material-symbols-outlined">shopping_cart</button>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+
+      <!-- Pagination -->
+      <div class="mt-16 flex justify-center">
+        <nav class="flex items-center gap-2 p-2 bg-white rounded-2xl border border-slate-100 shadow-sm">
+          <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-50 transition-all">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-primary text-white font-black shadow-lg shadow-primary/20">1</button>
+          <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">2</button>
+          <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">3</button>
+          <span class="px-2 text-slate-300 font-bold">...</span>
+          <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">12</button>
+          <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-50 transition-all">
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
+        </nav>
+      </div>
+    </div>
+  </div>
 </main>
-<!-- Footer Simple -->
-<footer class="mt-20 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-12">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex flex-col md:flex-row justify-between items-center gap-8">
-<div class="flex items-center gap-2 text-primary opacity-50">
-<span class="material-symbols-outlined font-bold">cleaning_services</span>
-<h2 class="text-lg font-bold leading-tight">SIMAD.cm</h2>
-</div>
-<div class="flex gap-8 text-sm font-medium text-slate-500">
-<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
-<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
-<a class="hover:text-primary transition-colors" href="#">Contact Support</a>
-</div>
-<p class="text-sm text-slate-400">© 2024 SIMAD. All rights reserved.</p>
-</div>
-</div>
-</footer>
-</body></html>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.prod-card');
+    cards.forEach((card, i) => {
+      setTimeout(() => {
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }, 60 * i);
+    });
+  });
+</script>
+{% endblock %}

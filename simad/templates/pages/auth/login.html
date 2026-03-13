@@ -15,10 +15,6 @@
 <link rel="stylesheet" href="{% static 'css/output.css' %}">
 
 <style data-purpose="layout-custom">
-    /* Custom overlay for the background image to ensure text readability */
-    .bg-overlay {
-      background: linear-gradient(rgba(26, 74, 138, 0.7), rgba(15, 44, 82, 0.85));
-    }
     /* Smooth transitions for inputs */
     input:focus {
       border-color: #1A4A8A !important;
@@ -35,7 +31,7 @@
 <!-- Background Image -->
 <img alt="Environnement professionnel propre" class="absolute inset-0 object-cover w-full h-full" src="/static/images/img/IMG_2352.webp"/>
 <!-- Gradient Overlay -->
-<div class="absolute inset-0 bg-overlay"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-slate-900/20 z-0"></div>
 <!-- Content -->
 <div class="relative z-10 max-w-lg text-center">
 <!-- Brand Identity -->

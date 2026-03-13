@@ -11,35 +11,12 @@
 <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicons/favicon-32x32.png' %}">
 <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicons/favicon-16x16.png' %}">
 
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static 'css/output.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="{% static 'js/common/toast_manager.js' %}" defer></script>
     <script src="{% static 'js/common/password-toggle.js' %}" defer></script>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#1a4a89",
-                        "background-light": "#f6f7f8",
-                        "background-dark": "#121820",
-                    },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"],
-                        "body": ["DM Sans", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                },
-            },
-        }
-    </script>
 <style>
         body {
             font-family: 'DM Sans', sans-serif;
@@ -49,14 +26,14 @@
         }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center">
+<body class="bg-background-light text-slate-900 min-h-screen flex items-center justify-center">
 <div class="flex min-h-screen w-full flex-col lg:flex-row">
 <!-- Left Side: Image/Branding -->
-<div class="relative hidden lg:flex lg:w-1/2 bg-primary overflow-hidden items-center justify-center">
-<div class="absolute inset-0 z-0 opacity-40">
+<div class="relative hidden lg:flex lg:w-1/2 overflow-hidden items-center justify-center bg-slate-900">
+<div class="absolute inset-0 z-0">
 <img alt="Clean laboratory environment" class="h-full w-full object-cover" src="{% static 'images/img/IMG_2242.webp' %}"/>
 </div>
-<div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-transparent z-10"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-slate-900/20 z-10"></div>
 <div class="relative z-20 p-12 max-w-xl">
 <h1 class="text-white text-4xl font-black leading-tight tracking-tight mb-4 font-display">
   Setting the standard in industrial hygiene.
@@ -87,70 +64,70 @@
 </div>
 </div>
 <!-- Right Side: Signup Form -->
-<div class="flex w-full flex-col lg:w-1/2 justify-center px-6 py-12 md:px-12 lg:px-24 bg-white dark:bg-background-dark">
+<div class="flex w-full flex-col lg:w-1/2 justify-center px-6 py-12 md:px-12 lg:px-24 bg-white">
 <div class="mx-auto w-full max-w-lg">
 <!-- Mobile Header -->
 <div class="lg:hidden flex items-center gap-3 mb-8">
   <img src="{% static 'images/logo/logo.webp' %}" alt="SIMAD Logo" class="h-10 w-auto object-contain">
-  <span class="text-slate-900 dark:text-white text-xl font-bold tracking-tight font-display">SIMAD.cm</span>
+  <span class="text-slate-900 text-xl font-bold tracking-tight font-display">SIMAD.cm</span>
 </div>
 <div class="mb-6">
-  <h2 class="text-2xl font-black text-slate-900 dark:text-white font-display mb-1">Create your account</h2>
-  <p class="text-slate-500 dark:text-slate-400 text-sm">Join the platform for professional hygiene management.</p>
+  <h2 class="text-2xl font-black text-slate-900 font-display mb-1">Create your account</h2>
+  <p class="text-slate-500 text-sm">Join the platform for professional hygiene management.</p>
 </div>
 <form method="POST" class="space-y-4" x-data="{ loading: false }" @submit="loading = true">
   {% csrf_token %}
   <!-- Name -->
   <div class="space-y-1.5">
-    <label class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400" for="full-name">Full Name</label>
+    <label class="text-xs font-bold uppercase tracking-wider text-slate-500" for="full-name">Full Name</label>
     <div class="relative group">
       <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
         <span class="material-symbols-outlined text-lg">person</span>
       </div>
-      <input class="block w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="full-name" name="full_name" placeholder="John Doe" type="text" required/>
+      <input class="block w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="full-name" name="full_name" placeholder="John Doe" type="text" required/>
     </div>
   </div>
 
   <!-- Email -->
   <div class="space-y-1.5">
-    <label class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400" for="email">Email Address</label>
+    <label class="text-xs font-bold uppercase tracking-wider text-slate-500" for="email">Email Address</label>
     <div class="relative group">
       <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
         <img src="{% static 'images/img/email.webp' %}" class="h-5 w-5 opacity-70 group-focus-within:opacity-100 transition-opacity">
       </div>
-      <input class="block w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="email" name="email" placeholder="name@company.com" required="" type="email"/>
+      <input class="block w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="email" name="email" placeholder="name@company.com" required="" type="email"/>
     </div>
   </div>
 
   <!-- Phone -->
   <div class="space-y-1.5">
-    <label class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400" for="phone">Phone Number</label>
+    <label class="text-xs font-bold uppercase tracking-wider text-slate-500" for="phone">Phone Number</label>
     <div class="relative group">
       <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
         <span class="material-symbols-outlined text-lg">call</span>
       </div>
-      <input class="block w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="phone" name="phone_number" placeholder="+237 6XX XXX XXX" type="tel"/>
+      <input class="block w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="phone" name="phone_number" placeholder="+237 6XX XXX XXX" type="tel"/>
     </div>
   </div>
   <!-- Password -->
   <div class="space-y-1.5">
-    <label class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400" for="password">Password</label>
+    <label class="text-xs font-bold uppercase tracking-wider text-slate-500" for="password">Password</label>
     <div class="relative group">
       <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
         <span class="material-symbols-outlined text-lg">lock</span>
       </div>
-      <input class="block w-full pl-11 pr-11 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+      <input class="block w-full pl-11 pr-11 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="password" name="password" placeholder="••••••••" required="" type="password"/>
     </div>
   </div>
 
   <!-- Confirm Password -->
   <div class="space-y-1.5">
-    <label class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400" for="confirm-password">Confirm Password</label>
+    <label class="text-xs font-bold uppercase tracking-wider text-slate-500" for="confirm-password">Confirm Password</label>
     <div class="relative group">
       <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
         <span class="material-symbols-outlined text-lg">lock_reset</span>
       </div>
-      <input class="block w-full pl-11 pr-11 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="confirm-password" name="confirm_password" placeholder="••••••••" required="" type="password"/>
+      <input class="block w-full pl-11 pr-11 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="confirm-password" name="confirm_password" placeholder="••••••••" required="" type="password"/>
     </div>
   </div>
 <!-- Verification Method -->
@@ -159,19 +136,19 @@
   <div class="grid grid-cols-2 gap-4">
     <label class="relative cursor-pointer">
       <input checked="" class="peer sr-only" name="verification" type="radio" value="whatsapp"/>
-      <div class="flex items-center gap-3 py-2 px-3 rounded-xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-800 transition-all peer-checked:border-primary peer-checked:bg-primary/5">
+      <div class="flex items-center gap-3 py-2 px-3 rounded-xl border-2 border-slate-100 bg-white transition-all peer-checked:border-primary peer-checked:bg-primary/5">
         <img src="{% static 'images/img/whatsap.webp' %}" class="h-6 w-6 flex-shrink-0">
         <div class="flex flex-col min-w-0">
-          <span class="text-xs font-bold text-slate-900 dark:text-white truncate">WhatsApp</span>
+          <span class="text-xs font-bold text-slate-900 truncate">WhatsApp</span>
         </div>
       </div>
     </label>
     <label class="relative cursor-pointer">
       <input class="peer sr-only" name="verification" type="radio" value="email"/>
-      <div class="flex items-center gap-3 py-2 px-3 rounded-xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-800 transition-all peer-checked:border-primary peer-checked:bg-primary/5">
+      <div class="flex items-center gap-3 py-2 px-3 rounded-xl border-2 border-slate-100 bg-white transition-all peer-checked:border-primary peer-checked:bg-primary/5">
         <img src="{% static 'images/img/email.webp' %}" class="h-6 w-6 flex-shrink-0">
         <div class="flex flex-col min-w-0">
-          <span class="text-xs font-bold text-slate-900 dark:text-white truncate">Email</span>
+          <span class="text-xs font-bold text-slate-900 truncate">Email</span>
         </div>
       </div>
     </label>
@@ -180,8 +157,8 @@
 <!-- Terms & Submit -->
 <div class="pt-1">
   <label class="flex items-start gap-3 cursor-pointer mb-6">
-    <input class="mt-1 rounded border-slate-300 dark:border-slate-700 text-primary focus:ring-primary h-4 w-4" required="" type="checkbox" name="terms_accepted"/>
-    <span class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+    <input class="mt-1 rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" required="" type="checkbox" name="terms_accepted"/>
+    <span class="text-sm text-slate-600 leading-relaxed">
       I agree to the <a class="text-primary hover:underline font-bold" href="#">Terms of Service</a> and <a class="text-primary hover:underline font-bold" href="#">Privacy Policy</a>.
     </span>
   </label>
@@ -225,9 +202,9 @@
 </script>
 {% endif %}
 
-<div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-4">
-  <p class="text-slate-500 dark:text-slate-400 text-xs">Already have an account?</p>
-  <a class="inline-flex items-center justify-center px-5 py-1.5 border-2 border-slate-100 dark:border-slate-800 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="/users/login/">
+<div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between gap-4">
+  <p class="text-slate-500 text-xs">Already have an account?</p>
+  <a class="inline-flex items-center justify-center px-5 py-1.5 border-2 border-slate-100 rounded-full text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors" href="/users/login/">
     Sign In
   </a>
 </div>

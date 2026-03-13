@@ -64,17 +64,17 @@
         }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<body class="bg-background-light text-slate-900 min-h-screen">
 <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
 <!-- Top Navigation Bar -->
-<header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 py-6">
+<header class="flex items-center justify-between border-b border-slate-200 py-6">
 <div class="flex items-center gap-2.5">
 <div class="text-primary">
 <span class="material-symbols-outlined text-4xl leading-none">shield_person</span>
 </div>
 <h1 class="text-2xl font-extrabold tracking-tight text-primary">SIMAD.cm</h1>
 </div>
-<div class="flex items-center gap-2 px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-full text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 shadow-sm">
+<div class="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-full text-slate-500 bg-white shadow-sm">
 <span class="material-symbols-outlined text-sm">lock</span>
 <span class="text-xs font-bold uppercase tracking-wider">Secure Checkout</span>
 </div>
@@ -84,8 +84,8 @@
 <!-- Left Column: Payment Methods -->
 <div class="lg:col-span-7 space-y-10">
 <div>
-<h2 class="text-4xl font-extrabold text-slate-900 dark:text-white mb-3">Payment Method</h2>
-<p class="text-slate-500 dark:text-slate-400 text-lg">Select how you'd like to pay for your plan.</p>
+<h2 class="text-4xl font-extrabold text-slate-900 mb-3">Payment Method</h2>
+<p class="text-slate-500 text-lg">Select how you'd like to pay for your plan.</p>
 </div>
 <!-- Payment Options Group -->
 <div class="space-y-6">
@@ -95,9 +95,9 @@
 <!-- MTN MoMo -->
 <label class="relative block group">
 <input checked="" class="payment-radio hidden" id="mtn_momo" name="payment_method" type="radio"/>
-<div class="payment-card relative flex items-center justify-between cursor-pointer rounded-2xl border-2 border-slate-200 dark:border-slate-800 p-6 transition-all bg-white dark:bg-slate-900">
+<div class="payment-card relative flex items-center justify-between cursor-pointer rounded-2xl border-2 border-slate-200 p-6 transition-all bg-white">
 <div class="flex items-center gap-5">
-<div class="radio-indicator relative w-6 h-6 rounded-full border-2 border-slate-300 dark:border-slate-600 shrink-0"></div>
+<div class="radio-indicator relative w-6 h-6 rounded-full border-2 border-slate-300 shrink-0"></div>
 <div class="w-14 h-14 bg-yellow-400 rounded-xl flex items-center justify-center overflow-hidden shrink-0">
 <img alt="MTN MoMo" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdrBISV2a9fqvpUbfu7HDe_EohMHiSvdhU06_MLoEEN2YbCOt4EnXfL7nIEQgaChAsn0nvrNAD0JitmVtzwVDu1Qnt9OcJYsPwnM7G6OXPjLCqFedhgu9AEbnF9sduprCQtJAblmi2OmvJgU7Pb0f-r2TJ8Ocoka9h-uxerYBEaJLnYimXM8PsszuEOrbbLDnv7h4nrYaxDFv3DFzq0rLgvgTmyFIv8DcuFnqVFjHGyTYLFYzRZRw9cuuYG4DWj5ZkYv4b3KlCzlU"/>
 </div>
@@ -106,7 +106,7 @@
 <p class="text-sm text-slate-500">Instant transfer from your wallet</p>
 </div>
 </div>
-<span class="material-symbols-outlined text-slate-300 dark:text-slate-700">check_circle</span>
+<span class="material-symbols-outlined text-slate-300">check_circle</span>
 </div>
 <div class="phone-input-container px-6">
 <div class="relative">
@@ -115,7 +115,7 @@
 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 font-bold">
                                                 +237
                                             </div>
-<input class="block w-full pl-16 pr-4 py-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:ring-primary focus:border-primary text-lg font-medium transition-all shadow-sm" id="mtn_phone" name="mtn_phone" placeholder="6XX XXX XXX" required="" type="tel"/>
+<input class="block w-full pl-16 pr-4 py-4 bg-white border-2 border-slate-200 rounded-xl focus:ring-primary focus:border-primary text-lg font-medium transition-all shadow-sm" id="mtn_phone" name="mtn_phone" placeholder="6XX XXX XXX" required="" type="tel"/>
 <div class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-300 group-focus-within/input:text-primary">
 <span class="material-symbols-outlined">phone_iphone</span>
 </div>
@@ -126,9 +126,9 @@
 <!-- Orange Money -->
 <label class="relative block group">
 <input class="payment-radio hidden" id="orange_money" name="payment_method" type="radio"/>
-<div class="payment-card relative flex items-center justify-between cursor-pointer rounded-2xl border-2 border-slate-200 dark:border-slate-800 p-6 transition-all bg-white dark:bg-slate-900">
+<div class="payment-card relative flex items-center justify-between cursor-pointer rounded-2xl border-2 border-slate-200 p-6 transition-all bg-white">
 <div class="flex items-center gap-5">
-<div class="radio-indicator relative w-6 h-6 rounded-full border-2 border-slate-300 dark:border-slate-600 shrink-0"></div>
+<div class="radio-indicator relative w-6 h-6 rounded-full border-2 border-slate-300 shrink-0"></div>
 <div class="w-14 h-14 bg-orange-500 rounded-xl flex items-center justify-center overflow-hidden shrink-0">
 <img alt="Orange Money" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsZB_9O7zaiObYSncbICtW8n4m6aNtrc4KnO9YiUgfNT2FIjc1YjTZVx9qCuKOA4PAAy3LWDb8ky6GdhR557nIHBxJ71Qc6UdJZgrlho45x8DwItQ0AM47hEJM4A3ZpFethfnM8jhJDrfwTLPzFrdeG1L7hsCVT272Nh7ICzhmTU6cW5LPFXNp67ev72VafrSota0MEHtWayDt6hKBCHksYRkfuDKw2qx_1MwCvb5o3gdy0KqnrhnyXlP1U39PG5fULEl1wk5MjS4"/>
 </div>
@@ -137,7 +137,7 @@
 <p class="text-sm text-slate-500">Secure Orange wallet payment</p>
 </div>
 </div>
-<span class="material-symbols-outlined text-slate-300 dark:text-slate-700">check_circle</span>
+<span class="material-symbols-outlined text-slate-300">check_circle</span>
 </div>
 <div class="phone-input-container px-6">
 <div class="relative">
@@ -146,7 +146,7 @@
 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 font-bold">
                                                 +237
                                             </div>
-<input class="block w-full pl-16 pr-4 py-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:ring-primary focus:border-primary text-lg font-medium transition-all shadow-sm" id="orange_phone" name="orange_phone" placeholder="6XX XXX XXX" type="tel"/>
+<input class="block w-full pl-16 pr-4 py-4 bg-white border-2 border-slate-200 rounded-xl focus:ring-primary focus:border-primary text-lg font-medium transition-all shadow-sm" id="orange_phone" name="orange_phone" placeholder="6XX XXX XXX" type="tel"/>
 <div class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-300 group-focus-within/input:text-primary">
 <span class="material-symbols-outlined">phone_iphone</span>
 </div>
@@ -161,10 +161,10 @@
 <!-- Stripe / Credit Card -->
 <label class="relative block group">
 <input class="payment-radio hidden" id="card_payment" name="payment_method" type="radio"/>
-<div class="payment-card relative flex items-center justify-between cursor-pointer rounded-2xl border-2 border-slate-200 dark:border-slate-800 p-6 transition-all bg-white dark:bg-slate-900">
+<div class="payment-card relative flex items-center justify-between cursor-pointer rounded-2xl border-2 border-slate-200 p-6 transition-all bg-white">
 <div class="flex-1 flex items-center gap-5">
-<div class="radio-indicator relative w-6 h-6 rounded-full border-2 border-slate-300 dark:border-slate-600 shrink-0"></div>
-<div class="w-14 h-14 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center shrink-0">
+<div class="radio-indicator relative w-6 h-6 rounded-full border-2 border-slate-300 shrink-0"></div>
+<div class="w-14 h-14 bg-slate-100 rounded-xl flex items-center justify-center shrink-0">
 <span class="material-symbols-outlined text-primary text-3xl">credit_card</span>
 </div>
 <div class="flex-1">
@@ -175,8 +175,8 @@
 </div>
 </div>
 <div class="flex gap-2 ml-4">
-<img alt="Visa" class="h-5 opacity-40 dark:invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwYPMV3OyjmWWe4aNsNNWfBVBjzKRz2MmHk7OfyoRYYP3Z4yJjVRB3a54yaZX9lGPSDYeKJJwM8K3b3ph6RqCQdcigOb6-v-lZVrPRSo0mnpwzVeoAqHyR9pOySwHLgWxRDO6TDtU8RY9ar0XcQtV3Xk2ay5sFRXpaUm_hOgkgDO1hOWbcilScX9QFVBgP0DJM01WMCc9DJGDHpVnlO2tUrTsUaNkSKTXSb5RgHMVHsLf2KtmefAqlL8aW4MYgP6DQq-JBBUVpwP8"/>
-<img alt="Mastercard" class="h-5 opacity-40 dark:invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7P-YKZ2HqfYfeZ_s9s-cs5weAwbKjv7G1BeodcBLX7YglrIkyN80QodmOBwnIhO3y-o3iFZZ-J7mJDQEGMxRJt3C4ZAOub7-Iq6aAIwuuUHHJVYnFgwSaRGdKW1jxk7fIOCd4j6zYEdyViARTdEynKivSYMiAo7AgXZsQOnxXQW4nm_kfjgXOyNc1mlxGa06ghJ1UDUlDCwQRczVNHRlg62DbnRdP17bncTjUhWxHAI7z4eixCUuPZShzs7OLtl5mDQFdqdNXk5w"/>
+<img alt="Visa" class="h-5 opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwYPMV3OyjmWWe4aNsNNWfBVBjzKRz2MmHk7OfyoRYYP3Z4yJjVRB3a54yaZX9lGPSDYeKJJwM8K3b3ph6RqCQdcigOb6-v-lZVrPRSo0mnpwzVeoAqHyR9pOySwHLgWxRDO6TDtU8RY9ar0XcQtV3Xk2ay5sFRXpaUm_hOgkgDO1hOWbcilScX9QFVBgP0DJM01WMCc9DJGDHpVnlO2tUrTsUaNkSKTXSb5RgHMVHsLf2KtmefAqlL8aW4MYgP6DQq-JBBUVpwP8"/>
+<img alt="Mastercard" class="h-5 opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7P-YKZ2HqfYfeZ_s9s-cs5weAwbKjv7G1BeodcBLX7YglrIkyN80QodmOBwnIhO3y-o3iFZZ-J7mJDQEGMxRJt3C4ZAOub7-Iq6aAIwuuUHHJVYnFgwSaRGdKW1jxk7fIOCd4j6zYEdyViARTdEynKivSYMiAo7AgXZsQOnxXQW4nm_kfjgXOyNc1mlxGa06ghJ1UDUlDCwQRczVNHRlg62DbnRdP17bncTjUhWxHAI7z4eixCUuPZShzs7OLtl5mDQFdqdNXk5w"/>
 </div>
 </div>
 </label>
@@ -185,19 +185,19 @@
 </div>
 <!-- Right Column: Summary & Pay -->
 <div class="lg:col-span-5">
-<div class="sticky top-8 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-2xl">
+<div class="sticky top-8 bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xl">
 <div class="p-8">
-<h4 class="text-xl font-extrabold mb-8 text-slate-900 dark:text-white">Order Summary</h4>
+<h4 class="text-xl font-extrabold mb-8 text-slate-900">Order Summary</h4>
 <div class="space-y-5 mb-8">
 <div class="flex justify-between items-center text-base">
 <span class="text-slate-500 font-medium">Professional Plan</span>
-<span class="font-bold text-slate-900 dark:text-white">25,000 XAF</span>
+<span class="font-bold text-slate-900">25,000 XAF</span>
 </div>
 <div class="flex justify-between items-center text-base">
 <span class="text-slate-500 font-medium">Processing Fee</span>
-<span class="font-bold text-slate-900 dark:text-white">500 XAF</span>
+<span class="font-bold text-slate-900">500 XAF</span>
 </div>
-<div class="pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-between items-end">
+<div class="pt-6 border-t border-slate-100 flex justify-between items-end">
 <div>
 <span class="text-xs font-extrabold uppercase tracking-widest text-slate-400">Total Payable</span>
 <p class="text-3xl font-black text-primary mt-1">25,500 XAF</p>
@@ -210,13 +210,13 @@
 <span class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
 </button>
 <!-- Trust Markers -->
-<div class="mt-8 pt-8 border-t border-slate-100 dark:border-slate-800">
+<div class="mt-8 pt-8 border-t border-slate-100">
 <div class="flex items-center justify-center gap-6 mb-6">
 <div class="flex items-center gap-1.5 text-accent-success">
 <span class="material-symbols-outlined text-lg font-bold">verified_user</span>
 <span class="text-[11px] font-extrabold uppercase tracking-tight">PCI-DSS Secure</span>
 </div>
-<div class="w-px h-4 bg-slate-200 dark:bg-slate-700"></div>
+<div class="w-px h-4 bg-slate-200"></div>
 <div class="flex items-center gap-1.5 text-slate-400">
 <span class="material-symbols-outlined text-lg">encrypted</span>
 <span class="text-[11px] font-extrabold uppercase tracking-tight">SSL Encrypted</span>
@@ -237,7 +237,7 @@
 </div>
 </main>
 <!-- Footer -->
-<footer class="mt-12 py-10 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6 text-slate-400 text-sm">
+<footer class="mt-12 py-10 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-6 text-slate-400 text-sm">
 <p class="font-medium">© 2024 SIMAD.cm • Empowering Local Business</p>
 <div class="flex gap-8 font-bold">
 <a class="hover:text-primary transition-colors" href="#">Terms of Service</a>

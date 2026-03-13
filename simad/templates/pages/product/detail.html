@@ -1,83 +1,20 @@
-<!DOCTYPE html>
 
-<html class="light" lang="fr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>SimaDésinfect Pro - SIMAD</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#1a4a89",
-                        "accent-green": "#10b981",
-                        "background-light": "#f6f7f8",
-                        "background-dark": "#121820",
-                    },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
-                },
-            },
-        }
-    </script>
-<style>
-        body { font-family: 'Inter', sans-serif; }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        .filled { font-variation-settings: 'FILL' 1; }
-    </style>
-</head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
-<!-- Top Navigation Bar -->
-<header class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex items-center justify-between h-16">
-<div class="flex items-center gap-8">
-<div class="flex items-center gap-2 text-primary">
-<span class="material-symbols-outlined text-3xl font-bold">biotech</span>
-<h2 class="text-xl font-black tracking-tight">SIMAD</h2>
-</div>
-<nav class="hidden md:flex items-center gap-6">
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Produits</a>
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Certifications</a>
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">À propos</a>
-</nav>
-</div>
-<div class="flex items-center gap-4">
-<div class="relative hidden sm:block">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-<input class="pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary w-64" placeholder="Rechercher un produit..." type="text"/>
-</div>
-<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full relative">
-<span class="material-symbols-outlined">shopping_cart</span>
-<span class="absolute top-0 right-0 bg-primary text-white text-[10px] font-bold px-1.5 rounded-full">2</span>
-</button>
-<div class="h-8 w-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-<span class="material-symbols-outlined text-primary text-xl">person</span>
-</div>
-</div>
-</div>
-</div>
-</header>
+{% extends 'pages/base.html' %}
+
+{% block content %}
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 <!-- Breadcrumbs -->
-<nav class="flex items-center gap-2 text-sm text-slate-500 mb-8">
-<a class="hover:text-primary" href="#">Accueil</a>
-<span class="material-symbols-outlined text-sm">chevron_right</span>
-<a class="hover:text-primary" href="#">Désinfectants</a>
-<span class="material-symbols-outlined text-sm">chevron_right</span>
-<span class="text-slate-900 dark:text-slate-100 font-medium">SimaDésinfect Pro</span>
+<nav class="flex items-center gap-2 text-sm text-slate-600 mb-8">
+<a class="hover:text-primary transition-colors" href="{% url 'core:home' %}">Accueil</a>
+<span class="material-symbols-outlined text-xs text-slate-400">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="{% url 'core:product-list' %}">Désinfectants</a>
+<span class="material-symbols-outlined text-xs text-slate-400">chevron_right</span>
+<span class="text-slate-900 font-bold">SimaDésinfect Pro</span>
 </nav>
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
 <!-- Left: Image Gallery -->
 <div class="lg:col-span-7 flex flex-col gap-4">
-<div class="aspect-square bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm relative group">
+<div class="aspect-square bg-white rounded-xl overflow-hidden border border-slate-300 shadow-sm relative group">
 <img class="w-full h-full object-cover" data-alt="Professional medical disinfectant bottle on clinical white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1q6ZuHjdmaZjTuPiwgd1vTGq6P-WG0JqrLeyOUE-l46YwauTpyZyBf4agF62q6LE7AJs4YHaOhBL_ovgLjPwXbVidE9fjlfZDDDb826xfFi8qlYc-OUR6VjVuIsBUS-pPiIVkStmjtDyH4mAje6NgNfR6S-Ezp8QWtKZS0A_9Q-qIO1nUNQf0utNunxjd852LQAVHXH6JTtmXf_EgVWjK3MdZuZ5Er0rLO_j6ytbnWpeC_1J9f86tXH61zqJyLERI1FXk7ryOzgU"/>
 <button class="absolute top-4 right-4 p-2 bg-white/90 rounded-full shadow-md text-slate-600 hover:text-red-500 transition-colors">
 <span class="material-symbols-outlined">favorite</span>
@@ -87,13 +24,13 @@
 <div class="aspect-square rounded-lg border-2 border-primary overflow-hidden cursor-pointer">
 <img class="w-full h-full object-cover" data-alt="Disinfectant bottle front view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMiY_EKCH0_8nckK_4MjmZlPxCFlQq9p7tSge-DZe_78nCsbfdvqj1d5weXaMl7lcluSpolfWLc5kWFx_Kc6TStgQmVAYmAvsbROgl2XGeLmvqYqoo_9ztqO-QvWuInUOXzBxvAhAVc1q8Ccoih97V3f9PouPkk5Wt5YXFHm0mTjCxNnyjpBpMM5VMjnG2esXoF1YAThNJR8mEtYsfdgctJFJrhsaz-5qfLNA9HdfeKXWsv8tysHfoP-WfDjnoN4mjBqFbab-biVE"/>
 </div>
-<div class="aspect-square rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
+<div class="aspect-square rounded-lg border border-slate-300 overflow-hidden cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
 <img class="w-full h-full object-cover" data-alt="Laboratory clinical testing setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZFFH77Ney3wrNHSBf-YLP4ujzYhXUKJ3HH0RkbpNZdofB6aRJFNIfV5pRP9AlGd2qLrIJs7NWa3G6rBF_nIYbFw_sTmxNCOl0prHAiSC518HBa7rsCvqf_XNo7lQp58tFOc2QnCy2hX42BlKZJMcJVZLIokc0gSaodaxBCdme56U_Gi_f8mHv7867-31rIZg24lDgRUGIPU8t9cSeYxR-xP3DesSCOZCBob-16FiehpC3p2XY8lVb5Y6HV_MlXrpGl4jF3v2fSB4"/>
 </div>
-<div class="aspect-square rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
+<div class="aspect-square rounded-lg border border-slate-300 overflow-hidden cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
 <img class="w-full h-full object-cover" data-alt="Disinfectant usage on hospital surfaces" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLOYm7HAzH2gVXivYJftysuNd7sjLqKKKJpyZjnBuOIqdk5Zv7CIkBw9jhDRXRZ_OdvM2RRuaKCnV2TAq0Wv2hupQM-GL6z1PhSY9RLaCWryXwAE_Mgg-FytYdpPq2fVM9QkgLw2Le4n0KYyng63m6Q9vhoBS6cZGuP0tawErptYOWtLjaXRIBZ06FGTNWgd7tXOSAqc_CRaYRSBZaX7gxZ_MmUzJHZmuotakJA3Yu_6sNdJTI7UsXAkGIecPjq8fLcZ3OyZuZldY"/>
 </div>
-<div class="aspect-square rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden cursor-pointer opacity-70 hover:opacity-100 transition-opacity flex items-center justify-center bg-slate-100 dark:bg-slate-800">
+<div class="aspect-square rounded-lg border border-slate-300 overflow-hidden cursor-pointer opacity-70 hover:opacity-100 transition-opacity flex items-center justify-center bg-slate-100">
 <span class="material-symbols-outlined text-3xl text-slate-400">play_circle</span>
 </div>
 </div>
@@ -104,31 +41,31 @@
 <span class="bg-accent-green/10 text-accent-green text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-accent-green/20">Certifié ANOR</span>
 <span class="text-slate-400 text-xs font-medium">SKU: SIMA-DES-PRO-01</span>
 </div>
-<h1 class="text-4xl font-black text-slate-900 dark:text-slate-100 mb-2 leading-tight">SimaDésinfect Pro</h1>
+<h1 class="text-4xl font-black text-slate-900 mb-2 leading-tight">SimaDésinfect Pro</h1>
 <div class="flex items-center gap-4 mb-6">
 <div class="flex items-center gap-1 text-yellow-400">
 <span class="material-symbols-outlined filled text-xl">star</span>
 <span class="material-symbols-outlined filled text-xl">star</span>
 <span class="material-symbols-outlined filled text-xl">star</span>
 <span class="material-symbols-outlined filled text-xl">star</span>
-<span class="material-symbols-outlined filled text-xl text-slate-300 dark:text-slate-600">star</span>
+<span class="material-symbols-outlined filled text-xl text-slate-300">star</span>
 </div>
 <span class="text-slate-500 text-sm font-medium">4.8 (124 avis clients)</span>
 </div>
 <div class="text-3xl font-black text-primary mb-8">20,000 FCFA</div>
 <div class="space-y-6 mb-8">
-<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+<p class="text-slate-600 leading-relaxed">
                         SimaDésinfect Pro est une solution de désinfection de grade médical haute performance, formulée pour éliminer 99.9% des agents pathogènes. Idéal pour les environnements cliniques, industriels et domestiques exigeants.
                     </p>
 <div class="flex flex-col gap-3">
 <h4 class="font-bold text-sm uppercase tracking-wider text-slate-400">Quantité</h4>
 <div class="flex items-center gap-4">
-<div class="flex items-center border border-slate-300 dark:border-slate-700 rounded-lg overflow-hidden bg-white dark:bg-slate-800">
-<button class="px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+<div class="flex items-center border border-slate-300 rounded-lg overflow-hidden bg-white">
+<button class="px-4 py-2 hover:bg-slate-100 transition-colors">
 <span class="material-symbols-outlined text-sm">remove</span>
 </button>
 <span class="px-6 py-2 font-bold text-lg">1</span>
-<button class="px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+<button class="px-4 py-2 hover:bg-slate-100 transition-colors">
 <span class="material-symbols-outlined text-sm">add</span>
 </button>
 </div>
@@ -152,19 +89,19 @@
 </div>
 <!-- Detailed Tabs / Info Sections -->
 <div class="mt-20">
-<div class="border-b border-slate-200 dark:border-slate-800 flex gap-12 mb-8 overflow-x-auto whitespace-nowrap">
+<div class="border-b border-slate-300 flex gap-12 mb-8 overflow-x-auto whitespace-nowrap">
 <button class="pb-4 border-b-2 border-primary font-bold text-primary">Description &amp; Utilisation</button>
-<button class="pb-4 text-slate-500 font-medium hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Fiche Technique</button>
-<button class="pb-4 text-slate-500 font-medium hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Avis (124)</button>
+<button class="pb-4 text-slate-500 font-medium hover:text-slate-700 transition-colors">Fiche Technique</button>
+<button class="pb-4 text-slate-500 font-medium hover:text-slate-700 transition-colors">Avis (124)</button>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
 <div class="space-y-8">
 <section>
-<h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+<h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900">
 <span class="material-symbols-outlined text-accent-green">clinical_notes</span>
                             Usage Instructions
                         </h3>
-<ul class="space-y-3 text-slate-600 dark:text-slate-400">
+<ul class="space-y-3 text-slate-600">
 <li class="flex items-start gap-3">
 <span class="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
                                 Vaporiser à une distance de 20cm sur la surface préalablement nettoyée.
@@ -180,7 +117,7 @@
 </ul>
 </section>
 <section>
-<h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+<h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900">
 <span class="material-symbols-outlined text-accent-green">warning</span>
                             Précautions
                         </h3>
@@ -190,27 +127,27 @@
 </section>
 </div>
 <div>
-<h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+<h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-slate-900">
 <span class="material-symbols-outlined text-accent-green">assignment</span>
                         Technical Details
                     </h3>
-<div class="rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
+<div class="rounded-xl border border-slate-300 overflow-hidden shadow-sm">
 <table class="w-full text-left border-collapse">
 <tbody>
-<tr class="border-b border-slate-100 dark:border-slate-800">
-<td class="px-6 py-4 font-semibold bg-slate-50 dark:bg-slate-800/50 w-1/3 text-slate-500">Composition</td>
+<tr class="border-b border-slate-200">
+<td class="px-6 py-4 font-semibold bg-slate-50 w-1/3 text-slate-500">Composition</td>
 <td class="px-6 py-4">Alcool Isopropylique 75%, Glycérine, Peroxyde d'hydrogène</td>
 </tr>
-<tr class="border-b border-slate-100 dark:border-slate-800">
-<td class="px-6 py-4 font-semibold bg-slate-50 dark:bg-slate-800/50 text-slate-500">Certification</td>
+<tr class="border-b border-slate-200">
+<td class="px-6 py-4 font-semibold bg-slate-50 text-slate-500">Certification</td>
 <td class="px-6 py-4">ANOR Norme NC-ISO 22000:2018</td>
 </tr>
-<tr class="border-b border-slate-100 dark:border-slate-800">
-<td class="px-6 py-4 font-semibold bg-slate-50 dark:bg-slate-800/50 text-slate-500">Dosage</td>
+<tr class="border-b border-slate-200">
+<td class="px-6 py-4 font-semibold bg-slate-50 text-slate-500">Dosage</td>
 <td class="px-6 py-4">Prêt à l'emploi (Solution non diluée)</td>
 </tr>
 <tr>
-<td class="px-6 py-4 font-semibold bg-slate-50 dark:bg-slate-800/50 text-slate-500">Spectre</td>
+<td class="px-6 py-4 font-semibold bg-slate-50 text-slate-500">Spectre</td>
 <td class="px-6 py-4">Virucide, Bactéricide, Fongicide</td>
 </tr>
 </tbody>
@@ -222,49 +159,49 @@
 <!-- Related Products Section -->
 <div class="mt-32">
 <div class="flex items-center justify-between mb-8">
-<h2 class="text-2xl font-black">Produits Similaires</h2>
-<a class="text-primary font-bold text-sm hover:underline flex items-center gap-1" href="#">
+<h2 class="text-2xl font-black text-slate-900">Produits Similaires</h2>
+<a class="text-primary font-bold text-sm hover:underline flex items-center gap-1" href="{% url 'core:product-list' %}">
                     Voir tout <span class="material-symbols-outlined text-sm">arrow_forward</span>
 </a>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 <!-- Related Item 1 -->
-<div class="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 transition-all hover:shadow-xl">
-<div class="aspect-square bg-slate-100 dark:bg-slate-700 rounded-lg overflow-hidden mb-4">
+<div class="group bg-white rounded-xl border border-slate-300 p-4 shadow-sm transition-all hover:shadow-xl">
+<div class="aspect-square bg-slate-100 rounded-lg overflow-hidden mb-4">
 <img class="w-full h-full object-cover group-hover:scale-105 transition-transform" data-alt="Blue colored medical hand sanitizer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDadsRN50qZqW8-kNBI_Khz7wxmKPnClN8Y6doXI2R3fmvKtHSha_erQtTbld89vOsv6QR3q93jHTQtiq2UUjmtksjjWVH4ShKE4fns-X3UUe0dxG4w0xJAAQ0wCNKBu1B-DO3mGNuArM1XU-fPJM5pL6oC71kD4t9dj3DE-crToY1nDPAmZQXp5leoP4YBhRr3o1mBD13m_lLFYNLQ0dTFbm3SZWKGE50GK9Kk3_BeI4z9FGR_F6RNICZGqTYsKGRobwlov2GAIE0"/>
 </div>
-<h4 class="font-bold text-lg mb-1 group-hover:text-primary transition-colors">SimaGel Hydro</h4>
+<h4 class="font-bold text-lg mb-1 text-slate-900 group-hover:text-primary transition-colors">SimaGel Hydro</h4>
 <p class="text-slate-500 text-sm mb-3">Gel hydroalcoolique parfumé</p>
 <div class="flex items-center justify-between">
-<span class="text-lg font-black text-slate-900 dark:text-slate-100">4,500 FCFA</span>
+<span class="text-lg font-black text-slate-900">4,500 FCFA</span>
 <button class="p-2 bg-primary/10 text-primary rounded-lg hover:bg-primary hover:text-white transition-all">
 <span class="material-symbols-outlined">add_shopping_cart</span>
 </button>
 </div>
 </div>
 <!-- Related Item 2 -->
-<div class="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 transition-all hover:shadow-xl">
-<div class="aspect-square bg-slate-100 dark:bg-slate-700 rounded-lg overflow-hidden mb-4">
+<div class="group bg-white rounded-xl border border-slate-300 p-4 shadow-sm transition-all hover:shadow-xl">
+<div class="aspect-square bg-slate-100 rounded-lg overflow-hidden mb-4">
 <img class="w-full h-full object-cover group-hover:scale-105 transition-transform" data-alt="White plastic surface wipes canister" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB02zayFnyMunuBodzORIzK4iCRyCQZcdoXENZSQiyQkebUSF2our8LNlZNvHeRjAQ4xyRpOrq_ajmvL3eGGFSceM2ubDZOxFxcKR4aEYXxZ7raVedZ2Q__IJw5d540OX4JEZCoIdmfK1kunoYNJspm_4nXL4VCYxeuyR1ZgFmn1C9-EwWYdVI3SKM7ucv37Omt7Y9T7X2jT-m8rBGPV1f_H2uDU1R01XQ4uQ7c_nETxGitWVvozQ8vJlARYxgB-Pw0FCJ4y-wyBZ0"/>
 </div>
-<h4 class="font-bold text-lg mb-1 group-hover:text-primary transition-colors">SimaWipes Plus</h4>
+<h4 class="font-bold text-lg mb-1 text-slate-900 group-hover:text-primary transition-colors">SimaWipes Plus</h4>
 <p class="text-slate-500 text-sm mb-3">Lingettes désinfectantes (x100)</p>
 <div class="flex items-center justify-between">
-<span class="text-lg font-black text-slate-900 dark:text-slate-100">8,500 FCFA</span>
+<span class="text-lg font-black text-slate-900">8,500 FCFA</span>
 <button class="p-2 bg-primary/10 text-primary rounded-lg hover:bg-primary hover:text-white transition-all">
 <span class="material-symbols-outlined">add_shopping_cart</span>
 </button>
 </div>
 </div>
 <!-- Related Item 3 -->
-<div class="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 transition-all hover:shadow-xl">
-<div class="aspect-square bg-slate-100 dark:bg-slate-700 rounded-lg overflow-hidden mb-4">
+<div class="group bg-white rounded-xl border border-slate-300 p-4 shadow-sm transition-all hover:shadow-xl">
+<div class="aspect-square bg-slate-100 rounded-lg overflow-hidden mb-4">
 <img class="w-full h-full object-cover group-hover:scale-105 transition-transform" data-alt="Large 5 liter disinfectant refill container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYM4pcS7Z7l46HDAo8QCvy2cm_PE-rqjc5Qz5Ar48FilwKPsJGO3BRKdyVhp7Ww-uS8f0CigMnMS7YPPFI6bxZO5J0qX6iLdmkyzTMdXYHHaCLwyxVh-cQoSTtRpSQhYQNEl6F4pDWxFxh9SkdRJJ3A1sQFXOHW6yw87LokqRLBgQ8NkafYaPhSe_4emLLGnDcSfS-XOQ0T67KTOqG1T4UwBxfXO1cp7kf7luK7RXfbX6lfvgzfH3sOgQjCnSFs6byjG_Lfa5ez10"/>
 </div>
-<h4 class="font-bold text-lg mb-1 group-hover:text-primary transition-colors">SimaVrac 5L</h4>
+<h4 class="font-bold text-lg mb-1 text-slate-900 group-hover:text-primary transition-colors">SimaVrac 5L</h4>
 <p class="text-slate-500 text-sm mb-3">Recharge industrielle économique</p>
 <div class="flex items-center justify-between">
-<span class="text-lg font-black text-slate-900 dark:text-slate-100">45,000 FCFA</span>
+<span class="text-lg font-black text-slate-900">45,000 FCFA</span>
 <button class="p-2 bg-primary/10 text-primary rounded-lg hover:bg-primary hover:text-white transition-all">
 <span class="material-symbols-outlined">add_shopping_cart</span>
 </button>
@@ -273,10 +210,10 @@
 </div>
 </div>
 <!-- Customer Reviews Section -->
-<div class="mt-32 border-t border-slate-200 dark:border-slate-800 pt-20 pb-32">
+<div class="mt-32 border-t border-slate-300 pt-20 pb-32">
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
 <div class="lg:col-span-4">
-<h2 class="text-3xl font-black mb-4">Avis Clients</h2>
+<h2 class="text-3xl font-black mb-4 text-slate-900">Avis Clients</h2>
 <div class="flex items-center gap-4 mb-6">
 <div class="text-5xl font-black text-primary">4.8</div>
 <div class="flex flex-col">
@@ -294,35 +231,35 @@
 <div class="space-y-3">
 <div class="flex items-center gap-3">
 <span class="text-sm font-medium w-3">5</span>
-<div class="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
 <div class="h-full bg-primary" style="width: 85%"></div>
 </div>
 <span class="text-sm text-slate-400 w-10">85%</span>
 </div>
 <div class="flex items-center gap-3">
 <span class="text-sm font-medium w-3">4</span>
-<div class="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
 <div class="h-full bg-primary" style="width: 10%"></div>
 </div>
 <span class="text-sm text-slate-400 w-10">10%</span>
 </div>
 <div class="flex items-center gap-3">
 <span class="text-sm font-medium w-3">3</span>
-<div class="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
 <div class="h-full bg-primary" style="width: 3%"></div>
 </div>
 <span class="text-sm text-slate-400 w-10">3%</span>
 </div>
 <div class="flex items-center gap-3">
 <span class="text-sm font-medium w-3">2</span>
-<div class="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
 <div class="h-full bg-primary" style="width: 1%"></div>
 </div>
 <span class="text-sm text-slate-400 w-10">1%</span>
 </div>
 <div class="flex items-center gap-3">
 <span class="text-sm font-medium w-3">1</span>
-<div class="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
 <div class="h-full bg-primary" style="width: 1%"></div>
 </div>
 <span class="text-sm text-slate-400 w-10">1%</span>
@@ -334,12 +271,12 @@
 </div>
 <div class="lg:col-span-8 space-y-10">
 <!-- Review 1 -->
-<div class="border-b border-slate-100 dark:border-slate-800 pb-8">
+<div class="border-b border-slate-200 pb-8">
 <div class="flex items-center justify-between mb-4">
 <div class="flex items-center gap-3">
 <div class="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600">JP</div>
 <div>
-<h4 class="font-bold">Jean-Paul M.</h4>
+<h4 class="font-bold text-slate-900">Jean-Paul M.</h4>
 <span class="text-xs text-slate-400">Client Vérifié • il y a 2 jours</span>
 </div>
 </div>
@@ -351,17 +288,17 @@
 <span class="material-symbols-outlined filled text-sm">star</span>
 </div>
 </div>
-<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+<p class="text-slate-600 leading-relaxed">
                             Excellent produit. Nous l'utilisons dans notre clinique depuis plusieurs mois. L'odeur est neutre et l'efficacité est au rendez-vous. Livraison très rapide sur Douala.
                         </p>
 </div>
 <!-- Review 2 -->
-<div class="border-b border-slate-100 dark:border-slate-800 pb-8">
+<div class="border-b border-slate-200 pb-8">
 <div class="flex items-center justify-between mb-4">
 <div class="flex items-center gap-3">
 <div class="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600">AN</div>
 <div>
-<h4 class="font-bold">Aissatou N.</h4>
+<h4 class="font-bold text-slate-900">Aissatou N.</h4>
 <span class="text-xs text-slate-400">Client Vérifié • il y a 1 semaine</span>
 </div>
 </div>
@@ -373,7 +310,7 @@
 <span class="material-symbols-outlined filled text-sm">star</span>
 </div>
 </div>
-<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+<p class="text-slate-600 leading-relaxed">
                             Produit de haute qualité, on sent tout de suite la différence avec les produits de supermarché. Je recommande pour une protection maximale à la maison.
                         </p>
 </div>
@@ -384,57 +321,4 @@
 </div>
 </div>
 </main>
-<!-- Footer -->
-<footer class="bg-slate-900 text-slate-400 py-16 border-t border-slate-800">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="grid grid-cols-1 md:grid-cols-4 gap-12">
-<div class="col-span-1 md:col-span-2">
-<div class="flex items-center gap-2 text-white mb-6">
-<span class="material-symbols-outlined text-3xl">biotech</span>
-<h2 class="text-2xl font-black tracking-tight">SIMAD</h2>
-</div>
-<p class="max-w-sm mb-8 leading-relaxed">
-                        Leader de la désinfection clinique au Cameroun. Nous fournissons des solutions innovantes certifiées par l'ANOR pour garantir votre sécurité.
-                    </p>
-<div class="flex gap-4">
-<a class="h-10 w-10 rounded-full border border-slate-700 flex items-center justify-center hover:border-primary hover:text-white transition-all" href="#">
-<span class="material-symbols-outlined text-sm">public</span>
-</a>
-<a class="h-10 w-10 rounded-full border border-slate-700 flex items-center justify-center hover:border-primary hover:text-white transition-all" href="#">
-<span class="material-symbols-outlined text-sm">mail</span>
-</a>
-</div>
-</div>
-<div>
-<h4 class="text-white font-bold mb-6">Liens Rapides</h4>
-<ul class="space-y-4 text-sm">
-<li><a class="hover:text-white transition-colors" href="#">Tous les produits</a></li>
-<li><a class="hover:text-white transition-colors" href="#">Nos Certifications</a></li>
-<li><a class="hover:text-white transition-colors" href="#">Espace Professionnel</a></li>
-<li><a class="hover:text-white transition-colors" href="#">Support Technique</a></li>
-</ul>
-</div>
-<div>
-<h4 class="text-white font-bold mb-6">Contact</h4>
-<ul class="space-y-4 text-sm">
-<li class="flex items-start gap-3">
-<span class="material-symbols-outlined text-sm mt-1">location_on</span>
-                            Douala, Akwa - Boulevard de la Liberté
-                        </li>
-<li class="flex items-center gap-3">
-<span class="material-symbols-outlined text-sm">phone</span>
-                            +237 600 00 00 00
-                        </li>
-<li class="flex items-center gap-3">
-<span class="material-symbols-outlined text-sm">mail</span>
-                            contact@simad-pro.cm
-                        </li>
-</ul>
-</div>
-</div>
-<div class="mt-16 pt-8 border-t border-slate-800 text-xs text-center">
-                © 2024 SIMAD Pharma S.A. Tous droits réservés. Design Clinical System.
-            </div>
-</div>
-</footer>
-</body></html>
+{% endblock %}

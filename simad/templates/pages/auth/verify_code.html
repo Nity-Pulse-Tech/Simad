@@ -1,33 +1,17 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html class="light" lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Verify Code | SIMAD.cm</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script src="/static/js/common/toast_manager.js" defer></script>
     <script src="/static/js/common/password-toggle.js" defer></script>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#1a4a89",
-                        "background-light": "#f6f7f8",
-                        "background-dark": "#121820",
-                    },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"],
-                        "body": ["DM Sans", "sans-serif"]
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         body { font-family: 'DM Sans', sans-serif; }
         h1, h2, h3, .font-display { font-family: 'Inter', sans-serif; }
@@ -35,13 +19,13 @@
         input[type=number] { -moz-appearance: textfield; }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center overflow-hidden">
+<body class="bg-background-light text-slate-900 min-h-screen flex items-center justify-center overflow-hidden">
     <div class="flex h-screen w-full flex-col lg:flex-row">
-        <div class="relative hidden lg:flex lg:w-1/2 bg-primary overflow-hidden items-center justify-center">
-            <div class="absolute inset-0 z-0 opacity-40">
+        <div class="relative hidden lg:flex lg:w-1/2 overflow-hidden items-center justify-center bg-slate-900">
+            <div class="absolute inset-0 z-0">
                 <img alt="Verification security" class="h-full w-full object-cover" src="/static/images/img/verify_otp.webp"/>
             </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-transparent z-10"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-slate-900/20 z-10"></div>
             <div class="relative z-20 p-12 text-center">
                 <img src="/static/images/logo/logo.webp" alt="SIMAD Logo" class="h-24 w-auto object-contain mx-auto mb-8 filter drop-shadow-2xl">
                 <h1 class="text-white text-4xl font-black leading-tight tracking-tight mb-4 font-display">Security Verification</h1>
@@ -50,7 +34,7 @@
         </div>
 
         <!-- Right Side: Code Input -->
-        <div class="flex w-full flex-col lg:w-1/2 justify-center px-6 py-12 md:px-12 lg:px-20 bg-white dark:bg-background-dark overflow-y-auto" 
+        <div class="flex w-full flex-col lg:w-1/2 justify-center px-6 py-12 md:px-12 lg:px-20 bg-white overflow-y-auto" 
              x-data="verificationInputs({{ resend_count|default:0 }})">
             <div class="mx-auto w-full max-w-md text-center">
                 <!-- Mobile Header -->
@@ -62,8 +46,8 @@
                     <div class="inline-flex items-center justify-center mb-6">
                         <img src="/static/images/logo/logo.webp" alt="SIMAD Logo" class="h-16 w-auto object-contain">
                     </div>
-                    <h2 class="text-3xl font-black text-slate-900 dark:text-white font-display mb-2">Check your device</h2>
-                    <p class="text-slate-500 dark:text-slate-400">We've sent a 6-digit code to your selected method.</p>
+                    <h2 class="text-3xl font-black text-slate-900 font-display mb-2">Check your device</h2>
+                    <p class="text-slate-500">We've sent a 6-digit code to your selected method.</p>
                 </div>
 
                 <form method="POST" @submit="loading = true">
@@ -81,7 +65,7 @@
                                    @keydown.backspace="handleBackspace($event, index)"
                                    @paste="handlePaste($event)"
                                    :id="'digit-' + index"
-                                   class="w-12 h-16 md:w-14 md:h-20 text-center text-2xl font-black bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none text-slate-900 dark:text-white"
+                                   class="w-12 h-16 md:w-14 md:h-20 text-center text-2xl font-black bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none text-slate-900"
                             />
                         </template>
                     </div>
