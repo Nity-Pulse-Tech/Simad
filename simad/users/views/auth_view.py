@@ -46,7 +46,7 @@ class LoginView(TemplateView):
                 request.session.set_expiry(0)
             
             logger.info(f"User {login_id} logged in successfully.")
-            return redirect('users:redirect')
+            return redirect('core:home')
         else:
             logger.warning(f"Failed login attempt for {login_id}.")
             messages.error(request, "Invalid login credentials.")
@@ -182,11 +182,12 @@ class VerifyCodeView(TemplateView):
             
             logger.info(f"User {email} successfully verified via OTP.")
             messages.success(request, "Account verified successfully!")
-            return redirect('users:redirect')
+            return redirect('core:home')
         else:
             logger.warning(f"Failed verification attempt for {email}. Incorrect code: {entered_code}")
             messages.error(request, "Invalid or expired code.")
             return self.get(request, *args, **kwargs)
+
 class WhatsAppSentView(TemplateView):
     template_name = "pages/auth/whatsapp_sent.html"
 
@@ -222,7 +223,7 @@ class ActivateAccountView(View):
                 del request.session['verification_email']
                 
             messages.success(request, "Account activated successfully! Welcome to SIMAD.")
-            return redirect('users:redirect')
+            return redirect('core:home')
         except User.DoesNotExist:
             messages.error(request, "User not found.")
             return redirect('users:signup')
