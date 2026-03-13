@@ -1,0 +1,38 @@
+{% extends "email/email_base.html" %}
+
+{% block extra_css %}
+.otp-container {
+    background-color: #f1f5f9;
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    margin: 30px 0;
+}
+.otp-code {
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: 8px;
+    color: #1a4a89;
+    margin: 0;
+}
+.expiry-notice {
+    font-size: 13px;
+    color: #ef4444;
+    margin-top: 10px;
+}
+{% endblock %}
+
+{% block content %}
+    <h2 style="margin-top: 0; color: #0f172a;">Verify your identity</h2>
+    <p>Hello,</p>
+    <p>To complete your registration or login on <strong>SIMAD.cm</strong>, please use the following verification code:</p>
+    
+    <div class="otp-container">
+        <div class="otp-code">{{ otp_code }}</div>
+        <div class="expiry-notice">This code will expire in 10 minutes.</div>
+    </div>
+    
+    <p>If you didn't request this code, you can safely ignore this email. Someone may have entered your email address by mistake.</p>
+    
+    <p>Best regards,<br>The SIMAD Team</p>
+{% endblock %}

@@ -8,6 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="/static/js/common/toast_manager.js" defer></script>
+<script src="/static/js/common/password-toggle.js" defer></script>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -90,7 +93,8 @@
   <h2 class="text-2xl font-black text-slate-900 dark:text-white font-display mb-1">Create your account</h2>
   <p class="text-slate-500 dark:text-slate-400 text-sm">Join the platform for professional hygiene management.</p>
 </div>
-<form class="space-y-4">
+<form method="POST" class="space-y-4" x-data="{ loading: false }" @submit="loading = true">
+  {% csrf_token %}
   <!-- Name -->
   <div class="space-y-1.5">
     <label class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400" for="full-name">Full Name</label>
@@ -98,7 +102,7 @@
       <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
         <span class="material-symbols-outlined text-lg">person</span>
       </div>
-      <input class="block w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="full-name" placeholder="John Doe" type="text"/>
+      <input class="block w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="full-name" name="full_name" placeholder="John Doe" type="text" required/>
     </div>
   </div>
 
@@ -109,7 +113,7 @@
       <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
         <img src="/static/images/img/email.webp" class="h-5 w-5 opacity-70 group-focus-within:opacity-100 transition-opacity">
       </div>
-      <input class="block w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="email" placeholder="name@company.com" required="" type="email"/>
+      <input class="block w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="email" name="email" placeholder="name@company.com" required="" type="email"/>
     </div>
   </div>
 
@@ -120,7 +124,7 @@
       <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
         <span class="material-symbols-outlined text-lg">call</span>
       </div>
-      <input class="block w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="phone" name="phone" placeholder="+237 6XX XXX XXX" type="tel"/>
+      <input class="block w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="phone" name="phone_number" placeholder="+237 6XX XXX XXX" type="tel"/>
     </div>
   </div>
   <!-- Password -->
@@ -131,9 +135,6 @@
         <span class="material-symbols-outlined text-lg">lock</span>
       </div>
       <input class="block w-full pl-11 pr-11 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="password" name="password" placeholder="••••••••" required="" type="password"/>
-      <button class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-primary" type="button">
-        <span class="material-symbols-outlined text-lg">visibility</span>
-      </button>
     </div>
   </div>
 
@@ -174,17 +175,51 @@
 <!-- Terms & Submit -->
 <div class="pt-1">
   <label class="flex items-start gap-3 cursor-pointer mb-6">
-    <input class="mt-1 rounded border-slate-300 dark:border-slate-700 text-primary focus:ring-primary h-4 w-4" required="" type="checkbox"/>
+    <input class="mt-1 rounded border-slate-300 dark:border-slate-700 text-primary focus:ring-primary h-4 w-4" required="" type="checkbox" name="terms_accepted"/>
     <span class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
       I agree to the <a class="text-primary hover:underline font-bold" href="#">Terms of Service</a> and <a class="text-primary hover:underline font-bold" href="#">Privacy Policy</a>.
     </span>
   </label>
-  <button class="w-full flex items-center justify-center gap-2 bg-primary text-white py-3 px-6 rounded-xl font-bold text-sm shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all transform active:scale-[0.98]" type="submit">
-    <span>Create Account</span>
-    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+  <button class="w-full flex items-center justify-center gap-2 bg-primary text-white py-3 px-6 rounded-xl font-bold text-sm shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all transform active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed" type="submit" :disabled="loading">
+    <template x-if="!loading">
+      <div class="flex items-center gap-2">
+        <span>Create Account</span>
+        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+      </div>
+    </template>
+    <template x-if="loading">
+      <div class="flex items-center gap-2">
+        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Processing...</span>
+      </div>
+    </template>
   </button>
 </div>
 </form>
+
+<!-- Toast Initialization from Django Messages -->
+{% if messages %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        {% for message in messages %}
+            {% if message.tags %}
+                window.toastManager.buildToast()
+                    .setMessage("{{ message|escapejs }}")
+                    .setType("{{ message.tags }}")
+                    .show();
+            {% else %}
+                window.toastManager.buildToast()
+                    .setMessage("{{ message|escapejs }}")
+                    .show();
+            {% endif %}
+        {% endfor %}
+    });
+</script>
+{% endif %}
+
 <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-4">
   <p class="text-slate-500 dark:text-slate-400 text-xs">Already have an account?</p>
   <a class="inline-flex items-center justify-center px-5 py-1.5 border-2 border-slate-100 dark:border-slate-800 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="/users/login/">

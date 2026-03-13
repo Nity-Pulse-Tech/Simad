@@ -1,3 +1,6 @@
+// Provide a fallback for gettext if not available (e.g. if django js_catalog is not loaded)
+const gettext = window.gettext || ((text) => text);
+
 /**
  * Manages toasts with customizable messages, types, positions, and animation durations.
  * Uses a builder pattern for flexible configuration.

@@ -8,6 +8,8 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="/static/js/common/toast_manager.js" defer></script>
+    <script src="/static/js/common/password-toggle.js" defer></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -64,7 +66,11 @@
                     <p class="text-slate-500 dark:text-slate-400">We've sent a 6-digit code to your selected method.</p>
                 </div>
 
-                <form @submit.prevent="submitCode">
+                <form @submit.prevent="$el.submit()" method="POST">
+                    {% csrf_token %}
+                    <!-- Hidden field to store the concatenated code -->
+                    <input type="hidden" name="code" x-model="code.join('')">
+                    
                     <div class="flex justify-between gap-2 md:gap-4 mb-10">
                         <template x-for="(i, index) in 6" :key="index">
                             <input type="text"
@@ -82,9 +88,23 @@
 
                     <button type="submit" 
                             class="w-full bg-primary text-white py-4 px-6 rounded-xl font-bold text-lg shadow-xl shadow-primary/25 hover:bg-primary/90 transition-all transform active:scale-[0.98] flex items-center justify-center gap-3 disabled:opacity-50"
-                            :disabled="!isComplete">
-                        <span>Verify Account</span>
-                        <span class="material-symbols-outlined text-xl">verified_user</span>
+                            :disabled="!isComplete || loading"
+                            @click="loading = true">
+                        <template x-if="!loading">
+                            <div class="flex items-center gap-3">
+                                <span>Verify Account</span>
+                                <span class="material-symbols-outlined text-xl">verified_user</span>
+                            </div>
+                        </template>
+                        <template x-if="loading">
+                             <div class="flex items-center gap-3">
+                                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span>Verifying...</span>
+                            </div>
+                        </template>
                     </button>
                     
                     <p class="mt-8 text-sm text-slate-500">
@@ -96,10 +116,32 @@
         </div>
     </div>
 
+    <!-- Toast Initialization from Django Messages -->
+    {% if messages %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            {% for message in messages %}
+                console.log("Processing toast message:", "{{ message|escapejs }}");
+                {% if message.tags %}
+                    window.toastManager.buildToast()
+                        .setMessage("{{ message|escapejs }}")
+                        .setType("{{ message.tags }}")
+                        .show();
+                {% else %}
+                    window.toastManager.buildToast()
+                        .setMessage("{{ message|escapejs }}")
+                        .show();
+                {% endif %}
+            {% endfor %}
+        });
+    </script>
+    {% endif %}
+
     <script>
         function verificationInputs() {
             return {
                 code: Array(6).fill(''),
+                loading: false,
                 get isComplete() {
                     return this.code.every(digit => digit !== '' && !isNaN(digit));
                 },

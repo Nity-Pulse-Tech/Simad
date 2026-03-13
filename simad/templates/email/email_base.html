@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ subject }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f6f7f8;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .header {
+            background-color: #1a4a89;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 40px 30px;
+            color: #334155;
+            line-height: 1.6;
+        }
+        .footer {
+            padding: 20px;
+            text-align: center;
+            background-color: #f8fafc;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+        .logo {
+            max-height: 50px;
+            margin-bottom: 10px;
+        }
+        .brand-name {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        /* {% block extra_css %}{% endblock %} */
+    </style>
+</head>
+<body>
+    <div style="padding: 20px 0;">
+        <div class="container">
+            <div class="header">
+                <!-- If we had a base64 logo or a public URL we'd use it here -->
+                <div class="brand-name">SIMAD.cm</div>
+            </div>
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+            <div class="footer">
+                <p>&copy; 2024 SIMAD Industrial Hygiene Cameroun</p>
+                <p>Cameroun, Douala/Yaoundé</p>
+                <p>This is an automated message, please do not reply.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

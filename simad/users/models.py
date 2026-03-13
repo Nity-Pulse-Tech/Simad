@@ -46,6 +46,9 @@ class User(AbstractUser, SIMADBASEMODEL):
     )
     is_email_verified = models.BooleanField(_("Email Verified"), default=False)
     is_phone_verified = models.BooleanField(_("Phone Verified"), default=False)
+    
+    terms_accepted = models.BooleanField(_("Terms Accepted"), default=False)
+    terms_accepted_at = models.DateTimeField(_("Terms Accepted At"), null=True, blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["phone_number"]
