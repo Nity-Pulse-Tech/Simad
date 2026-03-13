@@ -95,7 +95,7 @@
               <span class="material-symbols-outlined text-lg">person</span>
               Mon compte
             </a>
-            <form action="{% url 'account_logout' %}" method="post" class="inline">
+            <form action="{% url 'users:logout' %}" method="post" class="inline">
               {% csrf_token %}
               <button type="submit" class="text-sm font-bold text-slate-400 hover:text-red-500 px-4 py-2.5 transition-colors">
                 Déconnexion

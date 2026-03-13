@@ -1,30 +1,60 @@
 {% load static %}
+
 <!DOCTYPE html>
 
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Sign Up | SIMAD.cm Industrial Hygiene</title>
-
 <!-- Favicons -->
 <link rel="icon" type="image/x-icon" href="{% static 'images/favicons/favicon.ico' %}">
 <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicons/favicon-32x32.png' %}">
 <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicons/favicon-16x16.png' %}">
 
-<!-- Main Compiled CSS -->
-<link rel="stylesheet" href="{% static 'css/output.css' %}">
-
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-<script src="{% static 'js/common/toast_manager.js' %}" defer></script>
-<script src="{% static 'js/common/password-toggle.js' %}" defer></script>
+    <script src="{% static 'js/common/toast_manager.js' %}" defer></script>
+    <script src="{% static 'js/common/password-toggle.js' %}" defer></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1a4a89",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#121820",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["DM Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+        }
+        h1, h2, h3, .font-display {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body class="bg-background dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center">
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center">
 <div class="flex min-h-screen w-full flex-col lg:flex-row">
 <!-- Left Side: Image/Branding -->
 <div class="relative hidden lg:flex lg:w-1/2 bg-primary overflow-hidden items-center justify-center">
 <div class="absolute inset-0 z-0 opacity-40">
-<img alt="Clean laboratory environment" class="h-full w-full object-cover" src="/static/images/img/IMG_2242.webp"/>
+<img alt="Clean laboratory environment" class="h-full w-full object-cover" src="{% static 'images/img/IMG_2242.webp' %}"/>
 </div>
 <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-transparent z-10"></div>
 <div class="relative z-20 p-12 max-w-xl">
@@ -61,7 +91,7 @@
 <div class="mx-auto w-full max-w-lg">
 <!-- Mobile Header -->
 <div class="lg:hidden flex items-center gap-3 mb-8">
-  <img src="/static/images/logo/logo.webp" alt="SIMAD Logo" class="h-10 w-auto object-contain">
+  <img src="{% static 'images/logo/logo.webp' %}" alt="SIMAD Logo" class="h-10 w-auto object-contain">
   <span class="text-slate-900 dark:text-white text-xl font-bold tracking-tight font-display">SIMAD.cm</span>
 </div>
 <div class="mb-6">
@@ -86,7 +116,7 @@
     <label class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400" for="email">Email Address</label>
     <div class="relative group">
       <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-        <img src="/static/images/img/email.webp" class="h-5 w-5 opacity-70 group-focus-within:opacity-100 transition-opacity">
+        <img src="{% static 'images/img/email.webp' %}" class="h-5 w-5 opacity-70 group-focus-within:opacity-100 transition-opacity">
       </div>
       <input class="block w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm" id="email" name="email" placeholder="name@company.com" required="" type="email"/>
     </div>
@@ -130,7 +160,7 @@
     <label class="relative cursor-pointer">
       <input checked="" class="peer sr-only" name="verification" type="radio" value="whatsapp"/>
       <div class="flex items-center gap-3 py-2 px-3 rounded-xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-800 transition-all peer-checked:border-primary peer-checked:bg-primary/5">
-        <img src="/static/images/img/whatsap.webp" class="h-6 w-6 flex-shrink-0">
+        <img src="{% static 'images/img/whatsap.webp' %}" class="h-6 w-6 flex-shrink-0">
         <div class="flex flex-col min-w-0">
           <span class="text-xs font-bold text-slate-900 dark:text-white truncate">WhatsApp</span>
         </div>
@@ -139,7 +169,7 @@
     <label class="relative cursor-pointer">
       <input class="peer sr-only" name="verification" type="radio" value="email"/>
       <div class="flex items-center gap-3 py-2 px-3 rounded-xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-800 transition-all peer-checked:border-primary peer-checked:bg-primary/5">
-        <img src="/static/images/img/email.webp" class="h-6 w-6 flex-shrink-0">
+        <img src="{% static 'images/img/email.webp' %}" class="h-6 w-6 flex-shrink-0">
         <div class="flex flex-col min-w-0">
           <span class="text-xs font-bold text-slate-900 dark:text-white truncate">Email</span>
         </div>

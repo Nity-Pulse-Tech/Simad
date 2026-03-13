@@ -7,6 +7,7 @@ from .views import (
     WhatsAppSentView,
     ActivateAccountView,
     ResendVerificationView,
+    LogoutView,
 )
 
 app_name = "users"
@@ -17,4 +18,5 @@ urlpatterns = [
     path("whatsapp-sent/", view=WhatsAppSentView.as_view(), name="whatsapp-sent"),
     path("activate/<str:token>/", view=ActivateAccountView.as_view(), name="activate-account"),
     path("resend-verification/", view=ResendVerificationView.as_view(), name="resend-verification"),
+    path("logout/", view=LogoutView.as_view(), name="logout"),
 ]

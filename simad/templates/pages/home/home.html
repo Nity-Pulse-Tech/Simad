@@ -1,12 +1,7 @@
-<!DOCTYPE html>
+{% extends 'pages/base.html' %}
 
-<html lang="fr">
-  {% include "pages/home/includes/_head.html" %}
-  
-<body class="text-slate-800">
-<!-- BEGIN: MainHeader -->
-{% include "pages/home/includes/_nav_bar.html" %}
-<!-- END: MainHeader -->
+{% block content %}
+
 <main>
 <!-- BEGIN: HeroSection -->
 {% include "pages/home/partials/hero_section.html" %}
@@ -64,7 +59,4 @@
 </main>
 <!-- BEGIN: Footer -->
 
-  {% include 'pages/home/includes/_footer.html' %}
-
-<!-- END: Footer -->
-</body></html>
+{% endblock %}
