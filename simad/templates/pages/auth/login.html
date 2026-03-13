@@ -167,11 +167,22 @@
 
             if (loginForm && submitBtn) {
                 loginForm.addEventListener('submit', () => {
-                    submitBtn.disabled = true;
+                loginForm.addEventListener('submit', () => {
                     if (btnText) btnText.textContent = 'Connexion...';
                     if (btnSpinner) btnSpinner.classList.remove('hidden');
                 });
             }
         });
     </script>
+    
+    <!-- Delayed Redirect Script -->
+    {% if delayed_redirect_url %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                window.location.href = "{{ delayed_redirect_url|escapejs }}";
+            }, 1500);
+        });
+    </script>
+    {% endif %}
 </body></html>

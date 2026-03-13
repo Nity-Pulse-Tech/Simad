@@ -2,161 +2,257 @@
 {% load static %}
 
 {% block content %}
-<main class="py-12 lg:py-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Progress Tracker -->
+  <div class="mb-10 max-w-2xl mx-auto">
+    <div class="flex items-center justify-between mb-2">
+      <a href="{% url 'core:cart' %}" class="text-primary font-bold text-sm hover:underline">Cart</a>
+      <a href="{% url 'core:order-summary' %}" class="text-primary font-bold text-sm hover:underline">Delivery</a>
+      <span class="text-primary font-bold text-sm">Payment</span>
+    </div>
+    <div class="relative h-2 w-full bg-slate-200 rounded-full overflow-hidden">
+      <div class="absolute top-0 left-0 h-full bg-primary transition-all duration-500" style="width: 100%;"></div>
+    </div>
+    <p class="text-center text-xs text-slate-500 mt-4">Step 3 of 3: Payment Method</p>
+  </div>
+
+  <div class="flex flex-col lg:flex-row gap-8">
     <!-- Left Column: Payment Methods -->
-    <div class="lg:col-span-7 space-y-10">
-      <div>
-        <h2 class="text-4xl font-extrabold text-slate-900 mb-3">Payment Method</h2>
-        <p class="text-slate-500 text-lg">Select how you'd like to pay for your products.</p>
-      </div>
-      <!-- Payment Options Group -->
-      <div class="space-y-6">
-        <div>
-          <h3 class="text-xs font-extrabold uppercase tracking-[0.2em] text-slate-400 mb-4">Mobile Money</h3>
-          <div class="grid gap-4">
-            <!-- MTN MoMo -->
-            <label class="relative block group">
-              <input checked="" class="payment-radio hidden" id="mtn_momo" name="payment_method" type="radio"/>
-              <div class="payment-card relative flex items-center justify-between cursor-pointer rounded-2xl border-2 border-slate-200 p-6 transition-all bg-white hover:border-primary/50">
-                <div class="flex items-center gap-5">
-                  <div class="radio-indicator relative w-6 h-6 rounded-full border-2 border-slate-300 shrink-0"></div>
-                  <div class="w-14 h-14 bg-yellow-400 rounded-xl flex items-center justify-center overflow-hidden shrink-0">
-                    <img alt="MTN MoMo" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdrBISV2a9fqvpUbfu7HDe_EohMHiSvdhU06_MLoEEN2YbCOt4EnXfL7nIEQgaChAsn0nvrNAD0JitmVtzwVDu1Qnt9OcJYsPwnM7G6OXPjLCqFedhgu9AEbnF9sduprCQtJAblmi2OmvJgU7Pb0f-r2TJ8Ocoka9h-uxerYBEaJLnYimXM8PsszuEOrbbLDnv7h4nrYaxDFv3DFzq0rLgvgTmyFIv8DcuFnqVFjHGyTYLFYzRZRw9cuuYG4DWj5ZkYv4b3KlCzlU"/>
-                  </div>
-                  <div>
-                    <p class="font-bold text-lg">MTN Mobile Money</p>
-                    <p class="text-sm text-slate-500">Instant transfer from your wallet</p>
-                  </div>
-                </div>
-                <span class="material-symbols-outlined text-slate-300">check_circle</span>
-              </div>
-              <div class="phone-input-container px-6 mt-4 opacity-100 max-h-40 overflow-hidden transition-all duration-300">
-                <div class="relative">
-                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2" for="mtn_phone">Payment Phone Number</label>
-                  <div class="relative group/input">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 font-bold">+237</div>
-                    <input class="block w-full pl-16 pr-4 py-4 bg-white border-2 border-slate-200 rounded-xl focus:ring-primary focus:border-primary text-lg font-medium transition-all shadow-sm" id="mtn_phone" name="mtn_phone" placeholder="6XX XXX XXX" required="" type="tel"/>
-                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-300 group-focus-within/input:text-primary">
-                      <span class="material-symbols-outlined">phone_iphone</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </label>
-            <!-- Orange Money -->
-            <label class="relative block group">
-              <input class="payment-radio hidden" id="orange_money" name="payment_method" type="radio"/>
-              <div class="payment-card relative flex items-center justify-between cursor-pointer rounded-2xl border-2 border-slate-200 p-6 transition-all bg-white hover:border-primary/50">
-                <div class="flex items-center gap-5">
-                  <div class="radio-indicator relative w-6 h-6 rounded-full border-2 border-slate-300 shrink-0"></div>
-                  <div class="w-14 h-14 bg-orange-500 rounded-xl flex items-center justify-center overflow-hidden shrink-0">
-                    <img alt="Orange Money" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsZB_9O7zaiObYSncbICtW8n4m6aNtrc4KnO9YiUgfNT2FIjc1YjTZVx9qCuKOA4PAAy3LWDb8ky6GdhR557nIHBxJ71Qc6UdJZgrlho45x8DwItQ0AM47hEJM4A3ZpFethfnM8jhJDrfwTLPzFrdeG1L7hsCVT272Nh7ICzhmTU6cW5LPFXNp67ev72VafrSota0MEHtWayDt6hKBCHksYRkfuDKw2qx_1MwCvb5o3gdy0KqnrhnyXlP1U39PG5fULEl1wk5MjS4"/>
-                  </div>
-                  <div>
-                    <p class="font-bold text-lg">Orange Money</p>
-                    <p class="text-sm text-slate-500">Secure Orange wallet payment</p>
-                  </div>
-                </div>
-                <span class="material-symbols-outlined text-slate-300">check_circle</span>
-              </div>
-              <div class="phone-input-container px-6 mt-4 hidden opacity-0 transition-opacity duration-300">
-                <!-- Similar to MTN input, hidden by default -->
-              </div>
-            </label>
-          </div>
+    <div class="flex-1 space-y-6">
+      
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="material-symbols-outlined text-primary">payment</span>
+          <h2 class="text-2xl font-bold">Payment Method</h2>
         </div>
-        <div>
-          <h3 class="text-xs font-extrabold uppercase tracking-[0.2em] text-slate-400 mb-4">Cards & Digital</h3>
-          <!-- Stripe / Credit Card -->
-          <label class="relative block group">
-            <input class="payment-radio hidden" id="card_payment" name="payment_method" type="radio"/>
-            <div class="payment-card relative flex items-center justify-between cursor-pointer rounded-2xl border-2 border-slate-200 p-6 transition-all bg-white hover:border-primary/50">
-              <div class="flex-1 flex items-center gap-5">
-                <div class="radio-indicator relative w-6 h-6 rounded-full border-2 border-slate-300 shrink-0"></div>
-                <div class="w-14 h-14 bg-slate-100 rounded-xl flex items-center justify-center shrink-0">
-                  <span class="material-symbols-outlined text-primary text-3xl">credit_card</span>
-                </div>
-                <div class="flex-1">
-                  <div class="flex items-center justify-between">
-                    <p class="font-bold text-lg">Credit or Debit Card</p>
+        
+        <p class="text-slate-600 mb-6 text-sm">Please select your preferred payment method below.</p>
+
+        <form class="space-y-4" id="payment-form">
+          <!-- MTN MoMo -->
+          <label class="relative block cursor-pointer group">
+            <input type="radio" name="payment_method" value="mtn_momo" class="peer sr-only" checked>
+            <div class="rounded-xl border-2 border-slate-200 p-5 transition-all bg-white hover:border-primary/50 peer-checked:border-primary peer-checked:bg-primary/5">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                  <div class="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center shrink-0">
+                    <span class="font-bold text-black text-xs">MTN</span>
                   </div>
-                  <p class="text-sm text-slate-500">Pay securely with Visa or Mastercard</p>
+                  <div>
+                    <h3 class="font-bold text-slate-900">MTN Mobile Money</h3>
+                    <p class="text-xs text-slate-500">Pay securely directly from your MTN wallet</p>
+                  </div>
+                </div>
+                <!-- Custom Radio Button Circle -->
+                <div class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-colors">
+                  <div class="w-2.5 h-2.5 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition-opacity"></div>
                 </div>
               </div>
-              <div class="flex gap-2 ml-4">
-                <img alt="Visa" class="h-5 opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwYPMV3OyjmWWe4aNsNNWfBVBjzKRz2MmHk7OfyoRYYP3Z4yJjVRB3a54yaZX9lGPSDYeKJJwM8K3b3ph6RqCQdcigOb6-v-lZVrPRSo0mnpwzVeoAqHyR9pOySwHLgWxRDO6TDtU8RY9ar0XcQtV3Xk2ay5sFRXpaUm_hOgkgDO1hOWbcilScX9QFVBgP0DJM01WMCc9DJGDHpVnlO2tUrTsUaNkSKTXSb5RgHMVHsLf2KtmefAqlL8aW4MYgP6DQq-JBBUVpwP8"/>
-                <img alt="Mastercard" class="h-5 opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7P-YKZ2HqfYfeZ_s9s-cs5weAwbKjv7G1BeodcBLX7YglrIkyN80QodmOBwnIhO3y-o3iFZZ-J7mJDQEGMxRJt3C4ZAOub7-Iq6aAIwuuUHHJVYnFgwSaRGdKW1jxk7fIOCd4j6zYEdyViARTdEynKivSYMiAo7AgXZsQOnxXQW4nm_kfjgXOyNc1mlxGa06ghJ1UDUlDCwQRczVNHRlg62DbnRdP17bncTjUhWxHAI7z4eixCUuPZShzs7OLtl5mDQFdqdNXk5w"/>
+              
+              <!-- Phone Input (Only visible when checked) -->
+              <div id="mtn_momo_wrapper" class="phone-wrapper mt-4 hidden animate-fade-in-down">
+                <div class="pt-4 border-t border-slate-200">
+                  <label class="block text-xs font-semibold text-slate-700 mb-2">MTN Phone Number</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500 font-medium">+237</div>
+                    <input type="tel" id="mtn_phone" name="mtn_phone" placeholder="6XX XXX XXX" class="w-full h-11 pl-14 pr-4 rounded-lg border border-slate-300 bg-white text-slate-900 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-sm" required>
+                  </div>
+                </div>
               </div>
             </div>
           </label>
-        </div>
+
+          <!-- Orange Money -->
+          <label class="relative block cursor-pointer group">
+            <input type="radio" name="payment_method" value="orange_money" class="peer sr-only">
+            <div class="rounded-xl border-2 border-slate-200 p-5 transition-all bg-white hover:border-primary/50 peer-checked:border-primary peer-checked:bg-primary/5">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                  <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center shrink-0">
+                    <span class="font-bold text-white text-xs">Orange</span>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-slate-900">Orange Money</h3>
+                    <p class="text-xs text-slate-500">Fast and secure payment via Orange wallet</p>
+                  </div>
+                </div>
+                <!-- Custom Radio Button Circle -->
+                <div class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-colors">
+                  <div class="w-2.5 h-2.5 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+                </div>
+              </div>
+              
+               <div id="orange_money_wrapper" class="phone-wrapper mt-4 hidden animate-fade-in-down">
+                <div class="pt-4 border-t border-slate-200">
+                  <label class="block text-xs font-semibold text-slate-700 mb-2">Orange Phone Number</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500 font-medium">+237</div>
+                    <input type="tel" id="orange_phone" name="orange_phone" placeholder="6XX XXX XXX" class="w-full h-11 pl-14 pr-4 rounded-lg border border-slate-300 bg-white text-slate-900 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-sm">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </label>
+
+          <!-- Credit Card -->
+          <label class="relative block cursor-pointer group">
+            <input type="radio" name="payment_method" value="card" class="peer sr-only">
+            <div class="rounded-xl border-2 border-slate-200 p-5 transition-all bg-white hover:border-primary/50 peer-checked:border-primary peer-checked:bg-primary/5">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                  <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-slate-600">credit_card</span>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-slate-900">Credit or Debit Card</h3>
+                    <p class="text-xs text-slate-500">Visa, Mastercard, etc.</p>
+                  </div>
+                </div>
+                <div class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-colors">
+                  <div class="w-2.5 h-2.5 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+                </div>
+              </div>
+            </div>
+          </label>
+
+          <!-- Cash on Delivery -->
+          <label class="relative block cursor-pointer group">
+            <input type="radio" name="payment_method" value="cod" class="peer sr-only">
+            <div class="rounded-xl border-2 border-slate-200 p-5 transition-all bg-white hover:border-primary/50 peer-checked:border-primary peer-checked:bg-primary/5">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                  <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-green-600">payments</span>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-slate-900">Cash on Delivery</h3>
+                    <p class="text-xs text-slate-500">Pay when your order arrives</p>
+                  </div>
+                </div>
+                <div class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-colors">
+                  <div class="w-2.5 h-2.5 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+                </div>
+              </div>
+            </div>
+          </label>
+        </form>
+      </div>
+      
+      <div class="flex items-center justify-between pt-4">
+        <a href="{% url 'core:order-summary' %}" class="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors font-semibold">
+          <span class="material-symbols-outlined text-base">arrow_back</span>
+          Back to Delivery
+        </a>
       </div>
     </div>
-    <!-- Right Column: Summary & Pay -->
-    <div class="lg:col-span-5">
-      <div class="sticky top-24 bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xl">
-        <div class="p-8">
-          <h4 class="text-xl font-extrabold mb-8 text-slate-900">Order Summary</h4>
-          <div class="space-y-5 mb-8">
-            <div class="flex justify-between items-center text-base">
-              <span class="text-slate-500 font-medium">Order Subtotal</span>
-              <span class="font-bold text-slate-900">34,400 CFA</span>
+
+    <!-- Right Column: Order Summary -->
+    <aside class="w-full lg:w-[400px] shrink-0">
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden sticky top-24">
+        <div class="p-6 border-b border-slate-100">
+          <h3 class="text-lg font-bold">Order Summary</h3>
+          <p class="text-sm text-slate-500 mt-1">3 items in your cart</p>
+        </div>
+        <div class="p-6 space-y-4">
+          <!-- Item 1 -->
+          <div class="flex gap-4">
+            <div class="w-20 h-20 bg-slate-100 rounded-lg overflow-hidden flex-shrink-0">
+              <img class="w-full h-full object-cover" data-alt="SIMAD Product" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEHQfdnbJrXQSs-SCNo7GqOCZzP2aQFHDYfCXP3kvORgCLMjL0W8kysWbPISVwTYtIeSMIgu5zCdrndsE6XZjGqRp45xtVjvZoMPC1q_xNwpLjNFt40G1EXzceasY36D7PQzIWVWjN2o7P5ntz1XBPZM1NsRlNIaK32HSp5kQkZfvT3FEm2FS3412jGSWhKsx7ddJAQW-F7t2fkBmlCKXncoLfJTdP1OJWVpviFp3093-VmYSAdGgToOT2phI8lWRKjAoFPnndZAY"/>
             </div>
-            <div class="flex justify-between items-center text-base">
-              <span class="text-slate-500 font-medium">Processing Fee</span>
-              <span class="font-bold text-slate-900">2,500 CFA</span>
-            </div>
-            <div class="pt-6 border-t border-slate-100 flex justify-between items-end">
+            <div class="flex-1 flex flex-col justify-between">
               <div>
-                <span class="text-xs font-extrabold uppercase tracking-widest text-slate-400">Total Payable</span>
-                <p class="text-3xl font-black text-primary mt-1">43,512 CFA</p>
+                <h4 class="text-sm font-bold text-slate-900 leading-tight">SimaPure Ultra 1L</h4>
+                <p class="text-xs text-slate-500">Qty: 1</p>
               </div>
-              <div class="bg-primary/5 px-2 py-1 rounded text-[10px] font-bold text-primary uppercase tracking-tighter">VAT Included</div>
+              <p class="text-sm font-bold text-primary">9,900 CFA</p>
             </div>
           </div>
-          <button class="w-full bg-primary hover:bg-[#153a6e] text-white font-extrabold py-5 px-8 rounded-xl transition-all flex items-center justify-center gap-3 group shadow-lg shadow-primary/20 active:scale-[0.98]">
-            <span>Complete Payment</span>
-            <span class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
-          </button>
-          <!-- Trust Markers -->
-          <div class="mt-8 pt-8 border-t border-slate-100">
-            <div class="flex items-center justify-center gap-6 mb-6">
-              <div class="flex items-center gap-1.5 text-green-600">
-                <span class="material-symbols-outlined text-lg font-bold">verified_user</span>
-                <span class="text-[11px] font-extrabold uppercase tracking-tight">PCI-DSS Secure</span>
-              </div>
-              <div class="w-px h-4 bg-slate-200"></div>
-              <div class="flex items-center gap-1.5 text-slate-400">
-                <span class="material-symbols-outlined text-lg">encrypted</span>
-                <span class="text-[11px] font-extrabold uppercase tracking-tight">SSL Encrypted</span>
-              </div>
+          
+          <!-- Calculations -->
+          <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 space-y-2 rounded-lg">
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-600">Subtotal</span>
+              <span class="font-semibold text-slate-900">34,400 CFA</span>
             </div>
-            <p class="text-[11px] text-center text-slate-400 leading-relaxed px-4">
-              Your payment details are encrypted and processed securely by authorized financial providers. SIMAD.cm does not store sensitive card information.
-            </p>
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-600">Delivery Cost</span>
+              <span class="font-semibold text-green-600">2,500 CFA</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-600">VAT (19.25%)</span>
+              <span class="font-semibold text-slate-900">6,612 CFA</span>
+            </div>
+            <div class="flex justify-between text-lg font-black pt-2 border-t border-slate-200 text-slate-900">
+              <span>Total</span>
+              <span class="text-primary">43,512 CFA</span>
+            </div>
           </div>
         </div>
+        
+        <div class="px-6 pb-6 text-center">
+          <button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3.5 px-4 rounded-lg transition-all flex items-center justify-center gap-2 shadow-sm mb-4">
+            <span class="material-symbols-outlined text-sm">lock</span>
+            Pay 43,512 CFA
+          </button>
+
+          <div class="flex items-center justify-center gap-2 text-slate-400 mb-2">
+            <span class="material-symbols-outlined text-sm">verified_user</span>
+            <span class="text-[10px] uppercase font-bold tracking-widest">Secure Checkout</span>
+          </div>
+          <p class="text-[10px] text-center text-slate-400">
+            Your payment information is encrypted and secure.
+          </p>
+        </div>
       </div>
-      <!-- Secondary Support Info -->
-      <div class="mt-6 flex items-center justify-center gap-2 text-slate-400 text-sm font-medium">
-        <span class="material-symbols-outlined text-lg">help</span>
-        <span>Need help? <a class="text-primary hover:underline" href="#">Contact support</a></span>
-      </div>
-    </div>
+    </aside>
   </div>
 </main>
+
+<style>
+  /* Custom small animation for the expanding fields */
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in-down {
+    animation: fadeInDown 0.3s ease-out forwards;
+  }
+</style>
 
 <script>
     // Handle input requirement based on selection
     const paymentRadios = document.querySelectorAll('input[name="payment_method"]');
     const mtnInput = document.getElementById('mtn_phone');
+    const orangeInput = document.getElementById('orange_phone');
 
     function updateRequirements() {
-        const selected = document.querySelector('input[name="payment_method"]:checked').id;
-        if (mtnInput) {
-            mtnInput.required = (selected === 'mtn_momo');
+        const checkedEl = document.querySelector('input[name="payment_method"]:checked');
+        if (!checkedEl) return;
+        
+        const selected = checkedEl.value;
+
+        // Hide all phone wrappers
+        document.querySelectorAll('.phone-wrapper').forEach(wrapper => {
+            wrapper.classList.add('hidden');
+        });
+        
+        // Show the active one
+        const activeWrapper = document.getElementById(selected + '_wrapper');
+        if (activeWrapper) {
+            activeWrapper.classList.remove('hidden');
         }
+        
+        if (mtnInput) mtnInput.required = (selected === 'mtn_momo');
+        if (orangeInput) orangeInput.required = (selected === 'orange_money');
+        
+        if (selected !== 'mtn_momo' && mtnInput) mtnInput.value = '';
+        if (selected !== 'orange_money' && orangeInput) orangeInput.value = '';
     }
 
     paymentRadios.forEach(radio => {

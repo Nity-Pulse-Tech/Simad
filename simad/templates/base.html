@@ -137,5 +137,17 @@
     </script>
     {% endcomment %}
   {% endblock inline_javascript %}
+  {% endblock inline_javascript %}
+
+  <!-- Global Delayed Redirect Script -->
+  {% if delayed_redirect_url %}
+  <script>
+      document.addEventListener("DOMContentLoaded", () => {
+          setTimeout(() => {
+              window.location.href = "{{ delayed_redirect_url|escapejs }}";
+          }, 1500);
+      });
+  </script>
+  {% endif %}
 </body>
 </html>

@@ -128,5 +128,16 @@
         });
     </script>
     {% endif %}
+
+    <!-- Delayed Redirect Script -->
+    {% if delayed_redirect_url %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                window.location.href = "{{ delayed_redirect_url|escapejs }}";
+            }, 1500);
+        });
+    </script>
+    {% endif %}
 </body>
 </html>

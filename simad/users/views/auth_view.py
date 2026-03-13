@@ -48,8 +48,7 @@ class LoginView(TemplateView):
                 request.session.set_expiry(0)
             
             logger.info(f"User {login_id} logged in successfully.")
-            time.sleep(1.5)
-            return redirect('core:home')
+            return render(request, self.template_name, {'delayed_redirect_url': reverse('core:home')})
         else:
             logger.warning(f"Failed login attempt for {login_id}.")
             messages.error(request, "Invalid login credentials.")
@@ -142,16 +141,14 @@ class SignupView(TemplateView):
             
             messages.info(request, "A verification link has been sent to your WhatsApp.")
             request.session['verification_email'] = email
-            time.sleep(1.5)
-            return redirect('users:whatsapp-sent')
+            return render(request, self.template_name, {'delayed_redirect_url': reverse('users:whatsapp-sent')})
         
         # Store verification info in session
         request.session['verification_email'] = email
         request.session['verification_method'] = verification_method
         
         messages.success(request, f"Account created! A verification code has been sent to {email}.")
-        time.sleep(1.5)
-        return redirect('users:verify-code')
+        return render(request, self.template_name, {'delayed_redirect_url': reverse('users:verify-code')})
 
 class VerifyCodeView(TemplateView):
     template_name = "pages/auth/verify_code.html"
@@ -188,8 +185,7 @@ class VerifyCodeView(TemplateView):
             
             logger.info(f"User {email} successfully verified via OTP.")
             messages.success(request, "Account verified successfully!")
-            time.sleep(1.5)
-            return redirect('core:home')
+            return render(request, self.template_name, {'delayed_redirect_url': reverse('core:home')})
         else:
             logger.warning(f"Failed verification attempt for {email}. Incorrect code: {entered_code}")
             messages.error(request, "Invalid or expired code.")
@@ -229,7 +225,6 @@ class ActivateAccountView(View):
             request.session.pop('verification_email', None)
                 
             messages.success(request, "Account activated successfully! Welcome to SIMAD.")
-            time.sleep(1.5)
             return redirect('core:home')
         except User.DoesNotExist:
             messages.error(request, "User not found.")
@@ -299,5 +294,4 @@ class LogoutView(View):
         from django.contrib.auth import logout
         logout(request)
         messages.info(request, "Vous avez été déconnecté avec succès.")
-        time.sleep(1.5)
-        return redirect('core:home')
+        return render(request, 'pages/home/home.html', {'delayed_redirect_url': reverse('core:home')})
