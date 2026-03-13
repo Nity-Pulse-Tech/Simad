@@ -10,6 +10,7 @@ from django.views.generic import TemplateView, View
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
+from django.db import transaction
 from ..models import User
 from ..utils import send_whatsapp_verification_link
 
@@ -55,6 +56,7 @@ class LoginView(TemplateView):
 class SignupView(TemplateView):
     template_name = "pages/auth/signup.html"
 
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -178,7 +180,7 @@ class VerifyCodeView(TemplateView):
             
             # Cleanup cache
             cache.delete(cache_key)
-            del request.session['verification_email']
+            request.session.pop('verification_email', None)
             
             logger.info(f"User {email} successfully verified via OTP.")
             messages.success(request, "Account verified successfully!")
@@ -219,8 +221,7 @@ class ActivateAccountView(View):
             
             # Cleanup
             cache.delete(cache_key)
-            if 'verification_email' in request.session:
-                del request.session['verification_email']
+            request.session.pop('verification_email', None)
                 
             messages.success(request, "Account activated successfully! Welcome to SIMAD.")
             return redirect('core:home')
