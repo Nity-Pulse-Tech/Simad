@@ -6,7 +6,8 @@
   x-data="{ 
     activeImage: '{% if product.thumbnail %}{{ product.thumbnail.url }}{% endif %}', 
     activeTab: 'description',
-    quantity: 1
+    quantity: 1,
+    maxStock: {{ product.stock_quantity|default:0 }}
   }" 
   class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
 >
@@ -82,52 +83,62 @@
 </div>
 <h1 class="text-4xl font-black text-slate-900 mb-2 leading-tight">{{ product.name }}</h1>
 <div class="flex items-center gap-4 mb-6">
-<div class="flex items-center gap-1 text-yellow-400">
-<span class="material-symbols-outlined filled text-xl">star</span>
-<span class="material-symbols-outlined filled text-xl">star</span>
-<span class="material-symbols-outlined filled text-xl">star</span>
-<span class="material-symbols-outlined filled text-xl">star</span>
-<span class="material-symbols-outlined filled text-xl">{% if 4.8 > 4.5 %}star{% else %}star_half{% endif %}</span>
+    <div class="flex items-center gap-1 text-yellow-400">
+        <span class="material-symbols-outlined filled text-xl">star</span>
+        <span class="material-symbols-outlined filled text-xl">star</span>
+        <span class="material-symbols-outlined filled text-xl">star</span>
+        <span class="material-symbols-outlined filled text-xl">star</span>
+        <span class="material-symbols-outlined filled text-xl">{% if 4.8 > 4.5 %}star{% else %}star_half{% endif %}</span>
+    </div>
+    <span class="text-slate-500 text-sm font-medium">4.8 ({{ product.reviews.count }} avis clients)</span>
+    <span class="px-3 py-1 rounded-full {% if product.stock_quantity > 0 %}bg-green-50 text-green-600 border border-green-100{% else %}bg-red-50 text-red-600 border border-red-100{% endif %} text-[10px] font-black uppercase tracking-wider">
+      {% if product.stock_quantity > 0 %}En Stock: {{ product.stock_quantity }}{% else %}Rupture de stock{% endif %}
+    </span>
 </div>
-<span class="text-slate-500 text-sm font-medium">4.8 ({{ product.reviews.count }} avis clients)</span>
-</div>
+
 <div class="text-3xl font-black text-primary mb-8">{{ product.price|floatformat:0 }} FCFA</div>
+
 <div class="space-y-6 mb-8">
-<p class="text-slate-600 leading-relaxed">
-    {{ product.short_description }}
-</p>
-<div class="flex flex-col gap-3">
-<h4 class="font-bold text-sm uppercase tracking-wider text-slate-400">Quantité</h4>
-<div class="flex items-center gap-4">
-<div class="flex items-center border border-slate-300 rounded-lg overflow-hidden bg-white">
-<button @click="if(quantity > 1) quantity--" class="px-4 py-2 hover:bg-slate-100 transition-colors">
-<span class="material-symbols-outlined text-sm">remove</span>
-</button>
-<span class="px-6 py-2 font-bold text-lg text-center min-w-[3rem]" x-text="quantity"></span>
-<button @click="quantity++" class="px-4 py-2 hover:bg-slate-100 transition-colors">
-<span class="material-symbols-outlined text-sm">add</span>
-</button>
-</div>
-<button class="flex-1 bg-primary text-white py-3 px-6 rounded-lg font-bold flex items-center justify-center gap-3 hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
-<span class="material-symbols-outlined">shopping_bag</span>
-                                Ajouter au panier
-                            </button>
-</div>
-</div>
-</div>
-<div class="bg-primary/5 rounded-xl p-6 border border-primary/10">
-<div class="flex gap-4 items-start">
-<span class="material-symbols-outlined text-primary">local_shipping</span>
-<div>
-<h5 class="font-bold text-sm">Livraison Rapide</h5>
-<p class="text-sm text-slate-500">Disponible sous 24-48h à Douala et Yaoundé.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
+    <p class="text-slate-600 leading-relaxed">
+        {{ product.short_description }}
+    </p>
+    
+    <div class="flex flex-col gap-3">
+        <h4 class="font-bold text-sm uppercase tracking-wider text-slate-400">Quantité</h4>
+        <div class="flex items-center gap-4">
+            <div class="flex items-center border border-slate-300 rounded-lg overflow-hidden bg-white">
+                <button @click="if(quantity > 1) quantity--" class="px-4 py-2 hover:bg-slate-100 transition-colors">
+                    <span class="material-symbols-outlined text-sm">remove</span>
+                </button>
+                <span class="px-6 py-2 font-bold text-lg text-center min-w-[3rem]" x-text="quantity"></span>
+                <button 
+                    @click="if(quantity < maxStock) quantity++" 
+                    class="px-4 py-2 hover:bg-slate-100 transition-colors"
+                    :class="quantity >= maxStock ? 'opacity-30 cursor-not-allowed' : ''"
+                >
+                    <span class="material-symbols-outlined text-sm">add</span>
+                </button>
+            </div>
+            <button 
+                :disabled="maxStock <= 0"
+                class="flex-1 bg-primary text-white py-3 px-6 rounded-lg font-bold flex items-center justify-center gap-3 hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+                <span class="material-symbols-outlined">shopping_bag</span>
+                Ajouter au panier
+            </button>
+        </div>
+        <p x-show="maxStock > 0" class="text-[10px] text-slate-400 italic">
+            Initialement en stock: {{ product.initial_stock_quantity }} articles.
+        </p>
+    </div>
+    </div>
+</div> <!-- End of Right Column -->
+</div> <!-- End of Main Grid -->
+
+<hr class="border-slate-100 my-16">
+
 <!-- Detailed Info Sections (Stacked) -->
-<div class="mt-20 space-y-24">
+<div class="space-y-32 mb-32">
     <!-- Section: Description & Usage -->
     <section id="description" class="scroll-mt-24">
         <h2 class="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
