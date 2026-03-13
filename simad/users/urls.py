@@ -6,6 +6,7 @@ from .views import (
     user_update_view,
     LoginView,
     SignupView,
+    VerifyCodeView
 )
 
 app_name = "users"
@@ -15,4 +16,5 @@ urlpatterns = [
     path("<int:pk>/", view=user_detail_view, name="detail"),
     path("login/", view=LoginView.as_view(), name="login"),
     path("signup/", view=SignupView.as_view(), name="signup"),
+    path("verify-code/", view=VerifyCodeView.as_view(), name="verify-code"),
 ]

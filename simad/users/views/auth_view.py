@@ -5,3 +5,6 @@ class LoginView(TemplateView):
 
 class SignupView(TemplateView):
     template_name = "pages/auth/signup.html"
+
+class VerifyCodeView(TemplateView):
+    template_name = "pages/auth/verify_code.html"
