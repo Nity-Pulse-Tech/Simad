@@ -66,7 +66,7 @@
                     <p class="text-slate-500 dark:text-slate-400">We've sent a 6-digit code to your selected method.</p>
                 </div>
 
-                <form @submit.prevent="$el.submit()" method="POST">
+                <form method="POST" @submit="loading = true">
                     {% csrf_token %}
                     <!-- Hidden field to store the concatenated code -->
                     <input type="hidden" name="code" x-model="code.join('')">
@@ -88,8 +88,7 @@
 
                     <button type="submit" 
                             class="w-full bg-primary text-white py-4 px-6 rounded-xl font-bold text-lg shadow-xl shadow-primary/25 hover:bg-primary/90 transition-all transform active:scale-[0.98] flex items-center justify-center gap-3 disabled:opacity-50"
-                            :disabled="!isComplete || loading"
-                            @click="loading = true">
+                            :disabled="!isComplete || loading">
                         <template x-if="!loading">
                             <div class="flex items-center gap-3">
                                 <span>Verify Account</span>
@@ -113,37 +112,36 @@
                             <span class="text-slate-400 ml-1">Resend in <span x-text="timer"></span>s</span>
                         </template>
                         <template x-if="canResend">
-                            <button type="button" @click="resend()" class="text-primary font-bold hover:underline ml-1">Resend code</button>
+                            <button type="button" @click="resend()" class="text-primary font-bold hover:underline ml-1 disabled:opacity-50" :disabled="loading">
+                                <span x-show="!loading">Resend code</span>
+                                <span x-show="loading">Sending...</span>
+                            </button>
                         </template>
                     </p>
-                    <form x-ref="resendForm" action="{% url 'users:resend-verification' %}" method="POST" class="hidden">
-                        {% csrf_token %}
-                    </form>
+                </form>
+
+                <form x-ref="resendForm" action="{% url 'users:resend-verification' %}" method="POST" class="hidden">
+                    {% csrf_token %}
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Toast Initialization from Django Messages -->
-    {% if messages %}
+    <!-- Toast Initialization and Form Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            {% if messages %}
             {% for message in messages %}
-                console.log("Processing toast message:", "{{ message|escapejs }}");
-                {% if message.tags %}
+                if (window.toastManager) {
                     window.toastManager.buildToast()
                         .setMessage("{{ message|escapejs }}")
-                        .setType("{{ message.tags }}")
+                        .setType("{{ message.tags|default:'info' }}")
                         .show();
-                {% else %}
-                    window.toastManager.buildToast()
-                        .setMessage("{{ message|escapejs }}")
-                        .show();
-                {% endif %}
+                }
             {% endfor %}
+            {% endif %}
         });
     </script>
-    {% endif %}
 
     <script>
         function verificationInputs(resendCount = 0) {
@@ -163,6 +161,7 @@
                     }, 1000);
                 },
                 resend() {
+                    this.loading = true;
                     this.$refs.resendForm.submit();
                 },
                 get isComplete() {

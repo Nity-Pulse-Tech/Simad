@@ -51,7 +51,8 @@
         <!-- Right Side: Content -->
         <div class="flex w-full flex-col lg:w-1/2 justify-center px-6 py-12 md:px-12 lg:px-20 bg-white dark:bg-background-dark overflow-y-auto"
              x-data="{ 
-                timer: {{ resend_count }} == 0 ? 60 : 120, 
+                loading: false,
+                timer: {{ resend_count|default:0 }} == 0 ? 60 : 120, 
                 canResend: false,
                 init() {
                     let interval = setInterval(() => {
@@ -118,9 +119,12 @@
                                 <span class="text-slate-400 ml-1">Resend in <span x-text="timer"></span>s</span>
                             </template>
                             <template x-if="canResend">
-                                <form action="{% url 'users:resend-verification' %}" method="POST" class="inline">
+                                <form action="{% url 'users:resend-verification' %}" method="POST" class="inline" @submit="loading = true">
                                     {% csrf_token %}
-                                    <button type="submit" class="text-primary font-bold hover:underline ml-1">Resend link</button>
+                                    <button type="submit" class="text-primary font-bold hover:underline ml-1 disabled:opacity-50" :disabled="loading">
+                                        <span x-show="!loading">Resend link</span>
+                                        <span x-show="loading">Sending...</span>
+                                    </button>
                                 </form>
                             </template>
                         </p>
