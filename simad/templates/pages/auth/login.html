@@ -48,6 +48,8 @@
       outline: none !important;
     }
   </style>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="/static/js/common/toast_manager.js" defer></script>
 </head>
 <body class="bg-gray-50 flex items-center justify-center min-h-screen">
 <main class="w-full h-screen flex overflow-hidden" data-purpose="split-screen-container">
@@ -93,14 +95,14 @@
 </header>
 <!-- Login Form -->
 <form action="#" class="space-y-6" data-purpose="auth-form" method="POST">
-<!-- Email Field -->
+<!-- Login Identifier (Email or Phone) -->
 <div>
-  <label class="block text-sm font-semibold text-gray-700 mb-1" for="email">Adresse Email</label>
+  <label class="block text-sm font-semibold text-gray-700 mb-1" for="login">Adresse Email ou Numéro de téléphone</label>
   <div class="relative group">
     <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-      <img src="/static/images/img/email.webp" class="h-5 w-5 opacity-70 group-focus-within:opacity-100 transition-opacity">
+      <span class="material-symbols-outlined text-gray-400 group-focus-within:text-simad-primary transition-colors">person</span>
     </div>
-    <input class="block w-full pl-12 pr-4 py-3 rounded-xl border-gray-200 bg-gray-50/50 shadow-sm focus:ring-4 focus:ring-simad-primary/10 focus:border-simad-primary sm:text-sm transition-all outline-none" id="email" name="email" placeholder="nom@entreprise.com" required="" type="email"/>
+    <input class="block w-full pl-12 pr-4 py-3 rounded-xl border-gray-200 bg-gray-50/50 shadow-sm focus:ring-4 focus:ring-simad-primary/10 focus:border-simad-primary sm:text-sm transition-all outline-none" id="login" name="login" placeholder="Email ou +237..." required="" type="text"/>
   </div>
 </div>
 <!-- Password Field -->
@@ -162,4 +164,17 @@
 </section>
 <!-- END: Right Login Form Side -->
 </main>
+    <!-- Toast Initialization from Django Messages -->
+    {% if messages %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            {% for message in messages %}
+                window.toastManager.buildToast()
+                    .setMessage("{{ message|escapejs }}")
+                    .setType("{{ message.tags|default:"info" }}")
+                    .show();
+            {% endfor %}
+        });
+    </script>
+    {% endif %}
 </body></html>

@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, View
 from django.urls import reverse_lazy, reverse
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from ..models import User
 from ..utils import send_whatsapp_verification_link
@@ -17,6 +17,40 @@ logger = logging.getLogger(__name__)
 
 class LoginView(TemplateView):
     template_name = "pages/auth/login.html"
+
+    def post(self, request, *args, **kwargs):
+        login_id = request.POST.get('login')
+        password = request.POST.get('password')
+        remember_me = request.POST.get('remember-me') == 'on'
+
+        if not login_id or not password:
+            messages.error(request, "Please enter both login identifier and password.")
+            return self.get(request, *args, **kwargs)
+
+        from django.contrib.auth import authenticate, login
+        user = authenticate(request, username=login_id, password=password)
+
+        if user:
+            if not user.is_active:
+                messages.error(request, "Your account is not active. Please verify your email or phone number.")
+                request.session['verification_email'] = user.email
+                if user.is_phone_verified: # Simple logic to guess method
+                     request.session['verification_method'] = 'whatsapp'
+                     return redirect('users:whatsapp-sent')
+                else:
+                     request.session['verification_method'] = 'email'
+                     return redirect('users:verify-code')
+
+            login(request, user, backend='simad.users.backends.MultiMethodBackend')
+            if not remember_me:
+                request.session.set_expiry(0)
+            
+            logger.info(f"User {login_id} logged in successfully.")
+            return redirect('users:redirect')
+        else:
+            logger.warning(f"Failed login attempt for {login_id}.")
+            messages.error(request, "Invalid login credentials.")
+            return self.get(request, *args, **kwargs)
 
 class SignupView(TemplateView):
     template_name = "pages/auth/signup.html"
@@ -106,8 +140,9 @@ class SignupView(TemplateView):
             request.session['verification_email'] = email
             return redirect('users:whatsapp-sent')
         
-        # Store email in session to know who we are verifying
+        # Store verification info in session
         request.session['verification_email'] = email
+        request.session['verification_method'] = verification_method
         
         messages.success(request, f"Account created! A verification code has been sent to {email}.")
         return redirect('users:verify-code')
@@ -213,13 +248,8 @@ class ResendVerificationView(View):
             
         resend_count = cache.get(count_key, 0)
         
-        # Determine verification method (we could store this in session too)
-        # For now, if they are on whatsapp-sent, it's whatsapp.
-        # Otherwise, if they are on verify-code, it's email.
-        # Let's check session record or referrer
-        verification_method = 'email'
-        if 'whatsapp' in request.META.get('HTTP_REFERER', ''):
-            verification_method = 'whatsapp'
+        # Determine verification method from session
+        verification_method = request.session.get('verification_method', 'email')
             
         if verification_method == 'email':
             # Regenerate OTP
