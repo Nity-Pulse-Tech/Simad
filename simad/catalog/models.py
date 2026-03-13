@@ -80,7 +80,8 @@ class Product(SIMADBASEMODEL):
         choices=UnitOfMeasureChoices.choices,
         default=UnitOfMeasureChoices.PIECE,
     )
-    stock_quantity = models.PositiveIntegerField(_("Stock Quantity"), default=0)
+    initial_stock_quantity = models.PositiveIntegerField(_("Initial Stock Quantity"), default=0)
+    stock_quantity = models.PositiveIntegerField(_("Current Stock Quantity"), default=0)
     low_stock_threshold = models.PositiveIntegerField(
         _("Low Stock Threshold"), default=5
     )

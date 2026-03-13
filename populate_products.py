@@ -126,8 +126,8 @@ def populate_database():
         # Determine main image
         img_path = str(available_images[i % len(available_images)])
         
-        # Check if product already exists to avoid duplication if script is run multiple times
-        product, created = Product.objects.get_or_create(
+        # Update or create to apply inventory changes to existing products
+        product, created = Product.objects.update_or_create(
             name=product_name,
             defaults={
                 "slug": f"produit-sima-{i}-{slugify(product_name)}",
@@ -136,6 +136,7 @@ def populate_database():
                 "short_description": short_desc,
                 "sku": f"SIMA-PROD-{i:03d}",
                 "price": random.randint(15, 85) * 1000,
+                "initial_stock_quantity": random.randint(100, 200),
                 "stock_quantity": random.randint(10, 100),
                 "clinical_notes": clinical_notes_str,
                 "usage_instructions": usage_instructions_template,

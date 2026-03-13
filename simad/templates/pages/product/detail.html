@@ -2,7 +2,14 @@
 {% extends 'pages/base.html' %}
 
 {% block content %}
-<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<main 
+  x-data="{ 
+    activeImage: '{% if product.thumbnail %}{{ product.thumbnail.url }}{% endif %}', 
+    activeTab: 'description',
+    quantity: 1
+  }" 
+  class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+>
 <!-- Breadcrumbs -->
 <nav class="flex items-center gap-2 text-sm text-slate-600 mb-8">
 <a class="hover:text-primary transition-colors" href="{% url 'core:home' %}">Accueil</a>
@@ -11,35 +18,61 @@
 <span class="material-symbols-outlined text-xs text-slate-400">chevron_right</span>
 <span class="text-slate-900 font-bold">{{ product.name }}</span>
 </nav>
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<div class="grid grid-cols-1 lg:grid-cols-11 gap-12">
 <!-- Left: Image Gallery -->
-<div class="lg:col-span-7 flex flex-col gap-4">
-<div class="aspect-square bg-white rounded-xl overflow-hidden border border-slate-300 shadow-sm relative group">
-{% if product.thumbnail %}
-<img loading="lazy" class="w-full h-full object-cover" data-alt="{{ product.name }}" src="{{ product.thumbnail.url }}"/>
-{% else %}
-<div class="w-full h-full flex items-center justify-center bg-slate-200 text-slate-400">
-    <span class="material-symbols-outlined text-6xl">image</span>
-</div>
-{% endif %}
-<button class="absolute top-4 right-4 p-2 bg-white/90 rounded-full shadow-md text-slate-600 hover:text-red-500 transition-colors">
-<span class="material-symbols-outlined">favorite</span>
-</button>
-</div>
-<div class="grid grid-cols-4 gap-4">
-{% for image in product.images.all %}
-{% if forloop.counter <= 4 %}
-<div class="aspect-square rounded-lg border {% if forloop.first %}border-2 border-primary{% else %}border-slate-300 opacity-70 hover:opacity-100{% endif %} overflow-hidden cursor-pointer transition-opacity">
-<img loading="lazy" class="w-full h-full object-cover" data-alt="{{ image.alt_text }}" src="{{ image.image.url }}"/>
-</div>
-{% endif %}
-{% endfor %}
-{% if product.videos.exists %}
-<div class="aspect-square rounded-lg border border-slate-300 overflow-hidden cursor-pointer opacity-70 hover:opacity-100 transition-opacity flex items-center justify-center bg-slate-100">
-<span class="material-symbols-outlined text-3xl text-slate-400">play_circle</span>
-</div>
-{% endif %}
-</div>
+<div class="lg:col-span-6 flex flex-col gap-4">
+    <!-- Main Image -->
+    <div class="aspect-[4/3] max-h-[500px] bg-white rounded-xl overflow-hidden border border-slate-300 shadow-sm relative group">
+        {% if product.thumbnail %}
+        <img 
+            loading="lazy" 
+            class="w-full h-full object-contain transition-all duration-500 bg-slate-50" 
+            :src="activeImage" 
+            data-alt="{{ product.name }}"
+        />
+        {% else %}
+        <div class="w-full h-full flex items-center justify-center bg-slate-200 text-slate-400">
+            <span class="material-symbols-outlined text-6xl">image</span>
+        </div>
+        {% endif %}
+        <button class="absolute top-4 right-4 p-2 bg-white/90 rounded-full shadow-md text-slate-600 hover:text-red-500 transition-colors">
+            <span class="material-symbols-outlined">favorite</span>
+        </button>
+    </div>
+
+    <!-- Thumbnails Gallery - Scrollable without visible scrollbar -->
+    <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide snap-x" style="-ms-overflow-style: none; scrollbar-width: none;">
+        <style>
+            .scrollbar-hide::-webkit-scrollbar { display: none; }
+        </style>
+        <!-- Main Thumbnail -->
+        {% if product.thumbnail %}
+        <div 
+            @click="activeImage = '{{ product.thumbnail.url }}'"
+            class="flex-shrink-0 w-20 aspect-square rounded-lg border-2 cursor-pointer transition-all snap-start overflow-hidden"
+            :class="activeImage === '{{ product.thumbnail.url }}' ? 'border-primary ring-2 ring-primary/20' : 'border-slate-300 opacity-70 hover:opacity-100'"
+        >
+            <img src="{{ product.thumbnail.url }}" class="w-full h-full object-cover"/>
+        </div>
+        {% endif %}
+
+        <!-- Other Images -->
+        {% for image in product.images.all %}
+        <div 
+            @click="activeImage = '{{ image.image.url }}'"
+            class="flex-shrink-0 w-20 aspect-square rounded-lg border-2 cursor-pointer transition-all snap-start overflow-hidden"
+            :class="activeImage === '{{ image.image.url }}' ? 'border-primary ring-2 ring-primary/20' : 'border-slate-300 opacity-70 hover:opacity-100'"
+        >
+            <img loading="lazy" class="w-full h-full object-cover" src="{{ image.image.url }}"/>
+        </div>
+        {% endfor %}
+
+        {% if product.videos.exists %}
+        <div class="flex-shrink-0 w-20 aspect-square rounded-lg border-2 border-slate-300 overflow-hidden cursor-pointer opacity-70 hover:opacity-100 transition-opacity flex items-center justify-center bg-slate-100 snap-start">
+            <span class="material-symbols-outlined text-3xl text-slate-400">play_circle</span>
+        </div>
+        {% endif %}
+    </div>
 </div>
 <!-- Right: Product Info -->
 <div class="lg:col-span-5 flex flex-col">
@@ -67,11 +100,11 @@
 <h4 class="font-bold text-sm uppercase tracking-wider text-slate-400">Quantité</h4>
 <div class="flex items-center gap-4">
 <div class="flex items-center border border-slate-300 rounded-lg overflow-hidden bg-white">
-<button class="px-4 py-2 hover:bg-slate-100 transition-colors">
+<button @click="if(quantity > 1) quantity--" class="px-4 py-2 hover:bg-slate-100 transition-colors">
 <span class="material-symbols-outlined text-sm">remove</span>
 </button>
-<span class="px-6 py-2 font-bold text-lg">1</span>
-<button class="px-4 py-2 hover:bg-slate-100 transition-colors">
+<span class="px-6 py-2 font-bold text-lg text-center min-w-[3rem]" x-text="quantity"></span>
+<button @click="quantity++" class="px-4 py-2 hover:bg-slate-100 transition-colors">
 <span class="material-symbols-outlined text-sm">add</span>
 </button>
 </div>
@@ -93,58 +126,132 @@
 </div>
 </div>
 </div>
-<!-- Detailed Tabs / Info Sections -->
-<div class="mt-20">
-<div class="border-b border-slate-300 flex gap-12 mb-8 overflow-x-auto whitespace-nowrap">
-<button class="pb-4 border-b-2 border-primary font-bold text-primary">Description &amp; Utilisation</button>
-<button class="pb-4 text-slate-500 font-medium hover:text-slate-700 transition-colors">Fiche Technique</button>
-<button class="pb-4 text-slate-500 font-medium hover:text-slate-700 transition-colors">Avis ({{ product.reviews.count }})</button>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
-<div class="space-y-8">
-<section>
-<h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900">
-<span class="material-symbols-outlined text-accent-green">clinical_notes</span>
-                            Usage Instructions
-                        </h3>
-<ul class="space-y-3 text-slate-600">
-{% for instruction in product.usage_instructions %}
-<li class="flex items-start gap-3">
-<span class="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
-                                {{ instruction.text }}
-                            </li>
-{% endfor %}
-</ul>
-</section>
-<section>
-<h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900">
-<span class="material-symbols-outlined text-accent-green">warning</span>
-                            Précautions
-                        </h3>
-<p class="text-sm text-slate-500 leading-relaxed italic border-l-4 border-yellow-500 pl-4">
-                            {{ product.precautions }}
-                        </p>
-</section>
-</div>
-<div>
-<h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-slate-900">
-<span class="material-symbols-outlined text-accent-green">assignment</span>
-                        Technical Details
+<!-- Detailed Info Sections (Stacked) -->
+<div class="mt-20 space-y-24">
+    <!-- Section: Description & Usage -->
+    <section id="description" class="scroll-mt-24">
+        <h2 class="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
+            <span class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+                <span class="material-symbols-outlined text-xl">description</span>
+            </span>
+            Description &amp; Utilisation
+        </h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div class="space-y-8">
+                <section>
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900 border-l-4 border-accent-green pl-4">
+                        Conseils d'utilisation
                     </h3>
-<div class="rounded-xl border border-slate-300 overflow-hidden shadow-sm">
-<table class="w-full text-left border-collapse">
-<tbody>
-{% for key, value in product.technical_details.items %}
-<tr class="{% if not forloop.last %}border-b border-slate-200{% endif %}">
-<td class="px-6 py-4 font-semibold bg-slate-50 w-1/3 text-slate-500">{{ key }}</td>
-<td class="px-6 py-4">{{ value }}</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-</div>
-</div>
-</div>
+                    <ul class="space-y-4 text-slate-600">
+                        {% for instruction in product.usage_instructions %}
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
+                            {{ instruction.text }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+                <section>
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900 border-l-4 border-yellow-500 pl-4">
+                        Précautions
+                    </h3>
+                    <p class="text-sm text-slate-500 leading-relaxed italic">
+                        {{ product.precautions }}
+                    </p>
+                </section>
+            </div>
+            <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200">
+                <p class="text-slate-600 leading-huge">
+                    {{ product.description }}
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Fiche Technique -->
+    <section id="tech" class="scroll-mt-24 pt-12 border-t border-slate-200">
+        <h2 class="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
+            <span class="w-8 h-8 rounded-lg bg-accent-green/10 text-accent-green flex items-center justify-center">
+                <span class="material-symbols-outlined text-xl">assignment</span>
+            </span>
+            Fiche Technique
+        </h2>
+        <div class="max-w-4xl">
+            <div class="rounded-xl border border-slate-300 overflow-hidden shadow-sm bg-white">
+                <table class="w-full text-left border-collapse">
+                    <tbody>
+                        {% for key, value in product.technical_details.items %}
+                        <tr class="{% if not forloop.last %}border-b border-slate-200{% endif %}">
+                            <td class="px-6 py-4 font-semibold bg-slate-50 w-1/3 text-slate-500">{{ key }}</td>
+                            <td class="px-6 py-4">{{ value }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Avis -->
+    <section id="reviews" class="scroll-mt-24 pt-12 border-t border-slate-200">
+        <h2 class="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
+            <span class="w-8 h-8 rounded-lg bg-yellow-400/10 text-yellow-500 flex items-center justify-center">
+                <span class="material-symbols-outlined text-xl">grade</span>
+            </span>
+            Avis Clients ({{ product.reviews.count }})
+        </h2>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+            <div class="lg:col-span-4">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm sticky top-32">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="text-5xl font-black text-primary">4.8</div>
+                        <div class="flex flex-col">
+                            <div class="flex text-yellow-400">
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                            </div>
+                            <span class="text-sm text-slate-500 font-medium">Basé sur {{ product.reviews.count }} avis</span>
+                        </div>
+                    </div>
+                    <button class="w-full py-3 px-6 rounded-lg border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-all">
+                        Rédiger un avis
+                    </button>
+                </div>
+            </div>
+            <div class="lg:col-span-8 space-y-10">
+                {% for review in product.reviews.all %}
+                <div class="border-b border-slate-200 pb-8 last:border-0">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600">
+                                {% if review.reviewer_name %}
+                                    {{ review.reviewer_name|slice:":2"|upper }}
+                                {% else %}
+                                    U
+                                {% endif %}
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">{% if review.reviewer_name %}{{ review.reviewer_name }}{% else %}Utilisateur{% endif %}</h4>
+                                <span class="text-xs text-slate-400">Client Vérifié • il y a {{ review.created|timesince }}</span>
+                            </div>
+                        </div>
+                        <div class="flex text-yellow-400">
+                            {% for i in "12345" %}
+                            <span class="material-symbols-outlined filled text-sm">{% if forloop.counter <= review.rating %}star{% else %}star_outline{% endif %}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed italic">{{ review.body }}</p>
+                </div>
+                {% empty %}
+                <p class="text-slate-500 italic">Aucun avis pour le moment.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 </div>
 <!-- Related Products Section -->
 <div class="mt-32">
@@ -179,105 +286,6 @@
 </div>
 </div>
 {% endfor %}
-</div>
-</div>
-<!-- Customer Reviews Section -->
-<div class="mt-32 border-t border-slate-300 pt-20 pb-32">
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
-<div class="lg:col-span-4">
-<h2 class="text-3xl font-black mb-4 text-slate-900">Avis Clients</h2>
-<div class="flex items-center gap-4 mb-6">
-<div class="text-5xl font-black text-primary">4.8</div>
-<div class="flex flex-col">
-<div class="flex text-yellow-400">
-<span class="material-symbols-outlined filled">star</span>
-<span class="material-symbols-outlined filled">star</span>
-<span class="material-symbols-outlined filled">star</span>
-<span class="material-symbols-outlined filled">star</span>
-<span class="material-symbols-outlined filled">star</span>
-</div>
-<span class="text-sm text-slate-500 font-medium">Basé sur 124 avis</span>
-</div>
-</div>
-<!-- Rating bars -->
-<div class="space-y-3">
-<div class="flex items-center gap-3">
-<span class="text-sm font-medium w-3">5</span>
-<div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
-<div class="h-full bg-primary" style="width: 85%"></div>
-</div>
-<span class="text-sm text-slate-400 w-10">85%</span>
-</div>
-<div class="flex items-center gap-3">
-<span class="text-sm font-medium w-3">4</span>
-<div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
-<div class="h-full bg-primary" style="width: 10%"></div>
-</div>
-<span class="text-sm text-slate-400 w-10">10%</span>
-</div>
-<div class="flex items-center gap-3">
-<span class="text-sm font-medium w-3">3</span>
-<div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
-<div class="h-full bg-primary" style="width: 3%"></div>
-</div>
-<span class="text-sm text-slate-400 w-10">3%</span>
-</div>
-<div class="flex items-center gap-3">
-<span class="text-sm font-medium w-3">2</span>
-<div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
-<div class="h-full bg-primary" style="width: 1%"></div>
-</div>
-<span class="text-sm text-slate-400 w-10">1%</span>
-</div>
-<div class="flex items-center gap-3">
-<span class="text-sm font-medium w-3">1</span>
-<div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
-<div class="h-full bg-primary" style="width: 1%"></div>
-</div>
-<span class="text-sm text-slate-400 w-10">1%</span>
-</div>
-</div>
-<button class="mt-8 w-full py-3 px-6 rounded-lg border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-all">
-                        Rédiger un avis
-                    </button>
-</div>
-<div class="lg:col-span-8 space-y-10">
-{% for review in product.reviews.all %}
-<!-- Review {{ forloop.counter }} -->
-<div class="border-b border-slate-200 pb-8">
-<div class="flex items-center justify-between mb-4">
-<div class="flex items-center gap-3">
-<div class="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600">
-    {% if review.reviewer_name %}
-        {{ review.reviewer_name|slice:":2"|upper }}
-    {% elif review.user %}
-        {{ review.user.get_full_name|slice:":2"|upper }}
-    {% else %}
-        AN
-    {% endif %}
-</div>
-<div>
-<h4 class="font-bold text-slate-900">{% if review.reviewer_name %}{{ review.reviewer_name }}{% else %}{{ review.user.get_full_name }}{% endif %}</h4>
-<span class="text-xs text-slate-400">Client Vérifié • il y a {{ review.created|timesince }}</span>
-</div>
-</div>
-<div class="flex text-yellow-400">
-{% for i in "12345" %}
-<span class="material-symbols-outlined filled text-sm">{% if forloop.counter <= review.rating %}star{% else %}star_outline{% endif %}</span>
-{% endfor %}
-</div>
-</div>
-<p class="text-slate-600 leading-relaxed">
-    {{ review.body }}
-</p>
-</div>
-{% endfor %}
-{% if product.reviews.count > 5 %}
-<button class="flex items-center gap-2 text-primary font-bold hover:underline">
-                        Lire plus d'avis <span class="material-symbols-outlined">expand_more</span>
-</button>
-{% endif %}
-</div>
 </div>
 </div>
 </main>
