@@ -6,8 +6,8 @@
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <!-- Product Card Template (Repeated for 12 items) -->
-      {% for i in "123456789012" %}
+      <!-- Product Card Template (Repeated for items in database) -->
+      {% for product in products %}
       <div 
         x-data="{ isFavorite: false, hovered: false }" 
         @mouseenter="hovered = true" 
@@ -15,15 +15,21 @@
         class="group relative bg-white rounded-2xl p-2 shadow-sm border border-slate-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/5 overflow-hidden flex flex-col h-full opacity-0 product-card-reveal"
       >
         <!-- Image Container -->
-        <div class="relative overflow-hidden rounded-xl bg-slate-50 aspect-[4/3]">
+        <a href="{% url 'core:product-detail' product.slug %}" class="relative overflow-hidden rounded-xl bg-slate-50 aspect-[4/3] block">
+          {% if product.thumbnail %}
           <img 
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJvKr_ehA7k9LLuREG1tWFKO0RL2Rcx2pDzMx0vfo4uqdpTjA_GvrDitLHVozegqHxgkCuNngri60kB_tnL8Qq-_dQW56sndLYYpMmQn3Z-vWQZ7AC9oAbYTHsRGQBXvDo4kUpynKje6-TwNuOq94GOK7GdEHcdUR3wdvATNGxWKHEzB5FeyFARZ7anNOpzQKDsV2WoGMsjYe4uOlcFPo1tEF8FtfS580gnqTeyGMnteVLLDN0Z9Dtag66MYad9oFOXd8e71_98OE" 
-            alt="Produit SIMAD" 
+            src="{{ product.thumbnail.url }}" 
+            alt="{{ product.name }}" 
             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           >
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center bg-slate-200 text-slate-400">
+            <span class="material-symbols-outlined text-4xl">image</span>
+          </div>
+          {% endif %}
           <!-- Wishlist Badge -->
           <button 
-            @click="isFavorite = !isFavorite"
+            @click.prevent="isFavorite = !isFavorite"
             class="absolute top-2 right-2 h-9 w-9 rounded-xl flex items-center justify-center transition-all duration-300 backdrop-blur-md"
             :class="isFavorite ? 'bg-red-50 text-red-500' : 'bg-white/90 text-slate-400 hover:text-red-500 hover:bg-white'"
           >
@@ -31,21 +37,25 @@
               favorite
             </span>
           </button>
-        </div>
+        </a>
 
         <!-- Content -->
         <div class="p-4 flex flex-col flex-grow">
           <div class="mb-2">
-            <span class="inline-block px-2 py-0.5 rounded-full bg-blue-50 text-primary text-[9px] font-black uppercase tracking-widest mb-1.5">Industriel</span>
-            <h3 class="font-heading font-black text-base text-slate-900 group-hover:text-primary transition-colors leading-tight line-clamp-1">Désinfectant Pro</h3>
+            {% if product.category %}
+            <span class="inline-block px-2 py-0.5 rounded-full bg-blue-50 text-primary text-[9px] font-black uppercase tracking-widest mb-1.5">{{ product.category.name }}</span>
+            {% endif %}
+            <a href="{% url 'core:product-detail' product.slug %}">
+              <h3 class="font-heading font-black text-base text-slate-900 group-hover:text-primary transition-colors leading-tight line-clamp-1">{{ product.name }}</h3>
+            </a>
           </div>
           
           <!-- Short Description -->
-          <p class="text-slate-500 text-[11px] leading-relaxed mb-4 line-clamp-2">Élimine 99.9% des bactéries et virus. Formule concentrée.</p>
+          <p class="text-slate-500 text-[11px] leading-relaxed mb-4 line-clamp-2">{{ product.short_description }}</p>
 
           <div class="mt-auto flex items-center justify-between gap-3 pt-3 border-t border-slate-50">
             <div class="flex flex-col">
-              <span class="text-primary font-black text-base tracking-tighter">12.500 <small class="text-[9px] text-slate-400">FCFA</small></span>
+              <span class="text-primary font-black text-base tracking-tighter">{{ product.price|floatformat:0 }} <small class="text-[9px] text-slate-400">FCFA</small></span>
             </div>
 
             <button class="flex-grow bg-primary text-white py-1.5 rounded-xl font-bold text-[9px] flex items-center justify-center gap-1 shadow-lg shadow-primary/10 hover:bg-blue-800 transition-all hover:-translate-y-0.5 active:scale-95 group/btn overflow-hidden relative">

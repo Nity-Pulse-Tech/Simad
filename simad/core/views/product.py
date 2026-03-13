@@ -1,7 +1,30 @@
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
+from simad.catalog.models import Product
 
 class ProductListView(TemplateView):
     template_name = "pages/product/product.html"
 
-class ProductDetailView(TemplateView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["products"] = Product.objects.all()
+        return context
+
+class ProductDetailView(DetailView):
+    model = Product
     template_name = "pages/product/detail.html"
+    context_object_name = "product"
+    slug_url_kwarg = "slug"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.get_object()
+        
+        # Images are accessible via product.images.all() in template thanks to related_name
+        # Reviews are accessible via product.reviews.all()
+        
+        # Fetch related products (same category, excluding current product)
+        context["related_products"] = Product.objects.filter(
+            category=product.category
+        ).exclude(id=product.id)[:3]
+        
+        return context

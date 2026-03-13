@@ -92,6 +92,12 @@ class Product(SIMADBASEMODEL):
     thumbnail = models.ImageField(
         _("Thumbnail"), upload_to="products/thumbnails/", null=True, blank=True
     )
+    
+    clinical_notes = models.TextField(_("Clinical Notes"), blank=True, default="")
+    usage_instructions = models.JSONField(_("Usage Instructions"), default=list, blank=True)
+    precautions = models.TextField(_("Precautions"), blank=True, default="")
+    technical_details = models.JSONField(_("Technical Details"), default=dict, blank=True)
+    
     tags = models.ManyToManyField(
         "self", blank=True, symmetrical=False, related_name="related_products"
     )
