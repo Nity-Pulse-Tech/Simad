@@ -84,12 +84,12 @@
       <div class="flex items-center gap-2 md:gap-4 shrink-0">
 
 
-        <button class="p-2 md:p-3 hover:bg-slate-100 rounded-full text-slate-600 transition-all relative group">
+        <a href="{% url 'core:cart' %}" class="p-2 md:p-3 hover:bg-slate-100 rounded-full text-slate-600 transition-all relative group">
           <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
           </svg>
           <span class="absolute top-1.5 right-1.5 bg-accent text-white text-[10px] font-black rounded-full h-4 w-4 flex items-center justify-center border-2 border-white shadow-sm">3</span>
-        </button>
+        </a>
         
         <div class="hidden md:flex items-center gap-3">
           {% if user.is_authenticated %}
