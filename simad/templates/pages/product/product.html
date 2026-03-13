@@ -27,7 +27,7 @@
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
     <!-- ── Sidebar ── -->
-    <aside class="col-span-1 lg:col-span-3 space-y-8">
+    <aside class="col-span-1 lg:col-span-3 space-y-6 sticky top-24 self-start">
       <!-- Search -->
       <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
         <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4 flex items-center gap-2">
@@ -41,36 +41,75 @@
         </div>
       </div>
 
-      <!-- Categories -->
+      <!-- Price Range -->
       <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
         <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
-          <span class="material-symbols-outlined text-sm">category</span> Gamme
+          <span class="material-symbols-outlined text-sm">payments</span> Prix (CFA)
+        </h4>
+        <div class="space-y-4">
+          <input type="range" min="500" max="50000" step="500" class="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-primary"/>
+          <div class="flex justify-between items-center text-[11px] font-bold text-slate-500">
+            <span>500</span>
+            <span class="text-primary bg-primary/5 px-2 py-1 rounded-md">Max: 50,000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories / Type -->
+      <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+        <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">science</span> Type de Produit
         </h4>
         <div class="space-y-3">
           <label class="flex items-center gap-3 group cursor-pointer">
             <input type="checkbox" class="w-5 h-5 rounded border-slate-200 text-primary focus:ring-primary/20 transition-all"/>
-            <span class="text-sm font-bold text-slate-600 group-hover:text-primary transition-colors">Particulier</span>
+            <span class="text-sm font-bold text-slate-600 group-hover:text-primary transition-colors">Savon Liquide</span>
+          </label>
+          <label class="flex items-center gap-3 group cursor-pointer">
+            <input type="checkbox" class="w-5 h-5 rounded border-slate-200 text-primary focus:ring-primary/20 transition-all"/>
+            <span class="text-sm font-bold text-slate-600 group-hover:text-primary transition-colors">Détergent</span>
           </label>
           <label class="flex items-center gap-3 group cursor-pointer">
             <input type="checkbox" checked class="w-5 h-5 rounded border-slate-200 text-primary focus:ring-primary/20 transition-all"/>
-            <span class="text-sm font-bold text-slate-600 group-hover:text-primary transition-colors">Professionnel</span>
+            <span class="text-sm font-bold text-slate-600 group-hover:text-primary transition-colors">Désinfectant</span>
+          </label>
+          <label class="flex items-center gap-3 group cursor-pointer">
+            <input type="checkbox" class="w-5 h-5 rounded border-slate-200 text-primary focus:ring-primary/20 transition-all"/>
+            <span class="text-sm font-bold text-slate-600 group-hover:text-primary transition-colors">Dégraissant</span>
           </label>
         </div>
       </div>
 
-      <!-- Surface Type -->
+      <!-- Volume / Contenance -->
       <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
         <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
-          <span class="material-symbols-outlined text-sm">layers</span> Surface
+          <span class="material-symbols-outlined text-sm">water_drop</span> Contenance
+        </h4>
+        <div class="grid grid-cols-2 gap-2">
+          <button class="flex items-center justify-center p-2 rounded-xl bg-slate-50 border border-transparent hover:border-primary/20 hover:bg-white text-xs font-bold text-slate-600 transition-all">500ml</button>
+          <button class="flex items-center justify-center p-2 rounded-xl bg-primary text-white text-xs font-bold transition-all">1L</button>
+          <button class="flex items-center justify-center p-2 rounded-xl bg-slate-50 border border-transparent hover:border-primary/20 hover:bg-white text-xs font-bold text-slate-600 transition-all">5L</button>
+          <button class="flex items-center justify-center p-2 rounded-xl bg-slate-50 border border-transparent hover:border-primary/20 hover:bg-white text-xs font-bold text-slate-600 transition-all">20L</button>
+        </div>
+      </div>
+
+      <!-- Usage / Application -->
+      <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+        <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">cleaning_services</span> Application
         </h4>
         <div class="space-y-2">
           <button class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-transparent hover:border-primary/20 hover:bg-white transition-all group">
-            <span class="text-sm font-bold text-slate-600 group-hover:text-primary">Carrelage</span>
-            <span class="text-[10px] bg-slate-200 text-slate-500 px-2 py-0.5 rounded-full font-black group-hover:bg-primary/10 group-hover:text-primary">12</span>
+            <span class="text-sm font-bold text-slate-600 group-hover:text-primary">Cuisine</span>
+            <span class="material-symbols-outlined text-sm text-slate-300 group-hover:text-primary">restaurant</span>
           </button>
           <button class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-transparent hover:border-primary/20 hover:bg-white transition-all group">
-            <span class="text-sm font-bold text-slate-600 group-hover:text-primary">Inox & Métal</span>
-            <span class="text-[10px] bg-slate-200 text-slate-500 px-2 py-0.5 rounded-full font-black group-hover:bg-primary/10 group-hover:text-primary">8</span>
+            <span class="text-sm font-bold text-slate-600 group-hover:text-primary">Sanitaires</span>
+            <span class="material-symbols-outlined text-sm text-slate-300 group-hover:text-primary">wc</span>
+          </button>
+          <button class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-transparent hover:border-primary/20 hover:bg-white transition-all group">
+            <span class="text-sm font-bold text-slate-600 group-hover:text-primary">Sols</span>
+            <span class="material-symbols-outlined text-sm text-slate-300 group-hover:text-primary">meeting_room</span>
           </button>
         </div>
       </div>
@@ -103,7 +142,7 @@
       </div>
 
       <!-- Cards Grid -->
-      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
         {% for i in "1234" %}
 
