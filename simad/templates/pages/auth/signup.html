@@ -1,50 +1,25 @@
+{% load static %}
 <!DOCTYPE html>
 
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Sign Up | SIMAD.cm Industrial Hygiene</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+<!-- Favicons -->
+<link rel="icon" type="image/x-icon" href="{% static 'images/favicons/favicon.ico' %}">
+<link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicons/favicon-32x32.png' %}">
+<link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicons/favicon-16x16.png' %}">
+
+<!-- Main Compiled CSS -->
+<link rel="stylesheet" href="{% static 'css/output.css' %}">
+
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-<script src="/static/js/common/toast_manager.js" defer></script>
-<script src="/static/js/common/password-toggle.js" defer></script>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#1a4a89",
-                        "background-light": "#f6f7f8",
-                        "background-dark": "#121820",
-                    },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"],
-                        "body": ["DM Sans", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                },
-            },
-        }
-    </script>
-<style>
-        body {
-            font-family: 'DM Sans', sans-serif;
-        }
-        h1, h2, h3, .font-display {
-            font-family: 'Inter', sans-serif;
-        }
-    </style>
+<script src="{% static 'js/common/toast_manager.js' %}" defer></script>
+<script src="{% static 'js/common/password-toggle.js' %}" defer></script>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center">
+<body class="bg-background dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center">
 <div class="flex min-h-screen w-full flex-col lg:flex-row">
 <!-- Left Side: Image/Branding -->
 <div class="relative hidden lg:flex lg:w-1/2 bg-primary overflow-hidden items-center justify-center">

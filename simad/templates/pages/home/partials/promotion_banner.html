@@ -1,8 +1,9 @@
+{% load static %}
 <section class="py-12">
 <div class="container mx-auto px-4">
-<div class="relative h-64 rounded-3xl overflow-hidden flex items-center">
-<img alt="Promo Background" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQUp8JQ7PFeFS5OKe7aNjaSht21VN5tdm0hK45kM8PIzw560HrEyZow1pomlBMBJ5uK2F4LTifECYwJqk0SNn93ZYf6mwoUKvUXBULElVQRkQt-xGhWi4_dMXxKAq6h8lLOTI-64kZoPNwSlCLmMuuKfqBkdyKg7IF7ie1dgMtkuk4bnUbNTzGCy-f1k1dGVCnqQUXtmkR_Uw-uC8mKzDdYYJIcBaBCLHW3VH8VPI2vfllk12qceVuklmKJ72F3Ced9CuGy1Ql44g"/>
-<div class="absolute inset-0 bg-primary/80"></div>
+<div class="relative min-h-[450px] rounded-[40px] overflow-hidden flex items-center shadow-2xl">
+<img alt="Promo Background" class="absolute inset-0 w-full h-full object-cover object-center scale-105" src="{% static 'images/img/call_to_action.JPG' %}"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary/60 via-primary/30 to-transparent"></div>
 <div class="relative z-10 px-8 md:px-16 w-full flex flex-col md:flex-row items-center justify-between text-white">
 <div class="text-center md:text-left mb-6 md:mb-0">
 <h3 class="text-2xl md:text-4xl font-bold mb-2">Promotion spéciale sur l'hygiène</h3>
