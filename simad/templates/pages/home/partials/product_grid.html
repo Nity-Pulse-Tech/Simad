@@ -61,7 +61,13 @@
               <span class="text-primary font-black text-base tracking-tighter">{{ product.price|floatformat:0 }} <small class="text-[9px] text-slate-400">FCFA</small></span>
             </div>
 
-            <button class="flex-grow bg-primary text-white py-1.5 rounded-xl font-bold text-[9px] flex items-center justify-center gap-1 shadow-lg shadow-primary/10 hover:bg-blue-800 transition-all hover:-translate-y-0.5 active:scale-95 group/btn overflow-hidden relative">
+            <button 
+              class="add-to-cart-btn flex-grow bg-primary text-white py-1.5 rounded-xl font-bold text-[9px] flex items-center justify-center gap-1 shadow-lg shadow-primary/10 hover:bg-blue-800 transition-all hover:-translate-y-0.5 active:scale-95 group/btn overflow-hidden relative"
+              data-id="{{ product.id }}"
+              data-name="{{ product.name }}"
+              data-price="{{ product.price }}"
+              data-image="{% if product.thumbnail %}{{ product.thumbnail.url }}{% endif %}"
+            >
               <span class="relative z-10">Panier</span>
               <span class="material-symbols-outlined text-[13px] relative z-10">shopping_cart</span>
             </button>
