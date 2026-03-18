@@ -79,29 +79,41 @@
 
     <!-- ── Products Content ── -->
     <div class="md:col-span-8 lg:col-span-9">
-      <!-- Toolbar -->
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
-        <div class="flex items-center gap-4 w-full sm:w-auto">
-          <div class="flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl border border-slate-100 shadow-sm w-full sm:w-auto">
-            <i data-lucide="arrow-up-down" class="w-4 h-4 text-slate-400"></i>
-            <select class="bg-transparent border-none focus:ring-0 text-sm font-bold text-slate-700 p-0 pr-8 cursor-pointer">
-              <option>Popularité</option>
-              <option>Les plus récents</option>
-              <option>Prix: Croissant</option>
-              <option>Prix: Décroissant</option>
-            </select>
-          </div>
-        </div>
+    <!-- ── Products Content ── -->
+    <div class="md:col-span-8 lg:col-span-9">
+
+      <!-- Active Filters Indicator -->
+      {% if current_filters.categories or current_filters.contenance or current_filters.application or current_filters.q %}
+      <div class="flex flex-wrap items-center gap-2 mb-8">
+        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 mr-2">Filtres actifs:</span>
         
-        <div class="flex items-center gap-2 p-1.5 bg-white rounded-xl border border-slate-100 shadow-sm">
-          <button class="p-2 rounded-lg bg-primary text-white shadow-md shadow-primary/20 transition-all">
-            <i data-lucide="layout-grid" class="w-5 h-5"></i>
-          </button>
-          <button class="p-2 rounded-lg text-slate-400 hover:bg-slate-50 transition-all">
-            <i data-lucide="list" class="w-5 h-5"></i>
-          </button>
-        </div>
+        {% if current_filters.q %}
+        <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-xs font-bold border border-primary/20">
+          "{{ current_filters.q }}"
+        </span>
+        {% endif %}
+
+        {% for cat in current_filters.categories %}
+        <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold border border-slate-200">
+          {{ cat }}
+        </span>
+        {% endfor %}
+
+        {% for vol in current_filters.contenance %}
+        <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold border border-slate-200">
+          {{ vol }}
+        </span>
+        {% endfor %}
+
+        {% for app in current_filters.application %}
+        <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold border border-slate-200">
+          {{ app }}
+        </span>
+        {% endfor %}
+
+        <a href="{% url 'core:product-list' %}" class="text-[10px] font-black text-red-500 uppercase tracking-widest hover:underline ml-2">Effacer tout</a>
       </div>
+      {% endif %}
 
       <!-- Cards Grid -->
       <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -113,7 +125,7 @@
             <img loading="lazy" src="{{ product.thumbnail.url }}" alt="{{ product.name }}"/>
             {% else %}
             <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-300">
-              <span class="material-symbols-outlined text-5xl">image</span>
+              <i data-lucide="image" class="w-12 h-12"></i>
             </div>
             {% endif %}
             
@@ -124,8 +136,12 @@
             {% endif %}
 
             <div class="card-actions">
-              <button class="action-btn material-symbols-outlined">favorite</button>
-              <button class="action-btn share material-symbols-outlined">share</button>
+              <button class="action-btn">
+                <i data-lucide="heart" class="w-4 h-4"></i>
+              </button>
+              <button class="action-btn share">
+                <i data-lucide="share-2" class="w-4 h-4"></i>
+              </button>
             </div>
           </div>
           <div class="card-body">
@@ -148,14 +164,21 @@
                 data-price="{{ product.price }}"
                 data-image="{% if product.thumbnail %}{{ product.thumbnail.url }}{% endif %}"
               >
-                shopping_cart
+              <button 
+                class="cart-btn add-to-cart-btn"
+                data-id="{{ product.id }}"
+                data-name="{{ product.name }}"
+                data-price="{{ product.price }}"
+                data-image="{% if product.thumbnail %}{{ product.thumbnail.url }}{% endif %}"
+              >
+                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
               </button>
             </div>
           </div>
         </div>
         {% empty %}
         <div class="col-span-full py-20 text-center">
-            <span class="material-symbols-outlined text-6xl text-slate-200 mb-4 block">inventory_2</span>
+            <i data-lucide="package-search" class="w-16 h-16 text-slate-200 mx-auto mb-4 block"></i>
             <h3 class="text-xl font-bold text-slate-900 mb-2">Aucun produit trouvé</h3>
             <p class="text-slate-500">Nous n'avons pas trouvé de produits correspondant à votre recherche.</p>
         </div>
@@ -169,12 +192,12 @@
           
           {# Previous Page #}
           {% if page_obj.has_previous %}
-          <a href="?page={{ page_obj.previous_page_number }}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 hover:bg-slate-50 transition-all">
-            <span class="material-symbols-outlined">chevron_left</span>
+          <a href="?page={{ page_obj.previous_page_number }}{% for key, value_list in request.GET.lists %}{% if key != 'page' %}{% for value in value_list %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 hover:bg-slate-50 transition-all">
+            <i data-lucide="chevron-left" class="w-5 h-5"></i>
           </a>
           {% else %}
           <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 cursor-not-allowed" disabled>
-            <span class="material-symbols-outlined text-slate-200">chevron_left</span>
+            <i data-lucide="chevron-left" class="w-5 h-5 text-slate-200"></i>
           </button>
           {% endif %}
 
@@ -183,9 +206,9 @@
             {% if page_obj.number == i %}
               <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-primary text-white font-black shadow-lg shadow-primary/20">{{ i }}</button>
             {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
-              <a href="?page={{ i }}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">{{ i }}</a>
+              <a href="?page={{ i }}{% for key, value_list in request.GET.lists %}{% if key != 'page' %}{% for value in value_list %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">{{ i }}</a>
             {% elif i == 1 or i == paginator.num_pages %}
-              <a href="?page={{ i }}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">{{ i }}</a>
+              <a href="?page={{ i }}{% for key, value_list in request.GET.lists %}{% if key != 'page' %}{% for value in value_list %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">{{ i }}</a>
             {% elif i == page_obj.number|add:'-3' or i == page_obj.number|add:'3' %}
               <span class="px-2 text-slate-300 font-bold">...</span>
             {% endif %}
@@ -193,12 +216,12 @@
 
           {# Next Page #}
           {% if page_obj.has_next %}
-          <a href="?page={{ page_obj.next_page_number }}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 hover:bg-slate-50 transition-all">
-            <span class="material-symbols-outlined">chevron_right</span>
+          <a href="?page={{ page_obj.next_page_number }}{% for key, value_list in request.GET.lists %}{% if key != 'page' %}{% for value in value_list %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 hover:bg-slate-50 transition-all">
+            <i data-lucide="chevron-right" class="w-5 h-5"></i>
           </a>
           {% else %}
           <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 cursor-not-allowed" disabled>
-            <span class="material-symbols-outlined text-slate-200">chevron_right</span>
+            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-200"></i>
           </button>
           {% endif %}
 
@@ -207,10 +230,77 @@
       {% endif %}
     </div>
   </div>
+  <!-- Loading Overlay -->
+  <div id="filter-loading" class="fixed inset-0 bg-white/60 backdrop-blur-[2px] z-[200] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="flex flex-col items-center gap-4">
+      <div class="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+      <span class="text-sm font-black text-slate-900 uppercase tracking-widest">Mise à jour...</span>
+    </div>
+  </div>
 </main>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Lucide icons
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+
+    const loadingOverlay = document.getElementById('filter-loading');
+    const filterForms = document.querySelectorAll('.filter-form');
+    
+    function showLoading() {
+      if (loadingOverlay) {
+        loadingOverlay.classList.remove('opacity-0', 'pointer-events-none');
+        loadingOverlay.classList.add('opacity-100');
+      }
+    }
+
+    if (filterForms.length > 0) {
+      console.log('Filter forms found:', filterForms.length);
+      
+      filterForms.forEach(form => {
+        const inputs = form.querySelectorAll('input');
+        let debounceTimer;
+
+        inputs.forEach(input => {
+          // Change event for checkboxes and range
+          input.addEventListener('change', (e) => {
+            console.log('Filter change detected!', {
+              name: input.name,
+              value: input.value,
+              checked: input.checked,
+              form: form.classList.toString()
+            });
+            
+            if (input.name !== 'q') {
+              showLoading();
+              form.submit();
+            }
+          });
+
+          // Input event with debounce for search
+          if (input.name === 'q') {
+            input.addEventListener('input', () => {
+              clearTimeout(debounceTimer);
+              debounceTimer = setTimeout(() => {
+                console.log('Search query auto-submitting:', input.value);
+                showLoading();
+                form.submit();
+              }, 800);
+            });
+          }
+        });
+        
+        form.addEventListener('submit', (e) => {
+          console.log('Form submission triggered manually or via script');
+          showLoading();
+        });
+      });
+    } else {
+      console.error('No filter forms with class .filter-form found!');
+    }
+
     const cards = document.querySelectorAll('.prod-card');
     cards.forEach((card, i) => {
       setTimeout(() => {
