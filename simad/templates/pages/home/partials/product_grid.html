@@ -9,7 +9,7 @@
       <!-- Product Card Template (Repeated for items in database) -->
       {% for product in products %}
       <div 
-        x-data="{ isFavorite: false, hovered: false }" 
+        x-data="{ isFavorite: {% if product.id in wishlist_product_ids %}true{% else %}false{% endif %}, hovered: false }" 
         @mouseenter="hovered = true" 
         @mouseleave="hovered = false"
         class="group relative bg-white rounded-2xl p-2 shadow-sm border border-slate-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/5 overflow-hidden flex flex-col h-full opacity-0 product-card-reveal"
@@ -29,9 +29,10 @@
           {% endif %}
           <!-- Wishlist Badge -->
           <button 
-            @click.prevent="isFavorite = !isFavorite"
-            class="absolute top-2 right-2 h-9 w-9 rounded-xl flex items-center justify-center transition-all duration-300 backdrop-blur-md"
+            class="wishlist-toggle-btn absolute top-2 right-2 h-9 w-9 rounded-xl flex items-center justify-center transition-all duration-300 backdrop-blur-md z-10"
             :class="isFavorite ? 'bg-red-50 text-red-500' : 'bg-white/90 text-slate-400 hover:text-red-500 hover:bg-white'"
+            data-product-id="{{ product.id }}"
+            @click.prevent="toggleWishlist($el, $data)"
           >
             <span class="material-symbols-outlined text-xl transition-all" :class="isFavorite ? 'fill-1 scale-110' : ''">
               favorite

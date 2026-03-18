@@ -9,12 +9,14 @@ from .views import (
     PaymentSuccessView,
     PaymentFailureView,
     CreateOrderView,
+    WishlistToggleView,
 )
 
 app_name = "core"
 
 urlpatterns = [
     path("", HomeView.as_view(), name="home"),
+    path("wishlist/toggle/", WishlistToggleView.as_view(), name="wishlist-toggle"),
     path("products/", ProductListView.as_view(), name="product-list"),
     path("products/<slug:slug>/", ProductDetailView.as_view(), name="product-detail"),
     path("checkout/cart/", CartView.as_view(), name="cart"),

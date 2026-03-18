@@ -413,3 +413,18 @@ class ProductReview(SIMADBASEMODEL):
         reviewer = self.reviewer_name or (str(self.user) if self.user else "Anonymous")
         return f"{reviewer} – {self.rating}★ on {self.product.name}"
 
+
+class Wishlist(SIMADBASEMODEL):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wishlist")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="wishlisted_by")
+
+    class Meta:
+        verbose_name = _("Wishlist Item")
+        verbose_name_plural = _("Wishlist Items")
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'product'], name='unique_wishlist_user_product')
+        ]
+
+    def __str__(self):
+        return f"{self.user.email} - {self.product.name}"
+

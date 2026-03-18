@@ -19,6 +19,9 @@
   <!-- Scripts -->
   <script src="{% static 'js/common/toast_manager.js' %}"></script>
   <script src="{% static 'js/cart.js' %}"></script>
+  <script src="{% static 'js/wishlist.js' %}"></script>
+
+  <div class="hidden">{% csrf_token %}</div>
 
   <script>
     if (window.lucide) {

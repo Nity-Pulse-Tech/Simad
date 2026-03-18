@@ -8,8 +8,34 @@ from django.views import View
 from django.views.generic import ListView, DetailView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from simad.catalog.models import Product, Category, ProductSpecification
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
+from simad.catalog.models import Product, Category, ProductSpecification, Wishlist
 from simad.orders.models import Order, OrderItem
+
+class WishlistToggleView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        product_id = request.POST.get('product_id')
+        product = get_object_or_404(Product, id=product_id)
+        
+        wishlist_item, created = Wishlist.objects.get_or_create(
+            user=request.user, 
+            product=product
+        )
+        
+        if not created:
+            wishlist_item.delete()
+            return JsonResponse({
+                'success': True,
+                'status': 'removed', 
+                'message': 'Produit retiré des favoris.'
+            })
+            
+        return JsonResponse({
+            'success': True,
+            'status': 'added', 
+            'message': 'Produit ajouté aux favoris.'
+        })
 
 class ProductListView(ListView):
     model = Product
@@ -86,6 +112,14 @@ class ProductListView(ListView):
             "max_price": self.request.GET.get("max_price", ""),
         }
         
+        # Add wishlist product IDs if user is authenticated
+        if self.request.user.is_authenticated:
+            context["wishlist_product_ids"] = list(
+                Wishlist.objects.filter(user=self.request.user).values_list('product_id', flat=True)
+            )
+        else:
+            context["wishlist_product_ids"] = []
+            
         return context
 
 class ProductDetailView(DetailView):
@@ -106,6 +140,18 @@ class ProductDetailView(DetailView):
             category=product.category
         ).exclude(id=product.id)[:3]
         
+        # Check if current product is in wishlist
+        if self.request.user.is_authenticated:
+            context["is_in_wishlist"] = Wishlist.objects.filter(
+                user=self.request.user, product=product
+            ).exists()
+            context["wishlist_product_ids"] = list(
+                Wishlist.objects.filter(user=self.request.user).values_list('product_id', flat=True)
+            )
+        else:
+            context["is_in_wishlist"] = False
+            context["wishlist_product_ids"] = []
+            
         return context
 
 def generate_order_reference():
