@@ -25,75 +25,26 @@
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
     <!-- Cart Items List -->
-    <div class="lg:col-span-2 space-y-6">
+    <div id="cart-items-container" class="lg:col-span-2 space-y-6">
       <div class="flex items-end justify-between border-b border-slate-200 pb-4">
         <h1 class="text-slate-900 text-3xl font-black tracking-tight">Your Cart</h1>
-        <p class="text-slate-500 font-medium">3 items in your basket</p>
+        <p id="item-count-display" class="text-slate-500 font-medium">0 items in your basket</p>
       </div>
 
-      <!-- Item 1 -->
-      <div class="flex flex-col sm:flex-row gap-6 bg-white p-5 rounded-xl border border-slate-100 shadow-sm transition-all hover:shadow-md">
-        <div class="bg-slate-100 rounded-lg aspect-square size-32 overflow-hidden shrink-0">
-          <div class="w-full h-full bg-center bg-no-repeat bg-cover" data-alt="SIMAD Product" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAEHQfdnbJrXQSs-SCNo7GqOCZzP2aQFHDYfCXP3kvORgCLMjL0W8kysWbPISVwTYtIeSMIgu5zCdrndsE6XZjGqRp45xtVjvZoMPC1q_xNwpLjNFt40G1EXzceasY36D7PQzIWVWjN2o7P5ntz1XBPZM1NsRlNIaK32HSp5kQkZfvT3FEm2FS3412jGSWhKsx7ddJAQW-F7t2fkBmlCKXncoLfJTdP1OJWVpviFp3093-VmYSAdGgToOT2phI8lWRKjAoFPnndZAY");'></div>
-        </div>
-        <div class="flex flex-1 flex-col justify-between">
-          <div class="flex justify-between items-start">
-            <div>
-              <h3 class="text-slate-900 text-lg font-bold">SimaPure Ultra 1L</h3>
-              <p class="text-slate-500 text-sm font-medium">SKU: SM-PU-01 | Clear</p>
-            </div>
-            <p class="text-slate-900 text-xl font-black">9,900 CFA</p>
-          </div>
-          <div class="flex items-center justify-between mt-4 sm:mt-0">
-            <div class="flex items-center gap-3 bg-slate-50 p-1 rounded-lg border border-slate-200">
-              <button class="flex h-8 w-8 items-center justify-center rounded bg-white shadow-sm text-slate-600 hover:text-primary transition-colors">
-                <span class="material-symbols-outlined text-sm">remove</span>
-              </button>
-              <span class="text-slate-900 font-bold px-2">1</span>
-              <button class="flex h-8 w-8 items-center justify-center rounded bg-white shadow-sm text-slate-600 hover:text-primary transition-colors">
-                <span class="material-symbols-outlined text-sm">add</span>
-              </button>
-            </div>
-            <button class="flex items-center gap-1.5 text-slate-400 hover:text-red-600 transition-colors text-sm font-semibold uppercase tracking-wider">
-              <span class="material-symbols-outlined text-[20px]">delete</span>
-              Remove
-            </button>
-          </div>
-        </div>
+      <!-- Dynamic content will be injected here -->
+      <div id="cart-items-list" class="space-y-6"></div>
+
+      <div id="empty-cart-msg" class="hidden py-12 text-center">
+        <span class="material-symbols-outlined text-6xl text-slate-200 mb-4">shopping_cart</span>
+        <h2 class="text-2xl font-bold text-slate-900 mb-2">Votre panier est vide</h2>
+        <p class="text-slate-500 mb-8">Découvrez nos produits et commencez vos achats.</p>
+        <a href="{% url 'core:product-list' %}" class="inline-flex items-center gap-2 bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition-all">
+          Voir les produits
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
       </div>
 
-      <!-- Item 2 -->
-      <div class="flex flex-col sm:flex-row gap-6 bg-white p-5 rounded-xl border border-slate-100 shadow-sm transition-all hover:shadow-md">
-        <div class="bg-slate-100 rounded-lg aspect-square size-32 overflow-hidden shrink-0">
-          <div class="w-full h-full bg-center bg-no-repeat bg-cover" data-alt="SIMAD Product" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDr2p4m6IotbUzyPBFUCcopyVg9eL6Jj2GtSF6fLRp6m4MYvEaQLta0Tx2LbZrmM2s7Fprs2J6vaQNU5eIoDARLP3oCzFwcu4OUQM0hPoTl7Znc1JhpV_TU1viZnnQjXe50LDn4fvhJT7EY987xxOMzxgXTvOAsbZN6ceDSUxkZCDVQXndKnUXJCcv5HYv3Mm3t8GLQ-HNL7NCF2kk3V2lryIM3hAp3vs7fttutUbq6TfKigN7f3_6XCCfsmQ0S6BBVM2nFseubPxo");'></div>
-        </div>
-        <div class="flex flex-1 flex-col justify-between">
-          <div class="flex justify-between items-start">
-            <div>
-              <h3 class="text-slate-900 text-lg font-bold">SimaGrip Pro 5L</h3>
-              <p class="text-slate-500 text-sm font-medium">SKU: SM-GP-05 | Yellow</p>
-            </div>
-            <p class="text-slate-900 text-xl font-black">24,500 CFA</p>
-          </div>
-          <div class="flex items-center justify-between mt-4 sm:mt-0">
-            <div class="flex items-center gap-3 bg-slate-50 p-1 rounded-lg border border-slate-200">
-              <button class="flex h-8 w-8 items-center justify-center rounded bg-white shadow-sm text-slate-600 hover:text-primary transition-colors">
-                <span class="material-symbols-outlined text-sm">remove</span>
-              </button>
-              <span class="text-slate-900 font-bold px-2">1</span>
-              <button class="flex h-8 w-8 items-center justify-center rounded bg-white shadow-sm text-slate-600 hover:text-primary transition-colors">
-                <span class="material-symbols-outlined text-sm">add</span>
-              </button>
-            </div>
-            <button class="flex items-center gap-1.5 text-slate-400 hover:text-red-600 transition-colors text-sm font-semibold uppercase tracking-wider">
-              <span class="material-symbols-outlined text-[20px]">delete</span>
-              Remove
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="pt-4">
+      <div class="pt-4 items-nav-actions">
         <a href="{% url 'core:product-list' %}" class="flex items-center gap-2 text-primary font-bold hover:underline">
           <span class="material-symbols-outlined">arrow_back</span>
           Continue Shopping
@@ -103,25 +54,25 @@
 
     <!-- Summary Section -->
     <div class="lg:col-span-1">
-      <div class="bg-white rounded-xl border border-slate-200 p-6 sticky top-24 shadow-sm">
+      <div id="cart-summary" class="bg-white rounded-xl border border-slate-200 p-6 sticky top-24 shadow-sm">
         <h2 class="text-slate-900 text-xl font-bold mb-6">Order Summary</h2>
         <div class="space-y-4 mb-6">
           <div class="flex justify-between">
             <span class="text-slate-500 font-medium">Subtotal</span>
-            <span class="text-slate-900 font-bold">34,400 CFA</span>
+            <span id="subtotal-display" class="text-slate-900 font-bold">0 CFA</span>
           </div>
           <div class="flex justify-between">
             <span class="text-slate-500 font-medium">Estimated Shipping</span>
-            <span class="text-slate-900 font-bold">2,500 CFA</span>
+            <span id="shipping-display" class="text-slate-900 font-bold">0 CFA</span>
           </div>
           <div class="flex justify-between">
-            <span class="text-slate-500 font-medium">Tax</span>
-            <span class="text-slate-900 font-bold">6,612 CFA</span>
+            <span class="text-slate-500 font-medium">Tax (19.25%)</span>
+            <span id="tax-display" class="text-slate-900 font-bold">0 CFA</span>
           </div>
           <div class="pt-4 border-t border-slate-100 flex justify-between items-end">
             <span class="text-slate-900 font-bold text-lg">Total</span>
             <div class="text-right">
-              <p class="text-primary text-2xl font-black leading-none">43,512 CFA</p>
+              <p id="total-display" class="text-primary text-2xl font-black leading-none">0 CFA</p>
               <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">VAT Included</p>
             </div>
           </div>
@@ -163,4 +114,110 @@
     </div>
   </div>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Cart page DOMContentLoaded');
+
+    // Function to initialize the cart page once cartManager is available
+    const initCartPage = () => {
+        console.log('Initializing Cart Page UI');
+        const cartList = document.getElementById('cart-items-list');
+        const emptyMsg = document.getElementById('empty-cart-msg');
+        const itemCountDisplay = document.getElementById('item-count-display');
+        const summaryCard = document.getElementById('cart-summary');
+
+        if (!cartList || !emptyMsg || !itemCountDisplay || !summaryCard) {
+            console.error('One or more cart UI elements not found');
+            return;
+        }
+
+        // Define the render function on the manager so it can be called when items change
+        window.cartManager.renderCartPage = () => {
+            const items = window.cartManager.getItems();
+            console.log('Rendering cart with items:', items);
+            
+            if (items.length === 0) {
+                cartList.innerHTML = '';
+                emptyMsg.classList.remove('hidden');
+                summaryCard.classList.add('opacity-50', 'pointer-events-none');
+                itemCountDisplay.textContent = '0 items in your basket';
+                return;
+            }
+
+            emptyMsg.classList.add('hidden');
+            summaryCard.classList.remove('opacity-50', 'pointer-events-none');
+            itemCountDisplay.textContent = `${items.length} item${items.length > 1 ? 's' : ''} in your basket`;
+
+            let subtotal = 0;
+            cartList.innerHTML = items.map(item => {
+                const rawPrice = item.price || '0';
+                const price = parseFloat(rawPrice.toString().replace(/[^0-9]/g, '')) || 0;
+                const itemTotal = price * (item.quantity || 1);
+                subtotal += itemTotal;
+
+                return `
+                    <div class="flex flex-col sm:flex-row gap-6 bg-white p-5 rounded-xl border border-slate-100 shadow-sm transition-all hover:shadow-md" data-product-id="${item.id}">
+                        <div class="bg-slate-100 rounded-lg aspect-square size-32 overflow-hidden shrink-0">
+                            <img src="${item.image || '/static/images/placeholder.webp'}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex flex-1 flex-col justify-between">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-slate-900 text-lg font-bold">${item.name}</h3>
+                                    <p class="text-slate-500 text-sm font-medium tracking-tight">Quantité: ${item.quantity}</p>
+                                </div>
+                                <p class="text-slate-900 text-xl font-black">${price.toLocaleString()} CFA</p>
+                            </div>
+                            <div class="flex items-center justify-between mt-4 sm:mt-0">
+                                <div class="flex items-center gap-3 bg-slate-50 p-1 rounded-lg border border-slate-200">
+                                    <button onclick="window.cartManager.updateQuantity('${item.id}', -1)" class="flex h-8 w-8 items-center justify-center rounded bg-white shadow-sm text-slate-600 hover:text-primary transition-colors">
+                                        <span class="material-symbols-outlined text-sm">remove</span>
+                                    </button>
+                                    <span class="text-slate-900 font-bold px-2">${item.quantity}</span>
+                                    <button onclick="window.cartManager.updateQuantity('${item.id}', 1)" class="flex h-8 w-8 items-center justify-center rounded bg-white shadow-sm text-slate-600 hover:text-primary transition-colors">
+                                        <span class="material-symbols-outlined text-sm">add</span>
+                                    </button>
+                                </div>
+                                <button onclick="window.cartManager.removeItem('${item.id}')" class="flex items-center gap-1.5 text-slate-400 hover:text-red-600 transition-colors text-sm font-semibold uppercase tracking-wider">
+                                    <span class="material-symbols-outlined text-[20px]">delete</span>
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Update Summary
+            const shipping = subtotal > 0 ? 2500 : 0;
+            const tax = subtotal * 0.1925;
+            const total = subtotal + shipping + tax;
+
+            document.getElementById('subtotal-display').textContent = `${subtotal.toLocaleString()} CFA`;
+            document.getElementById('shipping-display').textContent = `${shipping.toLocaleString()} CFA`;
+            document.getElementById('tax-display').textContent = `${tax.toLocaleString()} CFA`;
+            document.getElementById('total-display').textContent = `${total.toLocaleString()} CFA`;
+        };
+
+        // Initial render
+        window.cartManager.renderCartPage();
+    };
+
+    // Check if cartManager is ready, otherwise wait
+    if (window.cartManager) {
+        initCartPage();
+    } else {
+        console.warn('cartManager not found, waiting...');
+        const checkInterval = setInterval(() => {
+            if (window.cartManager) {
+                clearInterval(checkInterval);
+                initCartPage();
+            }
+        }, 50);
+        // Timeout after 2 seconds
+        setTimeout(() => clearInterval(checkInterval), 2000);
+    }
+});
+</script>
 {% endblock %}
