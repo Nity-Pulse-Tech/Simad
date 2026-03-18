@@ -234,12 +234,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
 
                     const result = await response.json();
+                    console.log('DEBUG: Order creation response:', result);
+                    
                     if (result.success) {
                         window.cartManager.notifySuccess("Commande initialisée avec succès !");
                         localStorage.removeItem('cart');
                         // Small delay to let the toast show and user feel the progress
                         setTimeout(() => {
-                            window.location.href = `{% url "core:order-summary" %}?ref=${result.reference}`;
+                            window.location.href = "{% url 'core:order-summary' %}";
                         }, 1000);
                     } else {
                         window.cartManager.notifyError(result.error || "Une error est survenue.");

@@ -162,6 +162,12 @@ class CreateOrderView(View):
             order.total = total_subtotal + 1500 # Subtotal + Delivery
             order.save()
 
+            # Store reference in session for the summary page
+            request.session['order_ref'] = order.reference
+            request.session.modified = True
+            print(f"DEBUG: Stored order_ref in session: {order.reference}")
+            print(f"DEBUG: Session ID in CreateOrderView: {request.session.session_key}")
+
             return JsonResponse({
                 'success': True,
                 'reference': order.reference,
