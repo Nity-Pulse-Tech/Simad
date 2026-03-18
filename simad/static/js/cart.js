@@ -15,19 +15,34 @@ class Cart {
 
     /**
      * Adds a product to the cart
-     * @param {Object} product - Product details (id, name, price, image)
+     * @param {Object} product - Product details (id, name, price, image, stock)
      */
     addItem(product) {
+        // Validation: Stock check
+        const stock = parseInt(product.stock) || 0;
+        if (stock <= 0) {
+            this.notifyError(`Désolé, ${product.name} est en rupture de stock.`);
+            return;
+        }
+
         const existingItem = this.items.find(item => item.id === product.id);
         
         if (existingItem) {
-            // If already in cart, show a different message
-            this.notifyAlreadyAdded(product.name);
+            // Check if we can add more if current quantity < stock
+            if (existingItem.quantity < stock) {
+                existingItem.quantity += 1;
+                this.save();
+                this.updateCartUI();
+                this.notifySuccess(product.name);
+            } else {
+                this.notifyError(`Stock maximum atteint pour ${product.name} (${stock}).`);
+            }
             return;
         } else {
             this.items.push({
                 ...product,
-                quantity: 1
+                quantity: 1,
+                stock: stock // Save stock info for future validation
             });
             this.save();
             this.updateCartUI();
@@ -48,7 +63,8 @@ class Cart {
      * Updates the cart count in any element with id="cart-count"
      */
     updateCartUI() {
-        const count = this.items.reduce((total, item) => total + (item.quantity || 1), 0);
+        // USER REQUEST: Count unique products, not total quantity
+        const count = this.items.length; 
         const countElements = document.querySelectorAll('#cart-count');
         
         countElements.forEach(el => {
@@ -87,16 +103,16 @@ class Cart {
     }
 
     /**
-     * Shows a toast notification for duplicate item
-     * @param {string} productName 
+     * Shows a toast notification for errors/stock limits
+     * @param {string} message 
      */
-    notifyAlreadyAdded(productName) {
+    notifyError(message) {
         if (window.toastManager) {
             window.toastManager.buildToast()
-                .setMessage(`${productName} est déjà dans votre panier.`)
-                .setType('info')
+                .setMessage(message)
+                .setType('warning')
                 .setPosition('bottom-right')
-                .setDuration(3000)
+                .setDuration(4000)
                 .show();
         }
     }
@@ -116,7 +132,7 @@ class Cart {
         if (window.toastManager) {
             window.toastManager.buildToast()
                 .setMessage(`${name} retiré du panier.`)
-                .setType('warning')
+                .setType('info')
                 .setPosition('bottom-right')
                 .setDuration(3000)
                 .show();
@@ -131,9 +147,21 @@ class Cart {
     updateQuantity(productId, delta) {
         const item = this.items.find(i => i.id === productId);
         if (item) {
-            item.quantity = Math.max(1, (item.quantity || 1) + delta);
-            this.save();
-            this.updateCartUI();
+            const newQty = (item.quantity || 1) + delta;
+            
+            // Stock Validation
+            if (delta > 0 && newQty > (item.stock || 999)) {
+                this.notifyError(`Désolé, seulement ${item.stock} unités disponibles pour ${item.name}.`);
+                return;
+            }
+
+            if (newQty <= 0) {
+                this.removeItem(productId);
+            } else {
+                item.quantity = newQty;
+                this.save();
+                this.updateCartUI();
+            }
         }
     }
 
@@ -145,15 +173,12 @@ class Cart {
     }
 }
 
-// Initialize Cart immediately so it's available for other scripts
+// Initialize Cart immediately
 const cart = new Cart();
 window.cartManager = cart;
-console.log('cartManager exported to window');
 
 // Use event delegation for add-to-cart buttons
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('cart.js DOMContentLoaded fired');
-    
     document.addEventListener('click', (event) => {
         const target = event.target.closest('.add-to-cart-btn');
         if (target) {
@@ -163,7 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 id: target.dataset.id,
                 name: target.dataset.name,
                 price: target.dataset.price,
-                image: target.dataset.image
+                image: target.dataset.image,
+                stock: target.dataset.stock
             };
             
             cart.addItem(product);
