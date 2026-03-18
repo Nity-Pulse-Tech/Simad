@@ -33,7 +33,7 @@ class Cart {
                 existingItem.quantity += 1;
                 this.save();
                 this.updateCartUI();
-                this.notifySuccess(product.name);
+                this.notifySuccess(`${product.name} ajouté au panier !`);
             } else {
                 this.notifyError(`Stock maximum atteint pour ${product.name} (${stock}).`);
             }
@@ -46,7 +46,7 @@ class Cart {
             });
             this.save();
             this.updateCartUI();
-            this.notifySuccess(product.name);
+            this.notifySuccess(`${product.name} ajouté au panier !`);
         }
     }
 
@@ -89,12 +89,12 @@ class Cart {
 
     /**
      * Shows a toast notification for success
-     * @param {string} productName 
+     * @param {string} message 
      */
-    notifySuccess(productName) {
+    notifySuccess(message) {
         if (window.toastManager) {
             window.toastManager.buildToast()
-                .setMessage(`${productName} ajouté au panier !`)
+                .setMessage(message)
                 .setType('success')
                 .setPosition('bottom-right')
                 .setDuration(3000)

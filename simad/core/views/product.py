@@ -1,6 +1,15 @@
+import json
+import datetime
+import random
+import string
+from django.http import JsonResponse
 from django.db.models import Q
+from django.views import View
 from django.views.generic import ListView, DetailView
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from simad.catalog.models import Product, Category, ProductSpecification
+from simad.orders.models import Order, OrderItem
 
 class ProductListView(ListView):
     model = Product
@@ -98,3 +107,66 @@ class ProductDetailView(DetailView):
         ).exclude(id=product.id)[:3]
         
         return context
+
+def generate_order_reference():
+    date_part = datetime.datetime.now().strftime('%Y%m%d')
+    random_part = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+    return f"SIM-{date_part}-{random_part}"
+
+@method_decorator(csrf_exempt, name='dispatch')
+class CreateOrderView(View):
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return JsonResponse({
+                'success': False, 
+                'error': 'login_required',
+                'message': 'Vous devez être connecté pour passer une commande.'
+            }, status=401)
+            
+        try:
+            data = json.loads(request.body)
+            items = data.get('items', [])
+            
+            if not items:
+                return JsonResponse({'success': False, 'error': 'Le panier est vide.'}, status=400)
+
+            # Create the order
+            order = Order.objects.create(
+                user=request.user if request.user.is_authenticated else None,
+                reference=generate_order_reference(),
+                subtotal=0,
+                total=0,
+                shipping_cost=1500, # Fixed as per request
+            )
+
+            total_subtotal = 0
+            for item in items:
+                # Get the product to ensure price and name are correct
+                try:
+                    product = Product.objects.get(id=item['id'])
+                    qty = int(item['quantity'])
+                    price = float(product.price)
+                    
+                    OrderItem.objects.create(
+                        order=order,
+                        product=product,
+                        product_name=product.name,
+                        quantity=qty,
+                        unit_price=price
+                    )
+                    total_subtotal += (price * qty)
+                except Product.DoesNotExist:
+                    continue
+
+            order.subtotal = total_subtotal
+            order.total = total_subtotal + 1500 # Subtotal + Delivery
+            order.save()
+
+            return JsonResponse({
+                'success': True,
+                'reference': order.reference,
+                'order_id': str(order.id)
+            })
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
