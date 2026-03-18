@@ -24,9 +24,10 @@ window.toggleWishlist = async function(button, alpineData) {
         });
 
         if (response.status === 401) {
+            const data = await response.json();
             if (window.toastManager) {
                 window.toastManager.buildToast()
-                    .setMessage('Veuillez vous connecter pour ajouter des favoris.')
+                    .setMessage(data.message || "Tu dois être connecté avant d'ajouter aux favoris")
                     .setType('warning')
                     .setPosition('bottom-right')
                     .setDuration(4000)

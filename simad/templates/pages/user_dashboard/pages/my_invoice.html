@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SIMAD.cm - User Invoices</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1a4a89",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#121820",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-primary/10 bg-white dark:bg-background-dark flex flex-col">
+<div class="p-6 flex flex-col h-full">
+<!-- User Profile Section -->
+<div class="flex items-center gap-3 mb-8">
+<div class="rounded-full size-12 bg-primary/10 flex items-center justify-center overflow-hidden border border-primary/20">
+<img class="w-full h-full object-cover" data-alt="User profile avatar placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK22tsnJS5S-1Vg4k4IqUxjYBizNGLVpzTI8X8zNeM8jfeAGEJ3eSZI8P-RnjG-zcSfzdRYWVNp2z3KXmFEz2y16U6D9It0LdBZGqcYb5OIar2futl3NsDFUpe0LQeSRzs_-8UpdAuVr5xRasPh-LERGMAqj43eMNqXNsw410DIaiT0Fkb_dMnmjNsCRD_i3iR1V24SVkht_aOJkS1cKDVrdSwsTW_7ckPYsVyL7WnNrZVHMdarB2j29IaOHDYBWd-2MZZt1EjUe4"/>
+</div>
+<div class="flex flex-col">
+<h1 class="text-primary font-bold text-lg leading-tight">SIMAD.cm</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs">User Account</p>
+</div>
+</div>
+<!-- Nav Links -->
+<nav class="flex flex-col gap-1 grow">
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-primary/5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-primary/5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-sm font-medium">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">description</span>
+<span class="text-sm font-semibold">Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-primary/5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">support_agent</span>
+<span class="text-sm font-medium">Support</span>
+</a>
+</nav>
+<!-- Bottom Links -->
+<div class="mt-auto pt-6 border-t border-primary/10">
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-primary/5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-sm font-medium">Log out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark">
+<header class="h-16 border-b border-primary/10 bg-white dark:bg-background-dark flex items-center justify-between px-8">
+<div class="flex items-center gap-2">
+<span class="text-slate-400 text-sm">Pages</span>
+<span class="text-slate-400 text-sm">/</span>
+<span class="text-slate-900 dark:text-slate-100 text-sm font-medium">Invoices</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-primary/5 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border-2 border-white dark:border-background-dark"></span>
+</button>
+<div class="h-8 w-[1px] bg-primary/10"></div>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 uppercase tracking-wider">John Doe</span>
+</div>
+</header>
+<div class="p-8 max-w-6xl mx-auto">
+<div class="mb-8">
+<h2 class="text-3xl font-extrabold text-slate-900 dark:text-slate-50 tracking-tight">Billing History</h2>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Manage and download your official invoice documents.</p>
+</div>
+<!-- Invoice Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-primary/10 shadow-sm">
+<p class="text-slate-500 text-sm font-medium">Total Spent</p>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-slate-50 mt-1">100,700 FCFA</h3>
+<div class="flex items-center gap-1 mt-2 text-primary text-xs font-semibold">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span>+12.5% from last month</span>
+</div>
+</div>
+<div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-primary/10 shadow-sm">
+<p class="text-slate-500 text-sm font-medium">Outstanding</p>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-slate-50 mt-1">0 FCFA</h3>
+<div class="flex items-center gap-1 mt-2 text-green-600 text-xs font-semibold">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<span>Fully settled</span>
+</div>
+</div>
+<div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-primary/10 shadow-sm">
+<p class="text-slate-500 text-sm font-medium">Active Subscriptions</p>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-slate-50 mt-1">02</h3>
+<div class="flex items-center gap-1 mt-2 text-slate-400 text-xs font-semibold">
+<span>Next renewal: Nov 01</span>
+</div>
+</div>
+</div>
+<!-- Invoices Table Container -->
+<div class="bg-white dark:bg-background-dark rounded-xl border border-primary/10 shadow-sm overflow-hidden @container">
+<div class="p-6 border-b border-primary/10 flex flex-wrap gap-4 items-center justify-between">
+<div class="relative w-full md:w-72">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-background-light dark:bg-background-dark border border-primary/10 rounded-lg text-sm focus:ring-primary focus:border-primary" placeholder="Search by invoice #..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 bg-background-light dark:bg-slate-800 border border-primary/10 rounded-lg hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-lg">filter_list</span>
+                                Filter
+                            </button>
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 bg-background-light dark:bg-slate-800 border border-primary/10 rounded-lg hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-lg">calendar_today</span>
+                                Date range
+                            </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-primary/5 text-slate-500 uppercase text-[10px] font-bold tracking-widest">
+<th class="px-6 py-4">Invoice #</th>
+<th class="px-6 py-4">Order Date</th>
+<th class="px-6 py-4">Amount</th>
+<th class="px-6 py-4 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-primary/10">
+<!-- Row 1 -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100">INV-2024-004</span>
+<span class="text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded w-fit mt-1">PAID</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Jan 15, 2024</td>
+<td class="px-6 py-4 text-sm font-semibold text-slate-900 dark:text-slate-100">18,200 FCFA</td>
+<td class="px-6 py-4 text-right">
+<button class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 shadow-md shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-sm">download</span>
+                                            PDF
+                                        </button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100">INV-2023-003</span>
+<span class="text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded w-fit mt-1">PAID</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Dec 01, 2023</td>
+<td class="px-6 py-4 text-sm font-semibold text-slate-900 dark:text-slate-100">45,000 FCFA</td>
+<td class="px-6 py-4 text-right">
+<button class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 shadow-md shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-sm">download</span>
+                                            PDF
+                                        </button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100">INV-2023-002</span>
+<span class="text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded w-fit mt-1">PAID</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Nov 05, 2023</td>
+<td class="px-6 py-4 text-sm font-semibold text-slate-900 dark:text-slate-100">12,500 FCFA</td>
+<td class="px-6 py-4 text-right">
+<button class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 shadow-md shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-sm">download</span>
+                                            PDF
+                                        </button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100">INV-2023-001</span>
+<span class="text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded w-fit mt-1">PAID</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Oct 12, 2023</td>
+<td class="px-6 py-4 text-sm font-semibold text-slate-900 dark:text-slate-100">25,000 FCFA</td>
+<td class="px-6 py-4 text-right">
+<button class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 shadow-md shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-sm">download</span>
+                                            PDF
+                                        </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-6 bg-slate-50 dark:bg-slate-900/20 border-t border-primary/10 flex items-center justify-between">
+<p class="text-sm text-slate-500">Showing <span class="font-medium text-slate-900 dark:text-slate-100">1</span> to <span class="font-medium text-slate-900 dark:text-slate-100">4</span> of <span class="font-medium text-slate-900 dark:text-slate-100">12</span> results</p>
+<div class="flex gap-1">
+<button class="size-9 flex items-center justify-center rounded-lg border border-primary/10 text-slate-400 hover:text-primary hover:border-primary transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="size-9 flex items-center justify-center rounded-lg bg-primary text-white font-bold text-sm">1</button>
+<button class="size-9 flex items-center justify-center rounded-lg border border-primary/10 text-slate-600 dark:text-slate-400 hover:text-primary hover:border-primary transition-colors text-sm font-medium">2</button>
+<button class="size-9 flex items-center justify-center rounded-lg border border-primary/10 text-slate-600 dark:text-slate-400 hover:text-primary hover:border-primary transition-colors text-sm font-medium">3</button>
+<button class="size-9 flex items-center justify-center rounded-lg border border-primary/10 text-slate-400 hover:text-primary hover:border-primary transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Assistance Section -->
+<div class="mt-12 bg-primary rounded-2xl p-8 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+<!-- Abstract Background Pattern -->
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<div class="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -mr-20 -mt-20 blur-3xl"></div>
+<div class="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full -ml-10 -mb-10 blur-2xl"></div>
+</div>
+<div class="relative z-10 text-center md:text-left">
+<h4 class="text-xl font-bold text-white mb-2">Need a custom invoice?</h4>
+<p class="text-primary/10 bg-white/10 p-4 rounded-lg text-white text-sm max-w-lg border border-white/20">If you require specific billing information or VAT details that are not shown in the automatic exports, our support team is ready to help.</p>
+</div>
+<div class="relative z-10">
+<a class="px-8 py-4 bg-white text-primary font-bold rounded-xl shadow-xl shadow-black/10 hover:bg-slate-50 transition-colors inline-block whitespace-nowrap" href="#">
+                            Contact Support
+                        </a>
+</div>
+</div>
+</div>
+<footer class="py-12 px-8 mt-auto text-center border-t border-primary/5">
+<p class="text-slate-400 text-xs tracking-wide">© 2024 SIMAD.cm. All rights reserved. Secure billing powered by SIMAD Corporate Services.</p>
+</footer>
+</main>
+</div>
+</body></html>

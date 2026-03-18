@@ -13,8 +13,15 @@ from django.shortcuts import get_object_or_404
 from simad.catalog.models import Product, Category, ProductSpecification, Wishlist
 from simad.orders.models import Order, OrderItem
 
-class WishlistToggleView(LoginRequiredMixin, View):
+class WishlistToggleView(View):
     def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return JsonResponse({
+                'success': False,
+                'status': 'error',
+                'message': "Tu dois être connecté avant d'ajouter aux favoris"
+            }, status=401)
+            
         product_id = request.POST.get('product_id')
         product = get_object_or_404(Product, id=product_id)
         
