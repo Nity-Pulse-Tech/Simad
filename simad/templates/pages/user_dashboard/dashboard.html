@@ -3,7 +3,7 @@
 {% block dashboard_content %}
 <!-- Welcome -->
 <div class="space-y-1">
-<h1 class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">Bonjour, Jean-Pierre</h1>
+<h1 class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">Bonjour, {{ user.first_name|default:user.email }}</h1>
 <p class="text-slate-500 text-lg">Manage your account, orders and logistics from your command center.</p>
 </div>
 <!-- KPIs -->
@@ -126,11 +126,17 @@
 <div class="space-y-1">
 <p class="font-bold text-slate-900 dark:text-white">Main Delivery</p>
 <p class="text-sm text-slate-500 leading-relaxed">
-                                    Jean-Pierre Martin<br/>
-                                    123 Avenue Charles de Gaulle<br/>
-                                    BP 450, Douala, Littoral<br/>
-                                    Cameroon
-                                </p>
+    {{ user.full_name }}<br/>
+    {% with address=user.addresses.first %}
+        {% if address %}
+            {{ address.address_line1 }}<br/>
+            {{ address.postal_code }}, {{ address.city }}, {{ address.state_province }}<br/>
+            {{ address.country }}
+        {% else %}
+            No address defined.
+        {% endif %}
+    {% endwith %}
+</p>
 <p class="text-sm text-slate-600 font-medium pt-2">+237 6XX XX XX XX</p>
 </div>
 </div>

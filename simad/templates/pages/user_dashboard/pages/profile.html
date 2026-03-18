@@ -12,7 +12,8 @@
 <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-6">
 <div class="relative group">
 <div class="size-24 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden border-4 border-white dark:border-slate-800 shadow-sm">
-<img alt="Profile" class="w-full h-full object-cover" data-alt="User profile main avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvFWFXGZ_UO6krGK9CO495u1zMJ7_WUUkTg5hXeWX4tmity98gPBOo4XHOsoieR2RAbgbxg_gGjBYL8G_InCE4FIqRhevRkizpOl5wu6UN7xO4vQGM2ChQT-4di8V4yI6cfoyvE4uxovv-z_tWuv4uKkORZ7n6NA-ey8Ltpafm34BDsWLXt8bJwA2KarYlDEIS2__wKiNM11xmk7OhZJvCHK4Lp1tD3IB3YjYWBygSB8U6p5pGcUCVZPgFLjyNe5b0d2JZ31H0g5s"/>
+<img alt="Profile" class="w-full h-full object-cover" 
+     src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}https://ui-avatars.com/api/?name={{ user.full_name|urlencode }}&background=0284c7&color=fff&size=128{% endif %}"/>
 </div>
 <button class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full shadow-lg border-2 border-white dark:border-slate-900">
 <span class="material-symbols-outlined text-sm">edit</span>
@@ -35,19 +36,19 @@
 <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
 <div class="flex flex-col gap-2">
 <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Full Name</label>
-<input class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="Enter full name" type="text" value="Alex Johnson"/>
+<input class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="Enter full name" type="text" value="{{ user.full_name }}"/>
 </div>
 <div class="flex flex-col gap-2">
 <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Email Address</label>
-<input class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="name@company.com" type="email" value="alex.j@simad.cm"/>
+<input class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="name@company.com" type="email" value="{{ user.email }}"/>
 </div>
 <div class="flex flex-col gap-2">
 <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Phone Number</label>
-<input class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="+1 (555) 000-0000" type="tel" value="+1 (555) 000-0000"/>
+<input class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="+237 ..." type="tel" value="{{ user.phone_number|default:'' }}"/>
 </div>
 <div class="flex flex-col gap-2">
-<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Company Name</label>
-<input class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="Company Name" type="text" value="SIMAD Logistics"/>
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300">User Type</label>
+<input class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-500 outline-none cursor-not-allowed" readonly type="text" value="{{ user.get_user_type_display }}"/>
 </div>
 </div>
 </div>

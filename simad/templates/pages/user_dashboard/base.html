@@ -1,29 +1,85 @@
+{% load static %}
 <!DOCTYPE html>
 
 <html class="light" lang="fr">
     {% include "pages/user_dashboard/includes/_head.html" %}
 
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display" x-data="{ mobileMenuOpen: false }">
 <div class="flex min-h-screen">
 <!-- Sidebar -->
 {% include "pages/user_dashboard/includes/_side_bar.html" %}
+
+<!-- Mobile Side Drawer -->
+<div 
+    x-show="mobileMenuOpen" 
+    class="fixed inset-0 z-[100] lg:hidden"
+    x-cloak
+>
+    <!-- Overlay -->
+    <div 
+        x-show="mobileMenuOpen"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        @click="mobileMenuOpen = false"
+        class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm"
+    ></div>
+
+    <!-- Drawer Content -->
+    <div 
+        x-show="mobileMenuOpen"
+        x-transition:enter="transition ease-out duration-300 transform"
+        x-transition:enter-start="-translate-x-full"
+        x-transition:enter-end="translate-x-0"
+        x-transition:leave="transition ease-in duration-200 transform"
+        x-transition:leave-start="translate-x-0"
+        x-transition:leave-end="-translate-x-full"
+        class="fixed inset-y-0 left-0 w-72 bg-white dark:bg-slate-900 shadow-2xl flex flex-col h-full"
+    >
+        <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="{% static 'images/logo/logo.webp' %}" alt="Logo" class="h-8 w-auto">
+                <span class="font-black text-primary tracking-tighter">SIMAD</span>
+            </div>
+            <button @click="mobileMenuOpen = false" class="p-2 text-slate-400 hover:text-red-500 transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="flex-1 overflow-y-auto">
+            {% include "pages/user_dashboard/includes/_side_bar_content.html" %}
+        </div>
+    </div>
+</div>
+
 <!-- Main Content -->
 <main class="flex-1 flex flex-col min-w-0">
 <!-- Header -->
-<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-10 px-8 flex items-center justify-between">
-<h2 class="text-sm font-semibold text-slate-500 uppercase tracking-widest">User Dashboard</h2>
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-10 px-4 md:px-8 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+        <button 
+            @click="mobileMenuOpen = true"
+            class="lg:hidden p-2 text-slate-600 hover:text-primary transition-colors focus:outline-none"
+            aria-label="Menu"
+        >
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+        <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest hidden sm:block">User Dashboard</h2>
+    </div>
 <div class="flex items-center gap-4">
 <div class="relative hidden md:block">
 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-<input class="pl-10 pr-4 py-1.5 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary w-64" placeholder="Search resources..." type="text"/>
+<input class="pl-10 pr-4 py-1.5 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary w-64" placeholder="Rechercher..." type="text"/>
 </div>
 <button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg relative">
 <span class="material-symbols-outlined">notifications</span>
 <span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 border-2 border-white dark:border-slate-900 rounded-full"></span>
 </button>
-<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+<a href="{% url 'users:profile' %}" class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
 <span class="material-symbols-outlined">settings</span>
-</button>
+</a>
 </div>
 </header>
 <!-- Content Area -->

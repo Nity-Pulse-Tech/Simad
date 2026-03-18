@@ -104,7 +104,7 @@
         
         <div class="hidden md:flex items-center gap-3">
           {% if user.is_authenticated %}
-            <a href="/" class="bg-primary hover:bg-blue-800 text-white px-5 py-2.5 rounded-lg font-bold text-sm shadow-md shadow-primary/20 transition-all hover:-translate-y-0.5 active:scale-95 flex items-center gap-2">
+            <a href="{% url 'users:dashboard' %}" class="bg-primary hover:bg-blue-800 text-white px-5 py-2.5 rounded-lg font-bold text-sm shadow-md shadow-primary/20 transition-all hover:-translate-y-0.5 active:scale-95 flex items-center gap-2">
               <i data-lucide="user" class="w-4 h-4"></i>
               Mon compte
             </a>
@@ -200,7 +200,7 @@
         <div class="p-6 border-t border-slate-100 bg-slate-50/50">
           {% if user.is_authenticated %}
             <div class="flex flex-col gap-3">
-              <a href="/" class="w-full bg-primary text-white p-3 rounded-xl font-bold flex items-center justify-center gap-3 shadow-lg shadow-primary/20">
+              <a href="{% url 'users:dashboard' %}" class="w-full bg-primary text-white p-3 rounded-xl font-bold flex items-center justify-center gap-3 shadow-lg shadow-primary/20">
                 <i data-lucide="user" class="w-5 h-5"></i>
                 Mon Compte
               </a>
