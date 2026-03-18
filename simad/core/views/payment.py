@@ -33,6 +33,23 @@ class OrderSummaryView(TemplateView):
 class PaymentView(TemplateView):
     template_name = "pages/home/payments/payment.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order_ref = self.request.session.get('order_ref')
+        print(f"DEBUG: PaymentView - Retrieved order_ref from session: {order_ref}")
+        
+        if not order_ref:
+            order_ref = self.request.GET.get('ref')
+            
+        if order_ref:
+            try:
+                order = Order.objects.prefetch_related('items__product').get(reference=order_ref)
+                context['order'] = order
+                context['items'] = order.items.all()
+            except Order.DoesNotExist:
+                context['order'] = None
+        return context
+
 class PaymentSuccessView(TemplateView):
     template_name = "pages/home/payments/payment_succes.html"
 

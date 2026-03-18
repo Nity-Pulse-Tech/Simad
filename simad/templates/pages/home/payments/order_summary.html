@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             
             setTimeout(() => {
-                window.location.href = "{% url 'core:payment' %}?ref={{ order.reference }}";
+                window.location.href = "{% url 'core:payment' %}";
             }, 800);
         });
     }
