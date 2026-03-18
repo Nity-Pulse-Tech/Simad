@@ -94,7 +94,7 @@
         <div class="hidden md:flex items-center gap-3">
           {% if user.is_authenticated %}
             <a href="/" class="bg-primary hover:bg-blue-800 text-white px-5 py-2.5 rounded-lg font-bold text-sm shadow-md shadow-primary/20 transition-all hover:-translate-y-0.5 active:scale-95 flex items-center gap-2">
-              <span class="material-symbols-outlined text-lg">person</span>
+              <i data-lucide="user" class="w-4 h-4"></i>
               Mon compte
             </a>
             <form action="{% url 'users:logout' %}" method="post" class="inline">
