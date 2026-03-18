@@ -1,13 +1,11 @@
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import ListView, DetailView
 from simad.catalog.models import Product
 
-class ProductListView(TemplateView):
+class ProductListView(ListView):
+    model = Product
     template_name = "pages/product/product.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["products"] = Product.objects.all()
-        return context
+    context_object_name = "products"
+    paginate_by = 15
 
 class ProductDetailView(DetailView):
     model = Product

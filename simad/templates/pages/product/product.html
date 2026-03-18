@@ -144,140 +144,105 @@
       <!-- Cards Grid -->
       <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        {% for i in "1234" %}
-
-        <!-- Card 1 – Bestseller -->
-        <div class="prod-card">
+        {% for product in products %}
+        <div class="prod-card opacity-0 translate-y-8 transition-all duration-500">
           <div class="card-img">
-            <img loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEHQfdnbJrXQSs-SCNo7GqOCZzP2aQFHDYfCXP3kvORgCLMjL0W8kysWbPISVwTYtIeSMIgu5zCdrndsE6XZjGqRp45xtVjvZoMPC1q_xNwpLjNFt40G1EXzceasY36D7PQzIWVWjN2o7P5ntz1XBPZM1NsRlNIaK32HSp5kQkZfvT3FEm2FS3412jGSWhKsx7ddJAQW-F7t2fkBmlCKXncoLfJTdP1OJWVpviFp3093-VmYSAdGgToOT2phI8lWRKjAoFPnndZAY" alt="SimaPure Ultra 1L"/>
+            {% if product.thumbnail %}
+            <img loading="lazy" src="{{ product.thumbnail.url }}" alt="{{ product.name }}"/>
+            {% else %}
+            <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-300">
+              <span class="material-symbols-outlined text-5xl">image</span>
+            </div>
+            {% endif %}
+            
+            {% if product.is_featured %}
             <span class="card-badge badge-bestseller">Bestseller</span>
+            {% elif product.discount_percentage %}
+            <span class="card-badge badge-new">{{ product.discount_percentage }}% Off</span>
+            {% endif %}
+
             <div class="card-actions">
               <button class="action-btn material-symbols-outlined">favorite</button>
               <button class="action-btn share material-symbols-outlined">share</button>
             </div>
           </div>
           <div class="card-body">
-            <span class="card-cat">Désinfection</span>
-            <a href="{% url 'core:product-detail' slug='simapure-ultra-1l' %}" class="card-name">SimaPure Ultra 1L</a>
-            <p class="card-desc">Désinfectant de qualité médicale efficace contre 99,9% des bactéries et virus.</p>
+            {% if product.category %}
+            <span class="card-cat">{{ product.category.name }}</span>
+            {% endif %}
+            <a href="{% url 'core:product-detail' product.slug %}" class="card-name">{{ product.name }}</a>
+            <p class="card-desc">{{ product.short_description|default:product.description|truncatechars:100 }}</p>
             <div class="card-footer">
               <div class="price-block">
-                <span class="price-old">12 500</span>
-                <span class="price-now">9 900 <sup>CFA</sup></span>
+                {% if product.compare_price %}
+                <span class="price-old">{{ product.compare_price|floatformat:0 }}</span>
+                {% endif %}
+                <span class="price-now">{{ product.price|floatformat:0 }} <sup>CFA</sup></span>
               </div>
-              <button class="cart-btn material-symbols-outlined">shopping_cart</button>
+              <button 
+                class="cart-btn add-to-cart-btn material-symbols-outlined"
+                data-id="{{ product.id }}"
+                data-name="{{ product.name }}"
+                data-price="{{ product.price }}"
+                data-image="{% if product.thumbnail %}{{ product.thumbnail.url }}{% endif %}"
+              >
+                shopping_cart
+              </button>
             </div>
           </div>
         </div>
-
-        <!-- Card 2 -->
-        <div class="prod-card">
-          <div class="card-img">
-            <img loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr2p4m6IotbUzyPBFUCcopyVg9eL6Jj2GtSF6fLRp6m4MYvEaQLta0Tx2LbZrmM2s7Fprs2J6vaQNU5eIoDARLP3oCzFwcu4OUQM0hPoTl7Znc1JhpV_TU1viZnnQjXe50LDn4fvhJT7EY987xxOMzxgXTvOAsbZN6ceDSUxkZCDVQXndKnUXJCcv5HYv3Mm3t8GLQ-HNL7NCF2kk3V2lryIM3hAp3vs7fttutUbq6TfKigN7f3_6XCCfsmQ0S6BBVM2nFseubPxo" alt="SimaGrip Pro 5L"/>
-            <div class="card-actions">
-              <button class="action-btn material-symbols-outlined">favorite</button>
-              <button class="action-btn share material-symbols-outlined">share</button>
-            </div>
-          </div>
-          <div class="card-body">
-            <span class="card-cat">Dégraissant</span>
-            <a href="" class="card-name">SimaGrip Pro 5L</a>
-            <p class="card-desc">Dégraissant industriel puissant pour les cuisines et les ateliers professionnels.</p>
-            <div class="card-footer">
-              <div class="price-block">
-                <span class="price-now">24 500 <sup>CFA</sup></span>
-              </div>
-              <button class="cart-btn material-symbols-outlined">shopping_cart</button>
-            </div>
-          </div>
+        {% empty %}
+        <div class="col-span-full py-20 text-center">
+            <span class="material-symbols-outlined text-6xl text-slate-200 mb-4 block">inventory_2</span>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">Aucun produit trouvé</h3>
+            <p class="text-slate-500">Nous n'avons pas trouvé de produits correspondant à votre recherche.</p>
         </div>
-
-        <!-- Card 3 – Nouveau -->
-        <div class="prod-card">
-          <div class="card-img">
-            <img loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB75KE5-nCKyGpYv3GeXByFLV0RIYcgDwGXKx0rCqYQN0y3dn03XMPz0x1nfNIQ_K-MOEjcy2zPUlyoowUMZziJJfMHyBT_Sx1pSR0d1DAwf9EZ1KIIKNwOV66YvkkLPl_sR1ZlGYcbFRU0D9_zGU_r5V0UGvz4513xvzVClHo6IZ21PJGEgTGSaO0LMhbUMs0N05UcoqnLBFjP8sNIWKH3X9NEx0wHEZDeylhK9UbIiLP1uEvqiZ78YtnNGq0DKQIWATPV_irlvQM" alt="SimaShine Floor 1L"/>
-            <span class="card-badge badge-new">Nouveau</span>
-            <div class="card-actions">
-              <button class="action-btn material-symbols-outlined">favorite</button>
-              <button class="action-btn share material-symbols-outlined">share</button>
-            </div>
-          </div>
-          <div class="card-body">
-            <span class="card-cat">Sols</span>
-            <a href="" class="card-name">SimaShine Floor 1L</a>
-            <p class="card-desc">Nettoyant au pH neutre pour carrelage, marbre et bois. Brillance sans traces.</p>
-            <div class="card-footer">
-              <div class="price-block">
-                <span class="price-now">6 800 <sup>CFA</sup></span>
-              </div>
-              <button class="cart-btn material-symbols-outlined">shopping_cart</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="prod-card">
-          <div class="card-img">
-            <img loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxdKkDRXKvlG5q2AbsHS8mzEsYKOkPjpEZ6GCQkMxYs6sldsuPKmPLp8qGXDW6Yx1Xe16TFuu7lU8LhJ-BZmMISJ1eWs9ZkDlY1_Uv2Ll0gwVPV5nfs9HbvFWqUMNzzyjUe4LHwWKETgaqjkcGm_J26jBdrj091P4gqdJex84JtIJK_CwwYma0fqVSnGQ3efFF5mTB92U4Em0xSaFXqrlF2A0MA1uhAcRDYRukiiSe1NJ7VNYRD4JKhSiqPQgwM2UzRuoZbO0unrI" alt="SimaScale Off 500ml"/>
-            <div class="card-actions">
-              <button class="action-btn material-symbols-outlined">favorite</button>
-              <button class="action-btn share material-symbols-outlined">share</button>
-            </div>
-          </div>
-          <div class="card-body">
-            <span class="card-cat">Calcaire</span>
-            <a href="" class="card-name">SimaScale Off 500ml</a>
-            <p class="card-desc">Formule hautement acide pour dissoudre les dépôts de calcaire tenaces.</p>
-            <div class="card-footer">
-              <div class="price-block">
-                <span class="price-now">4 200 <sup>CFA</sup></span>
-              </div>
-              <button class="cart-btn material-symbols-outlined">shopping_cart</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 5 -->
-        <div class="prod-card">
-          <div class="card-img">
-            <img loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_KczOBK4H3QbY6SmEfe8O1BIYJxAGKvITualCg8LtV9qC299MTqv1uFN1pcOTWOV3JTNJ-yWeLHfW5vyZJ6R-4atKlV9nVLUmTgWgCpNgwSIJHN90hZ_-BW_eZUalzyzEh1Pjr4rb74xOzMKTdcuUWvtQnGInnmNtIc7qKnH-lrF0lGYrmQ-k5xBPC_YXlsN2puibGBroz47s02jmV8g2hRDm4_EcHKSxzCu-W2ovENBxn9cdjgyLR7n30HYgzn8jF96A5kgZj6c" alt="SimaView Crystal 1L"/>
-            <div class="card-actions">
-              <button class="action-btn material-symbols-outlined">favorite</button>
-              <button class="action-btn share material-symbols-outlined">share</button>
-            </div>
-          </div>
-          <div class="card-body">
-            <span class="card-cat">Vitre</span>
-            <a href="" class="card-name">SimaView Crystal 1L</a>
-            <p class="card-desc">Nettoyant pour vitres sans ammoniaque. Visibilité cristalline garantie.</p>
-            <div class="card-footer">
-              <div class="price-block">
-                <span class="price-now">5 500 <sup>CFA</sup></span>
-              </div>
-              <button class="cart-btn material-symbols-outlined">shopping_cart</button>
-            </div>
-          </div>
-        </div>
-
         {% endfor %}
       </div>
 
       <!-- Pagination -->
+      {% if is_paginated %}
       <div class="mt-16 flex justify-center">
         <nav class="flex items-center gap-2 p-2 bg-white rounded-2xl border border-slate-100 shadow-sm">
-          <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-50 transition-all">
+          
+          {# Previous Page #}
+          {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 hover:bg-slate-50 transition-all">
             <span class="material-symbols-outlined">chevron_left</span>
+          </a>
+          {% else %}
+          <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 cursor-not-allowed" disabled>
+            <span class="material-symbols-outlined text-slate-200">chevron_left</span>
           </button>
-          <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-primary text-white font-black shadow-lg shadow-primary/20">1</button>
-          <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">2</button>
-          <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">3</button>
-          <span class="px-2 text-slate-300 font-bold">...</span>
-          <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">12</button>
-          <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-50 transition-all">
+          {% endif %}
+
+          {# Page Numbers #}
+          {% for i in paginator.page_range %}
+            {% if page_obj.number == i %}
+              <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-primary text-white font-black shadow-lg shadow-primary/20">{{ i }}</button>
+            {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+              <a href="?page={{ i }}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">{{ i }}</a>
+            {% elif i == 1 or i == paginator.num_pages %}
+              <a href="?page={{ i }}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">{{ i }}</a>
+            {% elif i == page_obj.number|add:'-3' or i == page_obj.number|add:'3' %}
+              <span class="px-2 text-slate-300 font-bold">...</span>
+            {% endif %}
+          {% endfor %}
+
+          {# Next Page #}
+          {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 hover:bg-slate-50 transition-all">
             <span class="material-symbols-outlined">chevron_right</span>
+          </a>
+          {% else %}
+          <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 cursor-not-allowed" disabled>
+            <span class="material-symbols-outlined text-slate-200">chevron_right</span>
           </button>
+          {% endif %}
+
         </nav>
       </div>
+      {% endif %}
     </div>
   </div>
 </main>
