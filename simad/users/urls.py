@@ -8,6 +8,11 @@ from .views import (
     ActivateAccountView,
     ResendVerificationView,
     LogoutView,
+    UserDashboardView,
+    MyOrderView,
+    MyInvoiceView,
+    AddressView,
+    ProfileView,
 )
 
 app_name = "users"
@@ -19,4 +24,9 @@ urlpatterns = [
     path("activate/<str:token>/", view=ActivateAccountView.as_view(), name="activate-account"),
     path("resend-verification/", view=ResendVerificationView.as_view(), name="resend-verification"),
     path("logout/", view=LogoutView.as_view(), name="logout"),
+    path("dashboard/", view=UserDashboardView.as_view(), name="dashboard"),
+    path("dashboard/orders/", view=MyOrderView.as_view(), name="my-orders"),
+    path("dashboard/invoices/", view=MyInvoiceView.as_view(), name="my-invoices"),
+    path("dashboard/addresses/", view=AddressView.as_view(), name="addresses"),
+    path("dashboard/profile/", view=ProfileView.as_view(), name="profile"),
 ]

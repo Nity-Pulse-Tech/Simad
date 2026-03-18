@@ -1,38 +1,49 @@
+{% load static %}   
+
 <aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hidden lg:flex flex-col sticky top-0 h-screen">
-<div class="p-6 flex items-center gap-3">
-<div class="w-8 h-8 bg-primary rounded flex items-center justify-center text-white">
-<span class="material-symbols-outlined">analytics</span>
-</div>
-<span class="font-bold text-xl tracking-tight text-primary uppercase">SIMAD</span>
+<div class="p-6">
+    <a href="/" class="flex items-center gap-3 group">
+        <img 
+            src="{% static 'images/logo/logo.webp' %}" 
+            alt="SIMAD Logo" 
+            class="h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+        />
+        <div class="flex flex-col">
+            <span class="font-bold text-lg tracking-tight text-primary uppercase leading-none">SIMAD</span>
+            <span class="text-[8px] font-bold text-slate-400 uppercase tracking-[0.2em] leading-none mt-0.5">Cameroun</span>
+        </div>
+    </a>
 </div>
 <nav class="flex-1 px-4 space-y-1 mt-4">
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary font-medium" href="#">
-<span class="material-symbols-outlined fill-1">dashboard</span>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'dashboard' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}" href="{% url 'users:dashboard' %}">
+<span class="material-symbols-outlined {% if request.resolver_match.url_name == 'dashboard' %}fill-1{% endif %}">dashboard</span>
 <span>Dashboard</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
-<span class="material-symbols-outlined">shopping_bag</span>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'my-orders' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}" href="{% url 'users:my-orders' %}">
+<span class="material-symbols-outlined {% if request.resolver_match.url_name == 'my-orders' %}fill-1{% endif %}">shopping_bag</span>
 <span>My Orders</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
-<span class="material-symbols-outlined">location_on</span>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'addresses' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}" href="{% url 'users:addresses' %}">
+<span class="material-symbols-outlined {% if request.resolver_match.url_name == 'addresses' %}fill-1{% endif %}">location_on</span>
 <span>Addresses</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
-<span class="material-symbols-outlined">person</span>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'profile' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}" href="{% url 'users:profile' %}">
+<span class="material-symbols-outlined {% if request.resolver_match.url_name == 'profile' %}fill-1{% endif %}">person</span>
 <span>Profile</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
-<span class="material-symbols-outlined">receipt_long</span>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'my-invoices' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}" href="{% url 'users:my-invoices' %}">
+<span class="material-symbols-outlined {% if request.resolver_match.url_name == 'my-invoices' %}fill-1{% endif %}">receipt_long</span>
 <span>Invoices</span>
 </a>
 </nav>
 <div class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800">
 <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer">
-<div class="size-9 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden bg-cover bg-center" data-alt="User profile avatar photo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCVeBy_zQ-xBptbWJEKQijSMdL2PjUvgolxpLM7YLFGZbHthDt3bSutBVB59K-BPVUooT3gENfOtxJFsRu5LUYpU_fiIcOXHwG5-mLHp2XkhJK2QfwiNTs1LuQiPTBKIOUYDNsnAxuIOLh7hozb3qAtLMTo3cwulE8gAjK5bOGi2FSROpyjWKbeWfNnpAjpwyKbcyzJTi9la6pzNS1yx1K9Hmla8pGUl9SRVwZ8EIt33sF7EZnuT_B-Nv2QIXA3XGuqZnY_3Wdoscc')"></div>
+<div class="size-9 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden bg-cover bg-center" 
+     style="background-image: url('{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}https://ui-avatars.com/api/?name={{ user.full_name|urlencode }}&background=0284c7&color=fff{% endif %}')">
+</div>
 <div class="flex flex-col min-w-0">
-<span class="text-sm font-semibold truncate">Jean-Pierre</span>
-<span class="text-xs text-slate-500 truncate">jp.martin@simad.com</span>
+<span class="text-sm font-semibold truncate">{{ user.full_name|default:"Utilisateur" }}</span>
+<span class="text-xs text-slate-500 truncate">{{ user.email }}</span>
 </div>
 </div>
 </div>
