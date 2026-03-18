@@ -79,157 +79,149 @@
 
     <!-- ── Products Content ── -->
     <div class="md:col-span-8 lg:col-span-9">
-    <!-- ── Products Content ── -->
-    <div class="md:col-span-8 lg:col-span-9">
-
-      <!-- Active Filters Indicator -->
-      {% if current_filters.categories or current_filters.contenance or current_filters.application or current_filters.q %}
-      <div class="flex flex-wrap items-center gap-2 mb-8">
-        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 mr-2">Filtres actifs:</span>
-        
-        {% if current_filters.q %}
-        <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-xs font-bold border border-primary/20">
-          "{{ current_filters.q }}"
-        </span>
-        {% endif %}
-
-        {% for cat in current_filters.categories %}
-        <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold border border-slate-200">
-          {{ cat }}
-        </span>
-        {% endfor %}
-
-        {% for vol in current_filters.contenance %}
-        <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold border border-slate-200">
-          {{ vol }}
-        </span>
-        {% endfor %}
-
-        {% for app in current_filters.application %}
-        <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold border border-slate-200">
-          {{ app }}
-        </span>
-        {% endfor %}
-
-        <a href="{% url 'core:product-list' %}" class="text-[10px] font-black text-red-500 uppercase tracking-widest hover:underline ml-2">Effacer tout</a>
-      </div>
-      {% endif %}
-
-      <!-- Cards Grid -->
-      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        {% for product in products %}
-        <div class="prod-card opacity-0 translate-y-8 transition-all duration-500">
-          <div class="card-img">
-            {% if product.thumbnail %}
-            <img loading="lazy" src="{{ product.thumbnail.url }}" alt="{{ product.name }}"/>
-            {% else %}
-            <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-300">
-              <i data-lucide="image" class="w-12 h-12"></i>
-            </div>
-            {% endif %}
-            
-            {% if product.is_featured %}
-            <span class="card-badge badge-bestseller">Bestseller</span>
-            {% elif product.discount_percentage %}
-            <span class="card-badge badge-new">{{ product.discount_percentage }}% Off</span>
-            {% endif %}
-
-            <div class="card-actions">
-              <button class="action-btn">
-                <i data-lucide="heart" class="w-4 h-4"></i>
-              </button>
-              <button class="action-btn share">
-                <i data-lucide="share-2" class="w-4 h-4"></i>
-              </button>
-            </div>
-          </div>
-          <div class="card-body">
-            {% if product.category %}
-            <span class="card-cat">{{ product.category.name }}</span>
-            {% endif %}
-            <a href="{% url 'core:product-detail' product.slug %}" class="card-name">{{ product.name }}</a>
-            <p class="card-desc">{{ product.short_description|default:product.description|truncatechars:100 }}</p>
-            <div class="card-footer">
-              <div class="price-block">
-                {% if product.compare_price %}
-                <span class="price-old">{{ product.compare_price|floatformat:0 }}</span>
-                {% endif %}
-                <span class="price-now">{{ product.price|floatformat:0 }} <sup>CFA</sup></span>
-              </div>
-              <button 
-                class="cart-btn add-to-cart-btn material-symbols-outlined"
-                data-id="{{ product.id }}"
-                data-name="{{ product.name }}"
-                data-price="{{ product.price }}"
-                data-image="{% if product.thumbnail %}{{ product.thumbnail.url }}{% endif %}"
-              >
-              <button 
-                class="cart-btn add-to-cart-btn"
-                data-id="{{ product.id }}"
-                data-name="{{ product.name }}"
-                data-price="{{ product.price }}"
-                data-image="{% if product.thumbnail %}{{ product.thumbnail.url }}{% endif %}"
-              >
-                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-        {% empty %}
-        <div class="col-span-full py-20 text-center">
-            <i data-lucide="package-search" class="w-16 h-16 text-slate-200 mx-auto mb-4 block"></i>
-            <h3 class="text-xl font-bold text-slate-900 mb-2">Aucun produit trouvé</h3>
-            <p class="text-slate-500">Nous n'avons pas trouvé de produits correspondant à votre recherche.</p>
-        </div>
-        {% endfor %}
-      </div>
-
-      <!-- Pagination -->
-      {% if is_paginated %}
-      <div class="mt-16 flex justify-center">
-        <nav class="flex items-center gap-2 p-2 bg-white rounded-2xl border border-slate-100 shadow-sm">
+      <!-- AJAX Target Container -->
+      <div id="ajax-target">
+        <!-- Active Filters Indicator -->
+        {% if current_filters.categories or current_filters.contenance or current_filters.application or current_filters.q %}
+        <div class="flex flex-wrap items-center gap-2 mb-8">
+          <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 mr-2">Filtres actifs:</span>
           
-          {# Previous Page #}
-          {% if page_obj.has_previous %}
-          <a href="?page={{ page_obj.previous_page_number }}{% for key, value_list in request.GET.lists %}{% if key != 'page' %}{% for value in value_list %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 hover:bg-slate-50 transition-all">
-            <i data-lucide="chevron-left" class="w-5 h-5"></i>
-          </a>
-          {% else %}
-          <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 cursor-not-allowed" disabled>
-            <i data-lucide="chevron-left" class="w-5 h-5 text-slate-200"></i>
-          </button>
+          {% if current_filters.q %}
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-xs font-bold border border-primary/20">
+            "{{ current_filters.q }}"
+          </span>
           {% endif %}
 
-          {# Page Numbers #}
-          {% for i in paginator.page_range %}
-            {% if page_obj.number == i %}
-              <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-primary text-white font-black shadow-lg shadow-primary/20">{{ i }}</button>
-            {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
-              <a href="?page={{ i }}{% for key, value_list in request.GET.lists %}{% if key != 'page' %}{% for value in value_list %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">{{ i }}</a>
-            {% elif i == 1 or i == paginator.num_pages %}
-              <a href="?page={{ i }}{% for key, value_list in request.GET.lists %}{% if key != 'page' %}{% for value in value_list %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">{{ i }}</a>
-            {% elif i == page_obj.number|add:'-3' or i == page_obj.number|add:'3' %}
-              <span class="px-2 text-slate-300 font-bold">...</span>
-            {% endif %}
+          {% for cat in current_filters.categories %}
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold border border-slate-200">
+            {{ cat }}
+          </span>
           {% endfor %}
 
-          {# Next Page #}
-          {% if page_obj.has_next %}
-          <a href="?page={{ page_obj.next_page_number }}{% for key, value_list in request.GET.lists %}{% if key != 'page' %}{% for value in value_list %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 hover:bg-slate-50 transition-all">
-            <i data-lucide="chevron-right" class="w-5 h-5"></i>
-          </a>
-          {% else %}
-          <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 cursor-not-allowed" disabled>
-            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-200"></i>
-          </button>
-          {% endif %}
+          {% for vol in current_filters.contenance %}
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold border border-slate-200">
+            {{ vol }}
+          </span>
+          {% endfor %}
 
-        </nav>
+          {% for app in current_filters.application %}
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold border border-slate-200">
+            {{ app }}
+          </span>
+          {% endfor %}
+
+          <a href="{% url 'core:product-list' %}" class="text-[10px] font-black text-red-500 uppercase tracking-widest hover:underline ml-2">Effacer tout</a>
+        </div>
+        {% endif %}
+
+        <!-- Cards Grid -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {% for product in products %}
+          <div class="prod-card opacity-0 translate-y-8 transition-all duration-500">
+            <div class="card-img">
+              {% if product.thumbnail %}
+              <img loading="lazy" src="{{ product.thumbnail.url }}" alt="{{ product.name }}"/>
+              {% else %}
+              <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-300">
+                <i data-lucide="image" class="w-12 h-12"></i>
+              </div>
+              {% endif %}
+              
+              {% if product.is_featured %}
+              <span class="card-badge badge-bestseller">Bestseller</span>
+              {% elif product.discount_percentage %}
+              <span class="card-badge badge-new">{{ product.discount_percentage }}% Off</span>
+              {% endif %}
+
+              <div class="card-actions">
+                <button class="action-btn">
+                  <i data-lucide="heart" class="w-4 h-4"></i>
+                </button>
+                <button class="action-btn share">
+                  <i data-lucide="share-2" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              {% if product.category %}
+              <span class="card-cat">{{ product.category.name }}</span>
+              {% endif %}
+              <a href="{% url 'core:product-detail' product.slug %}" class="card-name">{{ product.name }}</a>
+              <p class="card-desc">{{ product.short_description|default:product.description|truncatechars:100 }}</p>
+              <div class="card-footer">
+                <div class="price-block">
+                  {% if product.compare_price %}
+                  <span class="price-old">{{ product.compare_price|floatformat:0 }}</span>
+                  {% endif %}
+                  <span class="price-now">{{ product.price|floatformat:0 }} <sup>CFA</sup></span>
+                </div>
+                <button 
+                  class="cart-btn add-to-cart-btn"
+                  data-id="{{ product.id }}"
+                  data-name="{{ product.name }}"
+                  data-price="{{ product.price }}"
+                  data-image="{% if product.thumbnail %}{{ product.thumbnail.url }}{% endif %}"
+                >
+                  <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <div class="col-span-full py-20 text-center">
+              <i data-lucide="package-search" class="w-16 h-16 text-slate-200 mx-auto mb-4 block"></i>
+              <h3 class="text-xl font-bold text-slate-900 mb-2">Aucun produit trouvé</h3>
+              <p class="text-slate-500">Nous n'avons pas trouvé de produits correspondant à votre recherche.</p>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <div class="mt-16 flex justify-center">
+          <nav class="flex items-center gap-2 p-2 bg-white rounded-2xl border border-slate-100 shadow-sm">
+            
+            {# Previous Page #}
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}{% for key, value_list in request.GET.lists %}{% if key != 'page' %}{% for value in value_list %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 hover:bg-slate-50 transition-all">
+              <i data-lucide="chevron-left" class="w-5 h-5"></i>
+            </a>
+            {% else %}
+            <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 cursor-not-allowed" disabled>
+              <i data-lucide="chevron-left" class="w-5 h-5 text-slate-200"></i>
+            </button>
+            {% endif %}
+
+            {# Page Numbers #}
+            {% for i in paginator.page_range %}
+              {% if page_obj.number == i %}
+                <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-primary text-white font-black shadow-lg shadow-primary/20">{{ i }}</button>
+              {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+                <a href="?page={{ i }}{% for key, value_list in request.GET.lists %}{% if key != 'page' %}{% for value in value_list %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">{{ i }}</a>
+              {% elif i == 1 or i == paginator.num_pages %}
+                <a href="?page={{ i }}{% for key, value_list in request.GET.lists %}{% if key != 'page' %}{% for value in value_list %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-all">{{ i }}</a>
+              {% elif i == page_obj.number|add:'-3' or i == page_obj.number|add:'3' %}
+                <span class="px-2 text-slate-300 font-bold">...</span>
+              {% endif %}
+            {% endfor %}
+
+            {# Next Page #}
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% for key, value_list in request.GET.lists %}{% if key != 'page' %}{% for value in value_list %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-600 hover:bg-slate-50 transition-all">
+              <i data-lucide="chevron-right" class="w-5 h-5"></i>
+            </a>
+            {% else %}
+            <button class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 cursor-not-allowed" disabled>
+              <i data-lucide="chevron-right" class="w-5 h-5 text-slate-200"></i>
+            </button>
+            {% endif %}
+          </nav>
+        </div>
+        {% endif %}
       </div>
-      {% endif %}
     </div>
   </div>
+
   <!-- Loading Overlay -->
   <div id="filter-loading" class="fixed inset-0 bg-white/60 backdrop-blur-[2px] z-[200] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="flex flex-col items-center gap-4">
@@ -241,12 +233,11 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Lucide icons
-    if (window.lucide) {
-      lucide.createIcons();
-    }
+    // Initial Lucide icons
+    if (window.lucide) lucide.createIcons();
 
     const loadingOverlay = document.getElementById('filter-loading');
+    const ajaxTarget = document.getElementById('ajax-target');
     const filterForms = document.querySelectorAll('.filter-form');
     
     function showLoading() {
@@ -256,58 +247,98 @@
       }
     }
 
-    if (filterForms.length > 0) {
-      console.log('Filter forms found:', filterForms.length);
+    function hideLoading() {
+      if (loadingOverlay) {
+        loadingOverlay.classList.add('opacity-0', 'pointer-events-none');
+        loadingOverlay.classList.remove('opacity-100');
+      }
+    }
+
+    async function updateProducts(url) {
+      showLoading();
+      console.log('Fetching AJAX update:', url);
       
+      try {
+        const response = await fetch(url, {
+          headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        const newContent = doc.getElementById('ajax-target');
+        if (newContent && ajaxTarget) {
+          ajaxTarget.innerHTML = newContent.innerHTML;
+          window.history.pushState({}, '', url);
+          
+          if (window.lucide) lucide.createIcons();
+          initProductAnimations();
+          initPaginationListeners();
+        }
+      } catch (err) {
+        console.error('AJAX Error:', err);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function initPaginationListeners() {
+      const paginationLinks = document.querySelectorAll('#ajax-target a[href^="?page="]');
+      paginationLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          updateProducts(link.href);
+        });
+      });
+    }
+
+    if (filterForms.length > 0) {
       filterForms.forEach(form => {
         const inputs = form.querySelectorAll('input');
         let debounceTimer;
 
         inputs.forEach(input => {
-          // Change event for checkboxes and range
-          input.addEventListener('change', (e) => {
-            console.log('Filter change detected!', {
-              name: input.name,
-              value: input.value,
-              checked: input.checked,
-              form: form.classList.toString()
-            });
-            
+          input.addEventListener('change', () => {
             if (input.name !== 'q') {
-              showLoading();
-              form.submit();
+              const formData = new FormData(form);
+              const params = new URLSearchParams(formData);
+              updateProducts(`?${params.toString()}`);
             }
           });
 
-          // Input event with debounce for search
           if (input.name === 'q') {
             input.addEventListener('input', () => {
               clearTimeout(debounceTimer);
               debounceTimer = setTimeout(() => {
-                console.log('Search query auto-submitting:', input.value);
-                showLoading();
-                form.submit();
+                const formData = new FormData(form);
+                const params = new URLSearchParams(formData);
+                updateProducts(`?${params.toString()}`);
               }, 800);
             });
           }
         });
         
         form.addEventListener('submit', (e) => {
-          console.log('Form submission triggered manually or via script');
-          showLoading();
+          e.preventDefault();
+          const formData = new FormData(form);
+          const params = new URLSearchParams(formData);
+          updateProducts(`?${params.toString()}`);
         });
       });
-    } else {
-      console.error('No filter forms with class .filter-form found!');
     }
 
-    const cards = document.querySelectorAll('.prod-card');
-    cards.forEach((card, i) => {
-      setTimeout(() => {
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-      }, 60 * i);
-    });
+    function initProductAnimations() {
+      const cards = document.querySelectorAll('.prod-card');
+      cards.forEach((card, i) => {
+        setTimeout(() => {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 60 * i);
+      });
+    }
+
+    initProductAnimations();
+    initPaginationListeners();
   });
 </script>
 {% endblock %}
