@@ -178,7 +178,7 @@ dependencies = [
     "flower==2.0.1",
     "gunicorn==25.1.0",
     "hiredis==3.2.1",
-    "pillow==11.3.0",
+    "pillow==12.1.1",
     "psycopg[c]==3.2.10",
     "python-slugify==8.0.4",
     "redis==6.4.0",
