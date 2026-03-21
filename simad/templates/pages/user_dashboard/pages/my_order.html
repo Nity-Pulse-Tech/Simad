@@ -7,16 +7,17 @@
 <p class="text-slate-500 dark:text-slate-400">View and manage all your SIMAD logistics orders in one place.</p>
 </div>
 <!-- Filters -->
-<div class="flex border-b border-slate-200 dark:border-slate-800 mb-6 gap-6" id="order-filters">
-<button class="filter-btn pb-4 text-sm font-bold text-primary border-b-2 border-primary" data-filter="all">All Orders</button>
-<button class="filter-btn pb-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors" data-filter="PENDING">Pending</button>
-<button class="filter-btn pb-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors" data-filter="PROCESSING">Processing</button>
-<button class="filter-btn pb-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors" data-filter="SHIPPED">Shipped</button>
-<button class="filter-btn pb-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors" data-filter="DELIVERED">Delivered</button>
+<div class="flex border-b border-slate-200 dark:border-slate-800 mb-6 gap-6 overflow-x-auto whitespace-nowrap scrollbar-hide pb-1" id="order-filters">
+<button class="filter-btn shrink-0 pb-4 text-sm font-bold text-primary border-b-2 border-primary" data-filter="all">All Orders</button>
+<button class="filter-btn shrink-0 pb-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors" data-filter="PENDING">Pending</button>
+<button class="filter-btn shrink-0 pb-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors" data-filter="PROCESSING">Processing</button>
+<button class="filter-btn shrink-0 pb-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors" data-filter="SHIPPED">Shipped</button>
+<button class="filter-btn shrink-0 pb-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors" data-filter="DELIVERED">Delivered</button>
 </div>
 <!-- Orders Table -->
 <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
-<table class="w-full text-left border-collapse">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[600px]">
 <thead>
 <tr class="bg-slate-50 dark:bg-slate-800/50">
 <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Order ID</th>
@@ -70,6 +71,7 @@ No orders found.
 {% endfor %}
 </tbody>
 </table>
+</div>
 <!-- Pagination Placeholder -->
 <div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
 <p class="text-xs text-slate-500 font-medium">Showing 5 of 42 orders</p>

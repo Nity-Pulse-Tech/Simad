@@ -10,8 +10,35 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from simad.users.models import UserProfile
 
+from django.db.models import Sum
+from simad.global_data.enum import OrderStatusChoices
+from simad.catalog.models import Wishlist
+
 class UserDashboardView(LoginRequiredMixin, TemplateView):
     template_name = "pages/user_dashboard/dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        
+        # Dashboard KPIs
+        context['total_orders'] = user.orders.count()
+        context['pending_quotes'] = user.orders.filter(status=OrderStatusChoices.PENDING).count()
+        
+        # Total Spent (Sum of paid orders)
+        total_spent = user.orders.filter(is_paid=True).aggregate(Sum('total'))['total__sum'] or 0
+        context['total_spent'] = total_spent
+        
+        # Favorites (Wishlist count)
+        context['favorites_count'] = Wishlist.objects.filter(user=user).count()
+        
+        # Recent Orders (Top 5)
+        context['recent_orders'] = user.orders.all().order_by('-created')[:5]
+        
+        # Default Address
+        context['default_address'] = user.addresses.filter(is_default=True).first()
+        
+        return context
 
 from simad.orders.models import Order
 
