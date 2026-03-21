@@ -7,11 +7,12 @@
 <p class="text-slate-500 dark:text-slate-400">View and manage all your SIMAD logistics orders in one place.</p>
 </div>
 <!-- Filters -->
-<div class="flex border-b border-slate-200 dark:border-slate-800 mb-6 gap-6">
-<button class="pb-4 text-sm font-bold text-primary border-b-2 border-primary">All Orders</button>
-<button class="pb-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors">Processing</button>
-<button class="pb-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors">In Transit</button>
-<button class="pb-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors">Delivered</button>
+<div class="flex border-b border-slate-200 dark:border-slate-800 mb-6 gap-6" id="order-filters">
+<button class="filter-btn pb-4 text-sm font-bold text-primary border-b-2 border-primary" data-filter="all">All Orders</button>
+<button class="filter-btn pb-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors" data-filter="PENDING">Pending</button>
+<button class="filter-btn pb-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors" data-filter="PROCESSING">Processing</button>
+<button class="filter-btn pb-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors" data-filter="SHIPPED">Shipped</button>
+<button class="filter-btn pb-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors" data-filter="DELIVERED">Delivered</button>
 </div>
 <!-- Orders Table -->
 <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
@@ -25,92 +26,48 @@
 <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-right">Action</th>
 </tr>
 </thead>
-<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-<!-- Row 1 -->
-<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800" id="orders-list">
+{% for order in orders %}
+<tr class="order-item hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors" data-status="{{ order.status }}">
 <td class="px-6 py-5">
-<span class="font-bold text-primary">#SMD-9921</span>
+<span class="font-bold text-primary">#{{ order.reference|default:order.id }}</span>
 </td>
-<td class="px-6 py-5 text-sm text-slate-600 dark:text-slate-400">Oct 24, 2023</td>
-<td class="px-6 py-5 text-sm font-semibold">$1,240.00</td>
+<td class="px-6 py-5 text-sm text-slate-600 dark:text-slate-400">{{ order.created|date:"M d, Y" }}</td>
+<td class="px-6 py-5 text-sm font-semibold">${{ order.total }}</td>
 <td class="px-6 py-5">
+{% if order.status == 'PENDING' %}
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+<span class="size-1.5 rounded-full bg-slate-500"></span> Pending
+</span>
+{% elif order.status == 'PROCESSING' %}
 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
-<span class="size-1.5 rounded-full bg-blue-500"></span>
-                                        Processing
-                                    </span>
-</td>
-<td class="px-6 py-5 text-right">
-<button class="text-primary hover:text-primary/70 text-sm font-bold transition-colors">View Details</button>
-</td>
-</tr>
-<!-- Row 2 -->
-<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-6 py-5">
-<span class="font-bold text-primary">#SMD-9850</span>
-</td>
-<td class="px-6 py-5 text-sm text-slate-600 dark:text-slate-400">Oct 12, 2023</td>
-<td class="px-6 py-5 text-sm font-semibold">$450.00</td>
-<td class="px-6 py-5">
+<span class="size-1.5 rounded-full bg-blue-500"></span> Processing
+</span>
+{% elif order.status == 'SHIPPED' %}
 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
-<span class="size-1.5 rounded-full bg-amber-500"></span>
-                                        In Transit
-                                    </span>
-</td>
-<td class="px-6 py-5 text-right">
-<button class="text-primary hover:text-primary/70 text-sm font-bold transition-colors">View Details</button>
-</td>
-</tr>
-<!-- Row 3 -->
-<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-6 py-5">
-<span class="font-bold text-primary">#SMD-9721</span>
-</td>
-<td class="px-6 py-5 text-sm text-slate-600 dark:text-slate-400">Sep 28, 2023</td>
-<td class="px-6 py-5 text-sm font-semibold">$2,100.00</td>
-<td class="px-6 py-5">
+<span class="size-1.5 rounded-full bg-amber-500"></span> Shipped
+</span>
+{% elif order.status == 'DELIVERED' %}
 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
-<span class="size-1.5 rounded-full bg-emerald-500"></span>
-                                        Delivered
-                                    </span>
+<span class="size-1.5 rounded-full bg-emerald-500"></span> Delivered
+</span>
+{% else %}
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
+<span class="size-1.5 rounded-full bg-red-500"></span> {{ order.get_status_display }}
+</span>
+{% endif %}
 </td>
 <td class="px-6 py-5 text-right">
 <button class="text-primary hover:text-primary/70 text-sm font-bold transition-colors">View Details</button>
 </td>
 </tr>
-<!-- Row 4 -->
-<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-6 py-5">
-<span class="font-bold text-primary">#SMD-9610</span>
-</td>
-<td class="px-6 py-5 text-sm text-slate-600 dark:text-slate-400">Sep 15, 2023</td>
-<td class="px-6 py-5 text-sm font-semibold">$89.99</td>
-<td class="px-6 py-5">
-<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
-<span class="size-1.5 rounded-full bg-emerald-500"></span>
-                                        Delivered
-                                    </span>
-</td>
-<td class="px-6 py-5 text-right">
-<button class="text-primary hover:text-primary/70 text-sm font-bold transition-colors">View Details</button>
+{% empty %}
+<tr>
+<td colspan="5" class="px-6 py-5 text-center text-slate-500 font-medium bg-slate-50 dark:bg-slate-800/50">
+No orders found.
 </td>
 </tr>
-<!-- Row 5 -->
-<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-6 py-5">
-<span class="font-bold text-primary">#SMD-9544</span>
-</td>
-<td class="px-6 py-5 text-sm text-slate-600 dark:text-slate-400">Aug 30, 2023</td>
-<td class="px-6 py-5 text-sm font-semibold">$3,420.50</td>
-<td class="px-6 py-5">
-<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
-<span class="size-1.5 rounded-full bg-emerald-500"></span>
-                                        Delivered
-                                    </span>
-</td>
-<td class="px-6 py-5 text-right">
-<button class="text-primary hover:text-primary/70 text-sm font-bold transition-colors">View Details</button>
-</td>
-</tr>
+{% endfor %}
 </tbody>
 </table>
 <!-- Pagination Placeholder -->
@@ -149,4 +106,37 @@
 </div>
 </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const orderItems = document.querySelectorAll('.order-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Update active tab styling
+                filterBtns.forEach(b => {
+                    b.classList.remove('text-primary', 'border-b-2', 'border-primary');
+                    b.classList.add('text-slate-500', 'hover:text-slate-700');
+                });
+                this.classList.remove('text-slate-500', 'hover:text-slate-700');
+                this.classList.add('text-primary', 'border-b-2', 'border-primary');
+
+                const filterValue = this.getAttribute('data-filter');
+
+                orderItems.forEach(item => {
+                    if (filterValue === 'all') {
+                        item.style.display = '';
+                    } else {
+                        if (item.getAttribute('data-status') === filterValue) {
+                            item.style.display = '';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+    });
+</script>
 {% endblock dashboard_content %}

@@ -121,7 +121,8 @@ class SweetModalManager {
         this.modal = document.createElement('div');
         this.modal.id = modalId;
         this.modal.tabIndex = -1;
-        this.modal.className = 'hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-100000010 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full';
+        this.modal.className = 'hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full';
+        this.modal.style.zIndex = '9999999';
         this.modal.setAttribute('data-modal', 'true');
 
         let buttonsHtml = '';
@@ -160,7 +161,7 @@ class SweetModalManager {
         ` : '';
 
         this.modal.innerHTML = `
-            <div class="relative p-4 w-full max-w-md max-h-full">
+            <div class="relative p-4 w-full max-w-md max-h-full mx-auto mt-20">
                 <div class="relative bg-white rounded-lg shadow-sm">
                     <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="${modalId}">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -183,7 +184,7 @@ class SweetModalManager {
         document.body.appendChild(this.modal);
         this.modalInstance = new Modal(this.modal, {
             backdrop: 'dynamic',
-            backdropClasses: 'bg-gray-900/50 fixed inset-0 z-100000009',
+            backdropClasses: 'bg-gray-900/50 fixed inset-0 z-[9999998]',
             closable: false,
             onHide: () => {
                 if (!this.isClosing) {

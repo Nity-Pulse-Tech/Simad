@@ -1,5 +1,9 @@
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
+import json
+from simad.users.models import Address
 from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -9,14 +13,70 @@ from simad.users.models import UserProfile
 class UserDashboardView(LoginRequiredMixin, TemplateView):
     template_name = "pages/user_dashboard/dashboard.html"
 
+from simad.orders.models import Order
+
 class MyOrderView(LoginRequiredMixin, TemplateView):
     template_name = "pages/user_dashboard/pages/my_order.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['orders'] = Order.objects.filter(user=self.request.user)
+        return context
 
 class MyInvoiceView(LoginRequiredMixin, TemplateView):
     template_name = "pages/user_dashboard/pages/my_invoice.html"
 
-class AddressView(LoginRequiredMixin, TemplateView):
+class AddressView(LoginRequiredMixin, View):
     template_name = "pages/user_dashboard/pages/address.html"
+
+    def get(self, request, *args, **kwargs):
+        addresses = request.user.addresses.all().order_by('-is_default', '-created')
+        return render(request, self.template_name, {"addresses": addresses})
+
+    def post(self, request, *args, **kwargs):
+        try:
+            data = json.loads(request.body)
+            action = data.get('action')
+
+            if action == 'create':
+                address = Address.objects.create(
+                    user=request.user,
+                    address_line1=data.get('address_line1', ''),
+                    address_line2=data.get('address_line2', ''),
+                    city=data.get('city', ''),
+                    state_province=data.get('state_province', ''),
+                    postal_code=data.get('postal_code', ''),
+                    country=data.get('country', ''),
+                    is_default=data.get('is_default', False)
+                )
+                if address.is_default:
+                    request.user.addresses.exclude(id=address.id).update(is_default=False)
+                return JsonResponse({"status": "success", "message": "Address created successfully."})
+
+            elif action == 'update':
+                address_id = data.get('id')
+                address = get_object_or_404(Address, id=address_id, user=request.user)
+                address.address_line1 = data.get('address_line1', address.address_line1)
+                address.address_line2 = data.get('address_line2', address.address_line2)
+                address.city = data.get('city', address.city)
+                address.state_province = data.get('state_province', address.state_province)
+                address.postal_code = data.get('postal_code', address.postal_code)
+                address.country = data.get('country', address.country)
+                address.is_default = data.get('is_default', address.is_default)
+                address.save()
+                if address.is_default:
+                    request.user.addresses.exclude(id=address.id).update(is_default=False)
+                return JsonResponse({"status": "success", "message": "Address updated successfully."})
+
+            elif action == 'delete':
+                address_id = data.get('id')
+                address = get_object_or_404(Address, id=address_id, user=request.user)
+                address.delete()
+                return JsonResponse({"status": "success", "message": "Address deleted successfully."})
+
+            return JsonResponse({"status": "error", "message": "Invalid action."}, status=400)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
 class ProfileView(LoginRequiredMixin, View):
     template_name = "pages/user_dashboard/pages/profile.html"

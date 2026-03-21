@@ -9,7 +9,7 @@
 <p class="text-slate-500 dark:text-slate-400 mt-1">Manage your public profile and account credentials.</p>
 </div>
 <!-- Profile Photo Section -->
-<form method="POST" enctype="multipart/form-data" action="{% url 'users:profile' %}">
+<form method="POST" enctype="multipart/form-data" action="{% url 'users:profile' %}" class="space-y-10">
 {% csrf_token %}
 <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-6">
 <div class="relative group">
@@ -91,7 +91,7 @@
 <h3 class="text-lg font-bold text-red-700 dark:text-red-400">Deactivate Account</h3>
 <p class="text-sm text-red-600 dark:text-red-400/70 mt-1">Once you delete your account, there is no going back. Please be certain.</p>
 </div>
-<button class="px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors whitespace-nowrap">
+<button type="button" class="px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors whitespace-nowrap">
                         Delete Account
                     </button>
 </div>

@@ -4,33 +4,33 @@
 <html class="light" lang="fr">
     {% include "pages/user_dashboard/includes/_head.html" %}
 
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display" x-data="{ mobileMenuOpen: false }">
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display" x-data="{ sidebarOpen: false }">
 <div class="flex min-h-screen">
 <!-- Sidebar -->
 {% include "pages/user_dashboard/includes/_side_bar.html" %}
 
 <!-- Mobile Side Drawer -->
 <div 
-    x-show="mobileMenuOpen" 
+    x-show="sidebarOpen" 
     class="fixed inset-0 z-[100] lg:hidden"
     x-cloak
 >
     <!-- Overlay -->
     <div 
-        x-show="mobileMenuOpen"
+        x-show="sidebarOpen"
         x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100"
         x-transition:leave="transition ease-in duration-200"
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
-        @click="mobileMenuOpen = false"
+        @click="sidebarOpen = false"
         class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm"
     ></div>
 
     <!-- Drawer Content -->
     <div 
-        x-show="mobileMenuOpen"
+        x-show="sidebarOpen"
         x-transition:enter="transition ease-out duration-300 transform"
         x-transition:enter-start="-translate-x-full"
         x-transition:enter-end="translate-x-0"
@@ -44,11 +44,11 @@
                 <img src="{% static 'images/logo/logo.webp' %}" alt="Logo" class="h-8 w-auto">
                 <span class="font-black text-primary tracking-tighter">SIMAD</span>
             </div>
-            <button @click="mobileMenuOpen = false" class="p-2 text-slate-400 hover:text-red-500 transition-colors">
+            <button @click="sidebarOpen = false" class="p-2 text-slate-400 hover:text-red-500 transition-colors">
                 <span class="material-symbols-outlined">close</span>
             </button>
         </div>
-        <div class="flex-1 overflow-y-auto">
+        <div class="flex-1 overflow-y-auto flex flex-col">
             {% include "pages/user_dashboard/includes/_side_bar_content.html" %}
         </div>
     </div>
@@ -60,9 +60,9 @@
 <header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-10 px-4 md:px-8 flex items-center justify-between">
     <div class="flex items-center gap-4">
         <button 
-            @click="mobileMenuOpen = true"
-            class="lg:hidden p-2 text-slate-600 hover:text-primary transition-colors focus:outline-none"
-            aria-label="Menu"
+            @click="sidebarOpen = !sidebarOpen"
+            class="p-2 text-slate-600 hover:text-primary transition-colors focus:outline-none"
+            aria-label="Toggle Sidebar"
         >
             <span class="material-symbols-outlined">menu</span>
         </button>
