@@ -13,6 +13,7 @@ from .views import (
     MyInvoiceView,
     AddressView,
     ProfileView,
+    OrderDetailView,
 )
 
 app_name = "users"
@@ -29,4 +30,5 @@ urlpatterns = [
     path("dashboard/invoices/", view=MyInvoiceView.as_view(), name="my-invoices"),
     path("dashboard/addresses/", view=AddressView.as_view(), name="addresses"),
     path("dashboard/profile/", view=ProfileView.as_view(), name="profile"),
+    path("dashboard/orders/<int:pk>/", view=OrderDetailView.as_view(), name="order-detail"),
 ]

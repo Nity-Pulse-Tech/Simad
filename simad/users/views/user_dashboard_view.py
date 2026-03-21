@@ -13,6 +13,7 @@ from simad.users.models import UserProfile
 from django.db.models import Sum
 from simad.global_data.enum import OrderStatusChoices
 from simad.catalog.models import Wishlist
+from simad.orders.models import Order
 
 class UserDashboardView(LoginRequiredMixin, TemplateView):
     template_name = "pages/user_dashboard/dashboard.html"
@@ -40,14 +41,22 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
         
         return context
 
-from simad.orders.models import Order
-
 class MyOrderView(LoginRequiredMixin, TemplateView):
     template_name = "pages/user_dashboard/pages/my_order.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['orders'] = Order.objects.filter(user=self.request.user)
+        context['orders'] = self.request.user.orders.all().order_by('-created')
+        return context
+
+class OrderDetailView(LoginRequiredMixin, TemplateView):
+    template_name = "pages/user_dashboard/pages/order_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order_id = self.kwargs.get('pk')
+        order = get_object_or_404(Order, id=order_id, user=self.request.user)
+        context['order'] = order
         return context
 
 class MyInvoiceView(LoginRequiredMixin, TemplateView):

@@ -59,7 +59,7 @@
 {% endif %}
 </td>
 <td class="px-6 py-5 text-right">
-<button class="text-primary hover:text-primary/70 text-sm font-bold transition-colors">View Details</button>
+<a href="{% url 'users:order-detail' order.id %}" class="text-primary hover:text-primary/70 text-sm font-bold transition-colors">View Details</a>
 </td>
 </tr>
 {% empty %}
