@@ -48,7 +48,13 @@ class LoginView(TemplateView):
                 request.session.set_expiry(0)
             
             logger.info(f"User {login_id} logged in successfully.")
-            return render(request, self.template_name, {'delayed_redirect_url': reverse('core:home')})
+            
+            from django.utils.http import url_has_allowed_host_and_scheme
+            next_url = request.GET.get('next') or request.POST.get('next') or reverse('core:home')
+            if not url_has_allowed_host_and_scheme(url=next_url, allowed_hosts={request.get_host()}):
+                next_url = reverse('core:home')
+                
+            return render(request, self.template_name, {'delayed_redirect_url': next_url})
         else:
             logger.warning(f"Failed login attempt for {login_id}.")
             messages.error(request, "Invalid login credentials.")
