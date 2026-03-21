@@ -16,8 +16,10 @@ class Cart {
     /**
      * Adds a product to the cart
      * @param {Object} product - Product details (id, name, price, image, stock)
+     * @param {number} quantity - Quantity to add (default 1)
      */
-    addItem(product) {
+    addItem(product, quantity = 1) {
+        const qtyToAdd = parseInt(quantity) || 1;
         // Validation: Stock check
         const stock = parseInt(product.stock) || 0;
         if (stock <= 0) {
@@ -28,25 +30,39 @@ class Cart {
         const existingItem = this.items.find(item => item.id === product.id);
         
         if (existingItem) {
-            // Check if we can add more if current quantity < stock
-            if (existingItem.quantity < stock) {
-                existingItem.quantity += 1;
+            // Check if we can add more
+            if (existingItem.quantity + qtyToAdd <= stock) {
+                existingItem.quantity += qtyToAdd;
                 this.save();
                 this.updateCartUI();
-                this.notifySuccess(`${product.name} ajouté au panier !`);
+                this.notifySuccess(`${qtyToAdd} x ${product.name} ajouté au panier !`);
             } else {
-                this.notifyError(`Stock maximum atteint pour ${product.name} (${stock}).`);
+                const available = stock - existingItem.quantity;
+                if (available > 0) {
+                    existingItem.quantity = stock;
+                    this.save();
+                    this.updateCartUI();
+                    this.notifyError(`Stock maximum atteint. Nous avons ajouté les ${available} restants.`);
+                } else {
+                    this.notifyError(`Stock maximum atteint pour ${product.name} (${stock}).`);
+                }
             }
             return;
         } else {
+            // Limit first add to stock
+            const finalQty = Math.min(qtyToAdd, stock);
             this.items.push({
                 ...product,
-                quantity: 1,
-                stock: stock // Save stock info for future validation
+                quantity: finalQty,
+                stock: stock 
             });
             this.save();
             this.updateCartUI();
-            this.notifySuccess(`${product.name} ajouté au panier !`);
+            if (finalQty < qtyToAdd) {
+                this.notifyError(`Seulement ${finalQty} unités ajoutées (stock limité).`);
+            } else {
+                this.notifySuccess(`${finalQty} x ${product.name} ajouté au panier !`);
+            }
         }
     }
 
@@ -192,7 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 stock: target.dataset.stock
             };
             
-            cart.addItem(product);
+            const quantity = parseInt(target.dataset.quantity || 1);
+            cart.addItem(product, quantity);
         }
     });
 });

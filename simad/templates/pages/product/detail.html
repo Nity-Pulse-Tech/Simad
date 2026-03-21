@@ -7,7 +7,8 @@
     activeImage: '{% if product.thumbnail %}{{ product.thumbnail.url }}{% endif %}', 
     activeTab: 'description',
     quantity: 1,
-    maxStock: {{ product.stock_quantity|default:0 }}
+    maxStock: {{ product.stock_quantity|default:0 }},
+    isFavorite: {% if is_in_wishlist %}true{% else %}false{% endif %}
   }" 
   class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
 >
@@ -36,8 +37,13 @@
             <span class="material-symbols-outlined text-6xl">image</span>
         </div>
         {% endif %}
-        <button class="absolute top-4 right-4 p-2 bg-white/90 rounded-full shadow-md text-slate-600 hover:text-red-500 transition-colors">
-            <span class="material-symbols-outlined">favorite</span>
+        <button 
+            class="absolute top-4 right-4 p-2 rounded-full shadow-md transition-all duration-300 backdrop-blur-md z-10"
+            :class="isFavorite ? 'bg-red-50 text-red-500' : 'bg-white/90 text-slate-600 hover:text-red-500 hover:bg-white'"
+            data-product-id="{{ product.id }}"
+            @click.prevent="toggleWishlist($el, $data)"
+        >
+            <span class="material-symbols-outlined transition-all" :class="isFavorite ? 'fill-1 scale-110' : ''">favorite</span>
         </button>
     </div>
 
@@ -121,7 +127,13 @@
             </div>
             <button 
                 :disabled="maxStock <= 0"
-                class="flex-1 bg-primary text-white py-3 px-6 rounded-lg font-bold flex items-center justify-center gap-3 hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="add-to-cart-btn flex-1 bg-primary text-white py-3 px-6 rounded-lg font-bold flex items-center justify-center gap-3 hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                data-id="{{ product.id }}"
+                data-name="{{ product.name }}"
+                data-price="{{ product.price }}"
+                data-stock="{{ product.stock_quantity }}"
+                data-image="{% if product.thumbnail %}{{ product.thumbnail.url }}{% endif %}"
+                :data-quantity="quantity"
             >
                 <span class="material-symbols-outlined">shopping_bag</span>
                 Ajouter au panier
@@ -291,7 +303,14 @@
 <p class="text-slate-500 text-sm mb-3 line-clamp-1">{{ related.short_description }}</p>
 <div class="flex items-center justify-between">
 <span class="text-lg font-black text-slate-900">{{ related.price|floatformat:0 }} FCFA</span>
-<button class="p-2 bg-primary/10 text-primary rounded-lg hover:bg-primary hover:text-white transition-all">
+<button 
+    class="add-to-cart-btn p-2 bg-primary/10 text-primary rounded-lg hover:bg-primary hover:text-white transition-all"
+    data-id="{{ related.id }}"
+    data-name="{{ related.name }}"
+    data-price="{{ related.price }}"
+    data-stock="{{ related.stock_quantity }}"
+    data-image="{% if related.thumbnail %}{{ related.thumbnail.url }}{% endif %}"
+>
 <span class="material-symbols-outlined">add_shopping_cart</span>
 </button>
 </div>
