@@ -33,6 +33,11 @@ window.toggleWishlist = async function(button, alpineData) {
                     .setDuration(4000)
                     .show();
             }
+            
+            // Redirect to login after show toast
+            setTimeout(() => {
+                window.location.href = '/users/login/?next=' + window.location.pathname;
+            }, 4000);
             return;
         }
 

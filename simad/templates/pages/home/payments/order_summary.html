@@ -77,7 +77,7 @@
               </div>
           </div>
 
-          <form id="address-selection-form" method="POST" action="{% url 'core:order_summary' %}" class="hidden">
+          <form id="address-selection-form" method="POST" action="{% url 'core:order-summary' %}" class="hidden">
               {% csrf_token %}
               <input type="hidden" name="address_id" :value="selectedAddressId">
               <input type="hidden" name="order_ref" value="{{ order.reference }}">
