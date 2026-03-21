@@ -9,25 +9,25 @@
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
 <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-primary/10 shadow-sm">
 <p class="text-slate-500 text-sm font-medium">Total Spent</p>
-<h3 class="text-2xl font-bold text-slate-900 dark:text-slate-50 mt-1">100,700 FCFA</h3>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-slate-50 mt-1">{{ total_spent|floatformat:0 }} FCFA</h3>
 <div class="flex items-center gap-1 mt-2 text-primary text-xs font-semibold">
 <span class="material-symbols-outlined text-sm">trending_up</span>
-<span>+12.5% from last month</span>
+<span>Lifetime billing</span>
 </div>
 </div>
 <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-primary/10 shadow-sm">
 <p class="text-slate-500 text-sm font-medium">Outstanding</p>
-<h3 class="text-2xl font-bold text-slate-900 dark:text-slate-50 mt-1">0 FCFA</h3>
-<div class="flex items-center gap-1 mt-2 text-green-600 text-xs font-semibold">
-<span class="material-symbols-outlined text-sm">check_circle</span>
-<span>Fully settled</span>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-slate-50 mt-1">{{ outstanding|floatformat:0 }} FCFA</h3>
+<div class="flex items-center gap-1 mt-2 {% if outstanding > 0 %}text-amber-600{% else %}text-green-600{% endif %} text-xs font-semibold">
+<span class="material-symbols-outlined text-sm">{% if outstanding > 0 %}error{% else %}check_circle{% endif %}</span>
+<span>{% if outstanding > 0 %}Pending settlement{% else %}Fully settled{% endif %}</span>
 </div>
 </div>
 <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-primary/10 shadow-sm">
-<p class="text-slate-500 text-sm font-medium">Active Subscriptions</p>
-<h3 class="text-2xl font-bold text-slate-900 dark:text-slate-50 mt-1">02</h3>
+<p class="text-slate-500 text-sm font-medium">Total Invoices</p>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-slate-50 mt-1">{{ invoices.count|stringformat:"02d" }}</h3>
 <div class="flex items-center gap-1 mt-2 text-slate-400 text-xs font-semibold">
-<span>Next renewal: Nov 01</span>
+<span>Generated documents</span>
 </div>
 </div>
 </div>
@@ -43,14 +43,10 @@
 <span class="material-symbols-outlined text-lg">filter_list</span>
                                 Filter
                             </button>
-<button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 bg-background-light dark:bg-slate-800 border border-primary/10 rounded-lg hover:bg-primary/5 transition-colors">
-<span class="material-symbols-outlined text-lg">calendar_today</span>
-                                Date range
-                            </button>
 </div>
 </div>
 <div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
+<table class="w-full text-left border-collapse min-w-[600px]">
 <thead>
 <tr class="bg-primary/5 text-slate-500 uppercase text-[10px] font-bold tracking-widest">
 <th class="px-6 py-4">Invoice #</th>
@@ -60,91 +56,34 @@
 </tr>
 </thead>
 <tbody class="divide-y divide-primary/10">
-<!-- Row 1 -->
+{% for invoice in invoices %}
 <tr class="hover:bg-primary/5 transition-colors group">
 <td class="px-6 py-4">
 <div class="flex flex-col">
-<span class="text-sm font-bold text-slate-900 dark:text-slate-100">INV-2024-004</span>
-<span class="text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded w-fit mt-1">PAID</span>
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100">INV-{{ invoice.created|date:"Y" }}-{{ invoice.reference|default:invoice.id|slice:":8" }}</span>
+<span class="text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded w-fit mt-1 uppercase">PAID</span>
 </div>
 </td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Jan 15, 2024</td>
-<td class="px-6 py-4 text-sm font-semibold text-slate-900 dark:text-slate-100">18,200 FCFA</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">{{ invoice.created|date:"M d, Y" }}</td>
+<td class="px-6 py-4 text-sm font-semibold text-slate-900 dark:text-slate-100">{{ invoice.total|floatformat:0 }} FCFA</td>
 <td class="px-6 py-4 text-right">
-<button class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 shadow-md shadow-primary/20 transition-all">
-<span class="material-symbols-outlined text-sm">download</span>
-                                            PDF
-                                        </button>
+<a href="{% url 'users:order-detail' invoice.id %}" class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 shadow-md shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-sm">visibility</span>
+                                            VIEW
+                                        </a>
 </td>
 </tr>
-<!-- Row 2 -->
-<tr class="hover:bg-primary/5 transition-colors group">
-<td class="px-6 py-4">
-<div class="flex flex-col">
-<span class="text-sm font-bold text-slate-900 dark:text-slate-100">INV-2023-003</span>
-<span class="text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded w-fit mt-1">PAID</span>
-</div>
-</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Dec 01, 2023</td>
-<td class="px-6 py-4 text-sm font-semibold text-slate-900 dark:text-slate-100">45,000 FCFA</td>
-<td class="px-6 py-4 text-right">
-<button class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 shadow-md shadow-primary/20 transition-all">
-<span class="material-symbols-outlined text-sm">download</span>
-                                            PDF
-                                        </button>
-</td>
+{% empty %}
+<tr>
+<td colspan="4" class="px-6 py-12 text-center text-slate-500 italic">No invoices found.</td>
 </tr>
-<!-- Row 3 -->
-<tr class="hover:bg-primary/5 transition-colors group">
-<td class="px-6 py-4">
-<div class="flex flex-col">
-<span class="text-sm font-bold text-slate-900 dark:text-slate-100">INV-2023-002</span>
-<span class="text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded w-fit mt-1">PAID</span>
-</div>
-</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Nov 05, 2023</td>
-<td class="px-6 py-4 text-sm font-semibold text-slate-900 dark:text-slate-100">12,500 FCFA</td>
-<td class="px-6 py-4 text-right">
-<button class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 shadow-md shadow-primary/20 transition-all">
-<span class="material-symbols-outlined text-sm">download</span>
-                                            PDF
-                                        </button>
-</td>
-</tr>
-<!-- Row 4 -->
-<tr class="hover:bg-primary/5 transition-colors group">
-<td class="px-6 py-4">
-<div class="flex flex-col">
-<span class="text-sm font-bold text-slate-900 dark:text-slate-100">INV-2023-001</span>
-<span class="text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded w-fit mt-1">PAID</span>
-</div>
-</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Oct 12, 2023</td>
-<td class="px-6 py-4 text-sm font-semibold text-slate-900 dark:text-slate-100">25,000 FCFA</td>
-<td class="px-6 py-4 text-right">
-<button class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 shadow-md shadow-primary/20 transition-all">
-<span class="material-symbols-outlined text-sm">download</span>
-                                            PDF
-                                        </button>
-</td>
-</tr>
+{% endfor %}
 </tbody>
 </table>
 </div>
 <!-- Pagination -->
 <div class="p-6 bg-slate-50 dark:bg-slate-900/20 border-t border-primary/10 flex items-center justify-between">
-<p class="text-sm text-slate-500">Showing <span class="font-medium text-slate-900 dark:text-slate-100">1</span> to <span class="font-medium text-slate-900 dark:text-slate-100">4</span> of <span class="font-medium text-slate-900 dark:text-slate-100">12</span> results</p>
-<div class="flex gap-1">
-<button class="size-9 flex items-center justify-center rounded-lg border border-primary/10 text-slate-400 hover:text-primary hover:border-primary transition-colors">
-<span class="material-symbols-outlined">chevron_left</span>
-</button>
-<button class="size-9 flex items-center justify-center rounded-lg bg-primary text-white font-bold text-sm">1</button>
-<button class="size-9 flex items-center justify-center rounded-lg border border-primary/10 text-slate-600 dark:text-slate-400 hover:text-primary hover:border-primary transition-colors text-sm font-medium">2</button>
-<button class="size-9 flex items-center justify-center rounded-lg border border-primary/10 text-slate-600 dark:text-slate-400 hover:text-primary hover:border-primary transition-colors text-sm font-medium">3</button>
-<button class="size-9 flex items-center justify-center rounded-lg border border-primary/10 text-slate-400 hover:text-primary hover:border-primary transition-colors">
-<span class="material-symbols-outlined">chevron_right</span>
-</button>
-</div>
+<p class="text-sm text-slate-500">Showing <span class="font-medium text-slate-900 dark:text-slate-100">{{ invoices.count }}</span> results</p>
 </div>
 </div>
 <!-- Assistance Section -->

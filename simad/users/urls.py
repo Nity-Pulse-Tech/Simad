@@ -14,6 +14,7 @@ from .views import (
     AddressView,
     ProfileView,
     OrderDetailView,
+    FavoritesView,
 )
 
 app_name = "users"
@@ -26,6 +27,7 @@ urlpatterns = [
     path("resend-verification/", view=ResendVerificationView.as_view(), name="resend-verification"),
     path("logout/", view=LogoutView.as_view(), name="logout"),
     path("dashboard/", view=UserDashboardView.as_view(), name="dashboard"),
+    path("dashboard/favorites/", view=FavoritesView.as_view(), name="favorites"),
     path("dashboard/orders/", view=MyOrderView.as_view(), name="my-orders"),
     path("dashboard/invoices/", view=MyInvoiceView.as_view(), name="my-invoices"),
     path("dashboard/addresses/", view=AddressView.as_view(), name="addresses"),

@@ -62,6 +62,32 @@ class OrderDetailView(LoginRequiredMixin, TemplateView):
 class MyInvoiceView(LoginRequiredMixin, TemplateView):
     template_name = "pages/user_dashboard/pages/my_invoice.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        
+        # Invoices are basically paid orders in this context
+        invoices = user.orders.filter(is_paid=True).order_by('-created')
+        context['invoices'] = invoices
+        
+        # Stats
+        total_spent = invoices.aggregate(Sum('total'))['total__sum'] or 0
+        context['total_spent'] = total_spent
+        
+        # Outstanding (Pending orders total)
+        outstanding = user.orders.filter(is_paid=False).aggregate(Sum('total'))['total__sum'] or 0
+        context['outstanding'] = outstanding
+        
+        return context
+
+class FavoritesView(LoginRequiredMixin, TemplateView):
+    template_name = "pages/user_dashboard/pages/favorites.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['favorites'] = Wishlist.objects.filter(user=self.request.user).select_related('product')
+        return context
+
 class AddressView(LoginRequiredMixin, View):
     template_name = "pages/user_dashboard/pages/address.html"
 
