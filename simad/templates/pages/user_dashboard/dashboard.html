@@ -50,7 +50,7 @@
         <div class="xl:col-span-2 space-y-4">
             <div class="flex items-center justify-between">
                 <h3 class="text-xl font-bold">Recent Orders</h3>
-                <a href="{% url 'users:order_list' %}" class="text-sm font-semibold text-primary hover:underline">View all</a>
+                <a href="{% url 'users:my-orders' %}" class="text-sm font-semibold text-primary hover:underline">View all</a>
             </div>
             <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
                 <div class="overflow-x-auto">
@@ -66,7 +66,9 @@
                         <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
                             {% for order in recent_orders %}
                             <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                <td class="px-6 py-4 font-medium">#{{ order.reference }}</td>
+                                <td class="px-6 py-4 font-medium italic text-primary">
+                                    <a href="{% url 'users:order-detail' order.id %}">#{{ order.reference }}</a>
+                                </td>
                                 <td class="px-6 py-4 text-slate-500">{{ order.created|date:"M d, Y" }}</td>
                                 <td class="px-6 py-4 font-semibold">{{ order.total|floatformat:0 }} FCFA</td>
                                 <td class="px-6 py-4">
@@ -93,7 +95,7 @@
         <div class="space-y-4">
             <div class="flex items-center justify-between">
                 <h3 class="text-xl font-bold">Primary Address</h3>
-                <a href="{% url 'users:address' %}" class="p-1 text-slate-400 hover:text-primary transition-colors flex items-center gap-1 text-xs font-bold uppercase">
+                <a href="{% url 'users:addresses' %}" class="p-1 text-slate-400 hover:text-primary transition-colors flex items-center gap-1 text-xs font-bold uppercase">
                     Manage all <span class="material-symbols-outlined text-sm">arrow_forward</span>
                 </a>
             </div>
@@ -117,7 +119,7 @@
                     </div>
                 </div>
                 <div class="mt-6 flex gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
-                    <a href="{% url 'users:address' %}" class="text-xs font-bold text-slate-400 hover:text-primary uppercase tracking-wider">Edit Address</a>
+                    <a href="{% url 'users:addresses' %}" class="text-xs font-bold text-slate-400 hover:text-primary uppercase tracking-wider">Edit Address</a>
                 </div>
             </div>
             {% else %}
@@ -129,7 +131,7 @@
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-200">No primary address</p>
                     <p class="text-xs text-slate-500 mt-1">Add a default address for faster checkout.</p>
                 </div>
-                <a href="{% url 'users:address' %}" class="mt-2 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg shadow-sm hover:bg-primary/90 transition-all">Add Address</a>
+                <a href="{% url 'users:addresses' %}" class="mt-2 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg shadow-sm hover:bg-primary/90 transition-all">Add Address</a>
             </div>
             {% endif %}
         </div>
