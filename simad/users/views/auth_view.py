@@ -258,6 +258,8 @@ class WhatsAppSentView(TemplateView):
 
 class ActivateAccountView(View):
     def get(self, request, token, *args, **kwargs):
+        # Clean token from WhatsApp artifacts if present
+        token = token.replace('%7B%7B1%7D%7D', '').replace('{{1}}', '')
         logger.info("ActivateAccountView GET — token=%s, IP=%s", token, request.META.get("REMOTE_ADDR"))
         cache_key = f"whatsapp_activation_{token}"
         email = cache.get(cache_key)

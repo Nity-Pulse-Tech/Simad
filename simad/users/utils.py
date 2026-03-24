@@ -27,7 +27,17 @@ def send_whatsapp_verification_link(user: User, activation_url):
     
     # If the user's template has a fixed example.com, we can only send the dynamic suffix.
     # However, if SITE_URL is configured, we can use it to construct a better path if the template allows.
-    url_path = activation_url.split('/activate/')[-1].replace('%7B%7B1%7D%7D', '').replace('{{1}}', '')
+    # Use the relative path from the activation URL
+    # If the URL is https://domain.com/users/activate/TOKEN/, we want 'users/activate/TOKEN/'
+    # or just the token depending on how the Meta Template button is configured.
+    # Given the 404 logs, the template button likely starts with /activate/ 
+    # so we provide the part after that.
+    if '/activate/' in activation_url:
+        url_path = activation_url.split('/activate/')[-1]
+    else:
+        url_path = activation_url.split(getattr(settings, 'SITE_URL', ''))[-1].lstrip('/')
+
+    url_path = url_path.replace('%7B%7B1%7D%7D', '').replace('{{1}}', '')
     
     # Log the sending attempt
     logger.info(f"Attempting to send WhatsApp verification to {user.phone_number}. Path: {url_path}")

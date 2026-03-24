@@ -18,6 +18,10 @@ urlpatterns = [
     # User management
     path("users/", include("simad.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
+    # Fallback for WhatsApp activation links if prefix is missing
+    path("activate/<str:token>/", include(([
+        path("", include("simad.users.urls")),
+    ], "users_fallback"))),
     # Your stuff: custom urls includes go here
     # ...
     # Media files
