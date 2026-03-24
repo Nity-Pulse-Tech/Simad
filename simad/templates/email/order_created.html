@@ -1,0 +1,73 @@
+{% extends "email/email_base.html" %}
+
+{% block extra_css %}
+.order-details {
+    background-color: #f8fafc;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+}
+.order-item {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+}
+.order-item:last-child {
+    border-bottom: none;
+}
+.total-row {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #1a4a89;
+    text-align: right;
+}
+.btn {
+    display: inline-block;
+    background-color: #1a4a89;
+    color: #ffffff !important;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+}
+{% endblock %}
+
+{% block content %}
+    <h2 style="margin-top: 0; color: #0f172a;">Confirmation de commande</h2>
+    <p>Bonjour {{ user.first_name|default:"Client" }},</p>
+    <p>Merci pour votre commande sur <strong>SIMAD.cm</strong>. Nous avons bien reçu votre demande et elle est en cours de traitement.</p>
+    
+    <div class="order-details">
+        <h3 style="margin-top: 0;">Récapitulatif de la commande : {{ order.reference }}</h3>
+        
+        {% for item in order.items.all %}
+        <div class="order-item">
+            <span>{{ item.quantity }} × {{ item.product_name }}</span>
+            <span>{{ item.subtotal }} XOF</span>
+        </div>
+        {% endfor %}
+        
+        <div class="order-item" style="border-top: 2px solid #e2e8f0; margin-top: 10px; padding-top: 10px;">
+            <span>Sous-total</span>
+            <span>{{ order.subtotal }} XOF</span>
+        </div>
+        <div class="order-item">
+            <span>Frais de livraison</span>
+            <span>{{ order.shipping_cost }} XOF</span>
+        </div>
+        
+        <div class="total-row">
+            Total : {{ order.total }} XOF
+        </div>
+    </div>
+    
+    <p>Vous pouvez suivre l'état de votre commande depuis votre tableau de bord.</p>
+    
+    <a href="{{ site_url }}{% url 'users:my-orders' %}" class="btn">Voir mes commandes</a>
+    
+    <p style="margin-top: 30px;">Merci de votre confiance !</p>
+    <p>Cordialement,<br>L'équipe SIMAD</p>
+{% endblock %}

@@ -12,6 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from simad.catalog.models import Product, Category, ProductSpecification, Wishlist
 from simad.orders.models import Order, OrderItem
+from simad.orders.tasks import send_order_notifications
 
 class WishlistToggleView(View):
     def post(self, request, *args, **kwargs):
@@ -214,6 +215,9 @@ class CreateOrderView(View):
             order.subtotal = total_subtotal
             order.total = total_subtotal + 1500 # Subtotal + Delivery
             order.save()
+
+            # Trigger asynchronous notifications
+            send_order_notifications.delay(order.id)
 
             # Store reference in session for the summary page
             request.session['order_ref'] = order.reference

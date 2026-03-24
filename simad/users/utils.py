@@ -27,7 +27,7 @@ def send_whatsapp_verification_link(user: User, activation_url):
     
     # If the user's template has a fixed example.com, we can only send the dynamic suffix.
     # However, if SITE_URL is configured, we can use it to construct a better path if the template allows.
-    url_path = activation_url.split('/activate/')[-1]
+    url_path = activation_url.split('/activate/')[-1].replace('%7B%7B1%7D%7D', '').replace('{{1}}', '')
     
     # Log the sending attempt
     logger.info(f"Attempting to send WhatsApp verification to {user.phone_number}. Path: {url_path}")
@@ -38,7 +38,7 @@ def send_whatsapp_verification_link(user: User, activation_url):
         "type": "template",
         "template": {
             "name": template_name,
-            "language": {"code": "en_US"},
+            "language": {"code": "en"},
             "components": [
                 {
                     "type": "body",
@@ -68,4 +68,55 @@ def send_whatsapp_verification_link(user: User, activation_url):
             return False
     except Exception as e:
         logger.exception(f"Exception occurred while sending WhatsApp message: {e}")
+        return False
+
+def send_whatsapp_order_confirmation(user: User, order):
+    """
+    Helper to send order confirmation via WhatsApp.
+    Template: 'order_confirmation'
+    Vars: {{1}} for name, {{2}} for ref, {{3}} for total
+    """
+    api_token = getattr(settings, 'WHATSAPP_API_TOKEN', None)
+    phone_id = getattr(settings, 'WHATSAPP_PHONE_NUMBER_ID', None)
+    
+    if not api_token or not phone_id:
+        logger.warning(f"WhatsApp API not configured. Order: {order.reference}")
+        return False
+
+    url = f"https://graph.facebook.com/v17.0/{phone_id}/messages"
+    headers = {
+        "Authorization": f"Bearer {api_token}",
+        "Content-Type": "application/json"
+    }
+
+    data = {
+        "messaging_product": "whatsapp",
+        "to": user.phone_number if hasattr(user, 'phone_number') else "",
+        "type": "template",
+        "template": {
+            "name": "order_confirmation",
+            "language": {"code": "fr"},
+            "components": [
+                {
+                    "type": "body",
+                    "parameters": [
+                        {"type": "text", "text": user.first_name or "Client"},
+                        {"type": "text", "text": order.reference},
+                        {"type": "text", "text": f"{order.total} XOF"}
+                    ]
+                }
+            ]
+        }
+    }
+
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        if response.status_code == 200:
+            logger.info(f"WhatsApp order confirmation sent to {user.phone_number}")
+            return True
+        else:
+            logger.error(f"Failed to send WhatsApp order message. Status: {response.status_code}. Response: {response.text}")
+            return False
+    except Exception as e:
+        logger.exception(f"Exception occurred while sending WhatsApp order message: {e}")
         return False

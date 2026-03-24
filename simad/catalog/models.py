@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.postgres.indexes import GinIndex
+from django.contrib.postgres.search import SearchVectorField
 from django.utils.translation import gettext_lazy as _
 
 from simad.core.models import SIMADBASEMODEL
@@ -107,6 +109,12 @@ class Product(SIMADBASEMODEL):
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
         ordering = ["-created"]
+        indexes = [
+            models.Index(fields=["name"]),
+            models.Index(fields=["slug"]),
+            models.Index(fields=["created"]),
+            GinIndex(fields=["name", "description"]),
+        ]
 
     def __str__(self):
         return self.name

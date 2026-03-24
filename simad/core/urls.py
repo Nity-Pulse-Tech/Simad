@@ -10,6 +10,7 @@ from .views import (
     PaymentFailureView,
     CreateOrderView,
     WishlistToggleView,
+    ProductSearchView,
 )
 
 app_name = "core"
@@ -25,4 +26,5 @@ urlpatterns = [
     path("checkout/payment/", PaymentView.as_view(), name="payment"),
     path("checkout/success/", PaymentSuccessView.as_view(), name="payment-success"),
     path("checkout/failure/", PaymentFailureView.as_view(), name="payment-failure"),
+    path("api/search/", ProductSearchView.as_view(), name="api-search"),
 ]
