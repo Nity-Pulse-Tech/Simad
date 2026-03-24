@@ -25,6 +25,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name='product',
-            index=django.contrib.postgres.indexes.GinIndex(fields=['name', 'description'], name='catalog_pro_name_94277b_gin'),
+            index=django.contrib.postgres.indexes.GinIndex(fields=['name', 'description'], name='catalog_pro_name_94277b_gin', opclasses=['gin_trgm_ops', 'gin_trgm_ops']),
         ),
     ]

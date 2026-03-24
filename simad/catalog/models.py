@@ -113,7 +113,7 @@ class Product(SIMADBASEMODEL):
             models.Index(fields=["name"]),
             models.Index(fields=["slug"]),
             models.Index(fields=["created"]),
-            GinIndex(fields=["name", "description"]),
+            GinIndex(fields=["name", "description"], opclasses=["gin_trgm_ops", "gin_trgm_ops"]),
         ]
 
     def __str__(self):
