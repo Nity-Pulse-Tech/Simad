@@ -20,8 +20,22 @@ logger = logging.getLogger(__name__)
 class LoginView(TemplateView):
     template_name = "pages/auth/login.html"
 
+    def get(self, request, *args, **kwargs):
+        logger.info(
+            "LoginView GET — IP=%s, next=%s",
+            request.META.get("REMOTE_ADDR"),
+            request.GET.get('next', 'none'),
+        )
+        return super().get(request, *args, **kwargs)
+
     def post(self, request, *args, **kwargs):
         login_id = request.POST.get('login')
+        logger.info(
+            "LoginView POST — login_id=%s, IP=%s, remember_me=%s",
+            login_id,
+            request.META.get("REMOTE_ADDR"),
+            request.POST.get('remember-me'),
+        )
         password = request.POST.get('password')
         remember_me = request.POST.get('remember-me') == 'on'
 
@@ -34,6 +48,7 @@ class LoginView(TemplateView):
 
         if user:
             if not user.is_active:
+                logger.warning("Login attempt for inactive user: %s", login_id)
                 messages.error(request, "Your account is not active. Please verify your email or phone number.")
                 request.session['verification_email'] = user.email
                 if user.is_phone_verified: # Simple logic to guess method
@@ -63,6 +78,10 @@ class LoginView(TemplateView):
 class SignupView(TemplateView):
     template_name = "pages/auth/signup.html"
 
+    def get(self, request, *args, **kwargs):
+        logger.info("SignupView GET — IP=%s", request.META.get("REMOTE_ADDR"))
+        return super().get(request, *args, **kwargs)
+
     @transaction.atomic
     def post(self, request, *args, **kwargs):
         email = request.POST.get('email')
@@ -72,21 +91,34 @@ class SignupView(TemplateView):
         phone_number = request.POST.get('phone_number')
         terms_accepted = request.POST.get('terms_accepted') == 'on'
         verification_method = request.POST.get('verification', 'email')
+        logger.info(
+            "SignupView POST — email=%s, full_name=%s, phone=%s, method=%s, terms=%s, IP=%s",
+            email,
+            full_name,
+            phone_number,
+            verification_method,
+            terms_accepted,
+            request.META.get("REMOTE_ADDR"),
+        )
         
         if not email:
+            logger.warning("Signup failed — no email provided")
             messages.error(request, "Email is required.")
             return self.get(request, *args, **kwargs)
 
         if password != confirm_password:
+            logger.warning("Signup failed for %s — passwords do not match", email)
             messages.error(request, "Passwords do not match.")
             return self.get(request, *args, **kwargs)
 
         if not terms_accepted:
+            logger.warning("Signup failed for %s — terms not accepted", email)
             messages.error(request, "You must accept the Terms of Service.")
             return self.get(request, *args, **kwargs)
 
         # Simple user creation for now, assuming form validation is handled or will be
         if User.objects.filter(email=email).exists():
+            logger.warning("Signup failed — email already registered: %s", email)
             messages.error(request, "Email already registered.")
             return self.get(request, *args, **kwargs)
             
@@ -112,10 +144,12 @@ class SignupView(TemplateView):
 
         # Generate 6-digit OTP
         otp = str(random.randint(100000, 999999))
+        logger.info("Generated OTP for %s: %s (method=%s)", email, otp, verification_method)
         
         # Store in cache for 10 minutes
         cache_key = f"otp_verification_{email}"
         cache.set(cache_key, otp, timeout=600)
+        logger.debug("OTP stored in cache with key '%s' (timeout=600s)", cache_key)
         
         # Determine where to send (for now emailing as requested, but logic is ready for WhatsApp)
         if verification_method == 'email':
@@ -159,6 +193,11 @@ class SignupView(TemplateView):
 class VerifyCodeView(TemplateView):
     template_name = "pages/auth/verify_code.html"
 
+    def get(self, request, *args, **kwargs):
+        email = request.session.get('verification_email')
+        logger.info("VerifyCodeView GET — email=%s, IP=%s", email, request.META.get("REMOTE_ADDR"))
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         email = self.request.session.get('verification_email')
@@ -168,12 +207,15 @@ class VerifyCodeView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         email = request.session.get('verification_email')
+        logger.info("VerifyCodeView POST — email=%s, IP=%s", email, request.META.get("REMOTE_ADDR"))
         if not email:
+            logger.warning("VerifyCodeView POST — no email in session, redirecting to signup")
             return redirect('users:signup')
             
         entered_code = request.POST.get('code') # Assuming Alpine.js submits a single field 'code'
         cache_key = f"otp_verification_{email}"
         stored_otp = cache.get(cache_key)
+        logger.debug("VerifyCodeView — entered_code=%s, stored_otp=%s", entered_code, stored_otp)
         
         if stored_otp and entered_code == stored_otp:
             # Success
@@ -200,18 +242,26 @@ class VerifyCodeView(TemplateView):
 class WhatsAppSentView(TemplateView):
     template_name = "pages/auth/whatsapp_sent.html"
 
+    def get(self, request, *args, **kwargs):
+        logger.info("WhatsAppSentView GET — email=%s", request.session.get('verification_email'))
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         email = self.request.session.get('verification_email')
         context['email'] = email
         if email:
-            context['resend_count'] = cache.get(f"resend_count_{email}", 0)
+            resend_count = cache.get(f"resend_count_{email}", 0)
+            context['resend_count'] = resend_count
+            logger.info("WhatsAppSentView context — email=%s, resend_count=%d", email, resend_count)
         return context
 
 class ActivateAccountView(View):
     def get(self, request, token, *args, **kwargs):
+        logger.info("ActivateAccountView GET — token=%s, IP=%s", token, request.META.get("REMOTE_ADDR"))
         cache_key = f"whatsapp_activation_{token}"
         email = cache.get(cache_key)
+        logger.info("ActivateAccountView — resolved email from token: %s", email)
         
         if not email:
             messages.error(request, "Link is invalid or has expired.")
@@ -222,6 +272,7 @@ class ActivateAccountView(View):
             user.is_active = True
             user.is_email_verified = True # Or WhatsApp verified if we add the field
             user.save()
+            logger.info("Account activated for user %s via WhatsApp token", email)
             
             # Log the user in
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
@@ -233,13 +284,20 @@ class ActivateAccountView(View):
             messages.success(request, "Account activated successfully! Welcome to SIMAD.")
             return redirect('core:home')
         except User.DoesNotExist:
+            logger.error("ActivateAccountView — user not found for email %s", email)
             messages.error(request, "User not found.")
             return redirect('users:signup')
 
 class ResendVerificationView(View):
     def post(self, request, *args, **kwargs):
         email = request.session.get('verification_email')
+        logger.info(
+            "ResendVerificationView POST — email=%s, IP=%s",
+            email,
+            request.META.get("REMOTE_ADDR"),
+        )
         if not email:
+            logger.warning("ResendVerificationView — no email in session")
             return redirect('users:signup')
             
         try:
@@ -252,6 +310,7 @@ class ResendVerificationView(View):
         count_key = f"resend_count_{email}"
         
         if cache.get(cooldown_key):
+            logger.warning("ResendVerification throttled for %s — cooldown active", email)
             messages.error(request, "Please wait before requesting another message.")
             return redirect(request.META.get('HTTP_REFERER', 'users:signup'))
             
@@ -297,7 +356,10 @@ class ResendVerificationView(View):
 
 class LogoutView(View):
     def post(self, request, *args, **kwargs):
+        user_email = request.user.email if request.user.is_authenticated else "Unknown"
+        logger.info("LogoutView POST — user=%s, IP=%s", user_email, request.META.get("REMOTE_ADDR"))
         from django.contrib.auth import logout
         logout(request)
+        logger.info("User %s logged out successfully", user_email)
         messages.info(request, "Vous avez été déconnecté avec succès.")
         return render(request, 'pages/home/home.html', {'delayed_redirect_url': reverse('core:home')})
