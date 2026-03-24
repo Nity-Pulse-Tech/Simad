@@ -266,13 +266,14 @@ class ActivateAccountView(View):
         logger.info("ActivateAccountView — resolved email from token: %s", email)
         
         if not email:
-            messages.error(request, "Link is invalid or has expired.")
-            return redirect('users:signup')
+            logger.warning("ActivateAccountView — token invalid or expired: %s", token)
+            return render(request, "pages/auth/activation_error.html")
             
         try:
             user = User.objects.get(email=email)
             user.is_active = True
-            user.is_email_verified = True # Or WhatsApp verified if we add the field
+            user.is_email_verified = True 
+            user.is_phone_verified = True # Mark phone verified as requested
             user.save()
             logger.info("Account activated for user %s via WhatsApp token", email)
             
@@ -283,12 +284,13 @@ class ActivateAccountView(View):
             cache.delete(cache_key)
             request.session.pop('verification_email', None)
                 
-            messages.success(request, "Account activated successfully! Welcome to SIMAD.")
-            return redirect('core:home')
+            return render(request, "pages/auth/activation_success.html", {
+                "user_name": user.first_name or "Utilisateur",
+                "delayed_redirect_url": reverse('core:home')
+            })
         except User.DoesNotExist:
             logger.error("ActivateAccountView — user not found for email %s", email)
-            messages.error(request, "User not found.")
-            return redirect('users:signup')
+            return render(request, "pages/auth/activation_error.html")
 
 class ResendVerificationView(View):
     def post(self, request, *args, **kwargs):

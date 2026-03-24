@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Erreur d'Activation - SIMAD{% endblock %}
+
+{% block css %}
+{{ block.super }}
+<style>
+    .activation-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        padding: 3rem;
+        text-align: center;
+        max-width: 500px;
+        margin: 4rem auto;
+        animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .error-icon {
+        width: 80px;
+        height: 80px;
+        background: #EF4444;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 2.5rem;
+        box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3);
+        animation: shake 0.5s ease-in-out 0.3s;
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        75% { transform: translateX(10px); }
+    }
+
+    .btn-premium-outline {
+        border: 2px solid #3B82F6;
+        color: #3B82F6;
+        padding: 0.8rem 2rem;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 1.5rem;
+        background: transparent;
+    }
+
+    .btn-premium-outline:hover {
+        background: #3B82F6;
+        color: white;
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="activation-card">
+    <div class="error-icon">
+        <i class="fas fa-times"></i>
+    </div>
+    <h1 class="h2 mb-3 fw-bold">Oups ! Lien Invalide</h1>
+    <p class="text-muted mb-4">
+        Ce lien d'activation semble avoir expiré ou est invalide. Veuillez vous réinscrire ou demander un nouveau lien.
+    </p>
+    <a href="{% url 'users:signup' %}" class="btn-premium-outline">Retour à l'inscription</a>
+</div>
+{% endblock %}

@@ -2,9 +2,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include
-from django.urls import path
+from django.urls import path, re_path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
+from simad.users.views import ActivateAccountView
 
 urlpatterns = [
     path("", include("simad.core.urls", namespace="core")),
@@ -18,10 +19,8 @@ urlpatterns = [
     # User management
     path("users/", include("simad.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
-    # Fallback for WhatsApp activation links if prefix is missing
-    path("activate/<str:token>/", include(([
-        path("", include("simad.users.urls")),
-    ], "users_fallback"))),
+    # Robust fallback for WhatsApp activation links (handles encoded {{1}} tokens)
+    re_path(r"^activate/(?P<token>[^/]+)/?$", ActivateAccountView.as_view(), name="activate-fallback"),
     # Your stuff: custom urls includes go here
     # ...
     # Media files
