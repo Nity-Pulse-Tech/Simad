@@ -10,6 +10,11 @@ services:
       - "8080:8000"
     env_file:
       - .env
+    environment:
+      - RUN_MIGRATIONS=1
+      - COLLECT_STATIC=1
+      - COMPILE_MESSAGES=1
+      - UV_LINK_MODE=copy
     depends_on:
       - db
       - redis
@@ -42,6 +47,11 @@ services:
       - .:/app
     env_file:
       - .env
+    environment:
+      - RUN_MIGRATIONS=0
+      - COLLECT_STATIC=0
+      - COMPILE_MESSAGES=0
+      - UV_LINK_MODE=copy
     depends_on:
       - redis
       - db
