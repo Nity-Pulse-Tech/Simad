@@ -80,75 +80,105 @@
     <div class="flex items-center justify-end flex-1 gap-2 md:gap-6">
       <!-- Search Experience -->
       <div 
-        class="relative flex items-center bg-slate-100 rounded-full transition-all duration-300 overflow-hidden ring-1 ring-slate-200 focus-within:ring-primary/30"
-        :class="showSearch ? 'flex-1 md:max-w-md' : 'w-10 h-10 md:w-12 md:h-12'"
+        class="relative"
+        :class="showSearch ? 'flex-1 md:max-w-md' : ''"
+        @click.away="showSearch = false; searchQuery = ''; searchResults = []"
       >
-        <button 
-          @click="showSearch = !showSearch; if(showSearch) $nextTick(() => $refs.searchInput.focus())"
-          class="absolute left-0 p-2 md:p-3.5 text-slate-500 hover:text-primary transition-colors z-10"
+        <!-- Search Input Bar -->
+        <div 
+          class="flex items-center bg-slate-100 rounded-full transition-all duration-300 overflow-hidden ring-1 ring-slate-200 focus-within:ring-2 focus-within:ring-primary/40 focus-within:bg-white"
+          :class="showSearch ? 'w-full shadow-lg shadow-slate-200/50' : 'w-10 h-10 md:w-12 md:h-12'"
         >
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </button>
-        <input 
-          x-ref="searchInput"
-          x-show="showSearch"
-          x-model.debounce.300ms="searchQuery"
-          x-on:input="fetchResults"
-          x-transition:enter="transition ease-out duration-300"
-          x-transition:enter-start="opacity-0 translate-x-4"
-          x-transition:enter-end="opacity-100 translate-x-0"
-          @click.away="showSearch = false"
-          type="text" 
-          placeholder="Rechercher un produit..." 
-          class="w-full bg-transparent border-none focus:ring-0 py-2.5 pl-12 pr-10 text-sm font-semibold text-slate-800"
-        />
-        <button 
-          x-show="showSearch" 
-          @click="showSearch = false; searchQuery = ''; searchResults = []"
-          class="absolute right-0 p-2 text-slate-400 hover:text-red-500 transition-colors"
-        >
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+          <button 
+            @click="showSearch = !showSearch; if(showSearch) $nextTick(() => $refs.searchInput.focus())"
+            class="absolute left-0 p-2 md:p-3.5 text-slate-500 hover:text-primary transition-colors z-10"
+          >
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+          <input 
+            x-ref="searchInput"
+            x-show="showSearch"
+            x-model.debounce.300ms="searchQuery"
+            x-on:input="fetchResults"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 translate-x-4"
+            x-transition:enter-end="opacity-100 translate-x-0"
+            @keydown.escape="showSearch = false; searchQuery = ''; searchResults = []"
+            type="text" 
+            placeholder="Rechercher un produit..." 
+            class="w-full bg-transparent border-none focus:ring-0 py-2.5 pl-12 pr-10 text-sm font-semibold text-slate-800 placeholder:text-slate-400"
+          />
+          <button 
+            x-show="showSearch" 
+            @click="showSearch = false; searchQuery = ''; searchResults = []"
+            class="absolute right-0 p-2 text-slate-400 hover:text-red-500 transition-colors"
+          >
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
 
         <!-- Search Results Dropdown -->
         <div 
-            x-show="showSearch && (searchResults.length > 0 || isSearching)"
-            x-transition:enter="transition ease-out duration-200"
-            x-transition:enter-start="opacity-0 translate-y-2"
-            x-transition:enter-end="opacity-100 translate-y-0"
-            x-cloak
-            class="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden z-50 md:max-w-md md:left-auto"
+          x-show="showSearch && (searchResults.length > 0 || isSearching || (searchQuery.length >= 2 && !isSearching && searchResults.length === 0))"
+          x-transition:enter="transition ease-out duration-200"
+          x-transition:enter-start="opacity-0 -translate-y-1 scale-[0.98]"
+          x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+          x-transition:leave="transition ease-in duration-150"
+          x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+          x-transition:leave-end="opacity-0 -translate-y-1 scale-[0.98]"
+          x-cloak
+          class="absolute top-full left-0 right-0 mt-2 bg-white backdrop-blur-xl rounded-2xl shadow-2xl shadow-slate-300/40 border border-slate-100 overflow-hidden z-50"
+          style="min-width: 320px;"
         >
-            <div x-show="isSearching" class="p-4 text-center text-slate-400">
-                <div class="animate-spin inline-block w-5 h-5 border-2 border-current border-t-transparent text-primary rounded-full" role="status"></div>
-                <span class="ml-2 text-sm font-medium">Recherche...</span>
+          <!-- Loading State -->
+          <div x-show="isSearching" class="p-6 text-center">
+            <div class="animate-spin inline-block w-6 h-6 border-[3px] border-primary/20 border-t-primary rounded-full" role="status"></div>
+            <p class="mt-2 text-sm font-medium text-slate-400">Recherche en cours...</p>
+          </div>
+
+          <!-- No Results State -->
+          <div x-show="!isSearching && searchQuery.length >= 2 && searchResults.length === 0" class="p-6 text-center">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-100 mb-3">
+              <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
             </div>
-            
-            <div x-show="!isSearching && searchResults.length > 0">
-                <template x-for="product in searchResults" :key="product.id">
-                    <a :href="product.url" class="flex items-center gap-4 p-3 hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-0">
-                        <div class="w-12 h-12 rounded-lg bg-slate-100 overflow-hidden flex-shrink-0">
-                            <img :src="product.thumbnail || '/static/images/placeholder.webp'" :alt="product.name" class="w-full h-full object-cover">
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-sm font-bold text-slate-800 truncate" x-text="product.name"></p>
-                            <p class="text-xs font-bold text-primary" x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'XAF' }).format(product.price).replace('XAF', 'FCFA')"></p>
-                        </div>
-                        <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
-                </template>
-                <div class="p-2 bg-slate-50 text-center">
-                    <a :href="'{% url 'core:product-list' %}?q=' + encodeURIComponent(searchQuery)" class="text-xs font-bold text-primary hover:underline">
-                        Voir tous les résultats
-                    </a>
+            <p class="text-sm font-bold text-slate-600">Aucun résultat trouvé</p>
+            <p class="text-xs text-slate-400 mt-1">Essayez un autre terme de recherche</p>
+          </div>
+          
+          <!-- Results List -->
+          <div x-show="!isSearching && searchResults.length > 0">
+            <div class="px-4 pt-3 pb-1.5">
+              <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Produits</p>
+            </div>
+            <template x-for="product in searchResults" :key="product.id">
+              <a :href="product.url" class="flex items-center gap-3.5 px-4 py-3 hover:bg-primary/5 transition-all duration-150 group">
+                <div class="w-11 h-11 rounded-xl bg-slate-100 overflow-hidden flex-shrink-0 ring-1 ring-slate-200/60 group-hover:ring-primary/20 transition-all">
+                  <img :src="product.thumbnail || '/static/images/placeholder.webp'" :alt="product.name" class="w-full h-full object-cover">
                 </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm font-bold text-slate-800 truncate group-hover:text-primary transition-colors" x-text="product.name"></p>
+                  <p class="text-xs font-bold text-primary/70 mt-0.5" x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'XAF' }).format(product.price).replace('XAF', 'FCFA')"></p>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </template>
+            <div class="p-3 bg-slate-50/80 border-t border-slate-100 text-center">
+              <a :href="'{% url 'core:product-list' %}?q=' + encodeURIComponent(searchQuery)" class="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline hover:gap-2 transition-all">
+                Voir tous les résultats
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </a>
             </div>
+          </div>
         </div>
       </div>
 
