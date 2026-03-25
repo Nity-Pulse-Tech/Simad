@@ -7,9 +7,10 @@ from simad.catalog.models import Product
 
 logger = logging.getLogger(__name__)
 
+
 class ProductSearchView(View):
     def get(self, request, *args, **kwargs):
-        query = request.GET.get('q', '').strip()
+        query = request.GET.get("q", "").strip()
         logger.info(
             "ProductSearchView GET — query='%s', user=%s, IP=%s",
             query,
@@ -19,29 +20,37 @@ class ProductSearchView(View):
 
         if len(query) < 2:
             logger.debug("Query too short (%d chars), returning empty results", len(query))
-            return JsonResponse({'results': []})
+            return JsonResponse({"results": []})
 
-        products = Product.objects.filter(
-            Q(name__icontains=query) |
-            Q(description__icontains=query) |
-            Q(short_description__icontains=query)
-        ).distinct()[:5]
+        try:
+            products = list(
+                Product.objects.filter(
+                    Q(name__icontains=query)
+                    | Q(description__icontains=query)
+                    | Q(short_description__icontains=query)
+                ).distinct()[:5]
+            )
 
-        results = []
-        for product in products:
-            results.append({
-                'id': str(product.id),
-                'name': product.name,
-                'slug': product.slug,
-                'price': float(product.price),
-                'thumbnail': product.thumbnail.url if product.thumbnail else None,
-                'url': f"/products/{product.slug}/",
-            })
+            results = [
+                {
+                    "id": str(product.id),
+                    "name": product.name,
+                    "slug": product.slug,
+                    "price": float(product.price),
+                    "thumbnail": product.thumbnail.url if product.thumbnail else None,
+                    "url": f"/products/{product.slug}/",
+                }
+                for product in products
+            ]
 
-        logger.info(
-            "Search for '%s' returned %d results: %s",
-            query,
-            len(results),
-            [r['name'] for r in results],
-        )
-        return JsonResponse({'results': results})
+            logger.info(
+                "Search for '%s' returned %d results: %s",
+                query,
+                len(results),
+                [r["name"] for r in results],
+            )
+            return JsonResponse({"results": results})
+
+        except Exception:
+            logger.exception("Product search failed for query='%s'", query)
+            return JsonResponse({"results": []}, status=500)
