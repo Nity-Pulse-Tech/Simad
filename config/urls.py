@@ -7,8 +7,13 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from simad.users.views import ActivateAccountView
 
+from django.http import HttpResponse
+
+def test_view(request):
+    return HttpResponse("OK")
+
 urlpatterns = [
-    path("", include("simad.core.urls", namespace="core")),
+    path("", test_view),
     path(
         "about/",
         TemplateView.as_view(template_name="pages/about.html"),
