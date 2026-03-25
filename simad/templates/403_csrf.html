@@ -1,13 +1,63 @@
-{% extends "base.html" %}
+{% extends "pages/base.html" %}
+{% load static %}
 
-{% block title %}Forbidden (403){% endblock title %}
+{% block title %}Erreur de Sécurité - SIMAD{% endblock %}
+
 {% block content %}
-  <h1>Forbidden (403)</h1>
-  <p>
-    {% if exception %}
-      {{ exception }}
-    {% else %}
-      You're not allowed to access this page.
-    {% endif %}
-  </p>
-{% endblock content %}
+<div class="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-background-light py-20">
+    <!-- Sophisticated Background Elements -->
+    <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-amber-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-slate-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+    
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-2xl mx-auto text-center">
+            <!-- Glassmorphism Container -->
+            <div class="bg-white/40 backdrop-blur-2xl border border-white/50 rounded-[40px] p-12 shadow-2xl shadow-slate-900/5">
+                
+                <!-- Animated Visual -->
+                <div class="relative w-40 h-40 mx-auto mb-10">
+                    <div class="absolute inset-0 bg-amber-500 rounded-full opacity-5"></div>
+                    <div class="absolute inset-4 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center shadow-inner">
+                        <i data-lucide="shield-alert" class="w-16 h-16 text-amber-600"></i>
+                    </div>
+                </div>
+
+                <h1 class="text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-700 mb-4 tracking-tighter">
+                    403
+                </h1>
+                
+                <h2 class="text-3xl font-bold text-slate-900 mb-6">
+                    Session <span class="text-slate-700">Expirée</span>
+                </h2>
+                
+                <p class="text-lg text-slate-600 mb-10 leading-relaxed font-medium">
+                    Pour votre sécurité, votre session a expiré ou la validation du formulaire a échoué. Veuillez rafraîchir la page et réessayer.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button onclick="window.location.reload()" 
+                            class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-bold transition-all hover:-translate-y-1 shadow-xl shadow-slate-900/20 flex items-center justify-center gap-2">
+                        <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+                        Rafraîchir & Réessayer
+                    </a>
+                    <a href="{% url 'core:home' %}" 
+                       class="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border border-slate-200 px-8 py-4 rounded-2xl font-bold transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="home" class="w-5 h-5"></i>
+                        Retour à l'accueil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes blob {
+        0% { transform: translate(0px, 0px) scale(1); }
+        33% { transform: translate(30px, -50px) scale(1.1); }
+        66% { transform: translate(-20px, 20px) scale(0.9); }
+        100% { transform: translate(0px, 0px) scale(1); }
+    }
+    .animation-delay-2000 { animation-delay: 2s; }
+</style>
+{% endblock %}

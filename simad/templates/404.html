@@ -1,13 +1,75 @@
-{% extends "base.html" %}
+{% extends "pages/base.html" %}
+{% load static %}
 
-{% block title %}Page not found{% endblock title %}
+{% block title %}Page Introuvable - SIMAD{% endblock %}
+
 {% block content %}
-  <h1>Page not found</h1>
-  <p>
-    {% if exception %}
-      {{ exception }}
-    {% else %}
-      This is not the page you were looking for.
-    {% endif %}
-  </p>
-{% endblock content %}
+<div class="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-background-light py-20">
+    <!-- Sophisticated Background Elements -->
+    <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-emerald-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+    
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-2xl mx-auto text-center">
+            <!-- Glassmorphism Container -->
+            <div class="bg-white/40 backdrop-blur-2xl border border-white/50 rounded-[40px] p-12 shadow-2xl shadow-blue-900/5">
+                
+                <!-- Animated Visual -->
+                <div class="relative w-40 h-40 mx-auto mb-10">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-blue-500 to-emerald-400 rounded-full opacity-20 animate-pulse"></div>
+                    <div class="absolute inset-4 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center shadow-inner">
+                        <i data-lucide="sparkles" class="w-16 h-16 text-blue-600 animate-bounce"></i>
+                    </div>
+                    <!-- Bubbles -->
+                    <div class="absolute -top-2 -right-2 w-8 h-8 bg-blue-100 rounded-full opacity-60 animate-bounce delay-100"></div>
+                    <div class="absolute top-10 -left-4 w-6 h-6 bg-emerald-50 rounded-full opacity-40 animate-bounce delay-700"></div>
+                </div>
+
+                <h1 class="text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-700 mb-4 tracking-tighter">
+                    404
+                </h1>
+                
+                <h2 class="text-3xl font-bold text-slate-900 mb-6">
+                    Cette page est <span class="text-blue-600">étincelante de propreté</span>
+                </h2>
+                
+                <p class="text-lg text-slate-600 mb-10 leading-relaxed font-medium">
+                    Nous n'avons pas trouvé la page que vous recherchiez. Elle a peut-être été déplacée ou nettoyée par erreur !
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="{% url 'core:home' %}" 
+                       class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-bold transition-all hover:-translate-y-1 shadow-xl shadow-slate-900/20 flex items-center justify-center gap-2">
+                        <i data-lucide="home" class="w-5 h-5"></i>
+                        Retour à l'accueil
+                    </a>
+                    <button onclick="history.back()" 
+                            class="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border border-slate-200 px-8 py-4 rounded-2xl font-bold transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        Page précédente
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Branding Subtle -->
+            <div class="mt-12 flex items-center justify-center gap-4 text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px]">
+                <span>Expertise</span>
+                <div class="w-1 h-1 bg-slate-300 rounded-full"></div>
+                <span>SIMAD</span>
+                <div class="w-1 h-1 bg-slate-300 rounded-full"></div>
+                <span>Confiance</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes blob {
+        0% { transform: translate(0px, 0px) scale(1); }
+        33% { transform: translate(30px, -50px) scale(1.1); }
+        66% { transform: translate(-20px, 20px) scale(0.9); }
+        100% { transform: translate(0px, 0px) scale(1); }
+    }
+    .animation-delay-2000 { animation-delay: 2s; }
+</style>
+{% endblock %}
