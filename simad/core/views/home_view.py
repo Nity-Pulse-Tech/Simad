@@ -5,6 +5,7 @@ from simad.catalog.models import Product, Wishlist
 
 logger = logging.getLogger(__name__)
 
+
 class HomeView(TemplateView):
     template_name = "pages/home/home.html"
 
@@ -12,25 +13,33 @@ class HomeView(TemplateView):
         logger.info("HomeView.get_context_data() called")
         context = super().get_context_data(**kwargs)
 
-        # Fetch 8 products for the home page grid
-        products = Product.objects.all()[:8]
-        context["products"] = products
-        logger.info("Fetched %d products for home page grid", len(products))
+        try:
+            # Evaluate queryset immediately so logging and template rendering are predictable
+            products = list(Product.objects.all()[:8])
+            context["products"] = products
+            logger.info("Fetched %d products for home page grid", len(products))
+        except Exception:
+            logger.exception("Failed to load products for home page")
+            context["products"] = []
 
-        # Add wishlist product IDs if user is authenticated
-        if self.request.user.is_authenticated:
-            wishlist_ids = list(
-                Wishlist.objects.filter(user=self.request.user).values_list('product_id', flat=True)
-            )
-            context["wishlist_product_ids"] = wishlist_ids
-            logger.info(
-                "User %s is authenticated — loaded %d wishlist items",
-                self.request.user.email,
-                len(wishlist_ids),
-            )
-        else:
+        try:
+            if self.request.user.is_authenticated:
+                wishlist_ids = list(
+                    Wishlist.objects.filter(user=self.request.user)
+                    .values_list("product_id", flat=True)
+                )
+                context["wishlist_product_ids"] = wishlist_ids
+                logger.info(
+                    "User %s is authenticated — loaded %d wishlist items",
+                    self.request.user.email,
+                    len(wishlist_ids),
+                )
+            else:
+                context["wishlist_product_ids"] = []
+                logger.info("Anonymous user — no wishlist loaded")
+        except Exception:
+            logger.exception("Failed to load wishlist for home page")
             context["wishlist_product_ids"] = []
-            logger.info("Anonymous user — no wishlist loaded")
 
         logger.debug("HomeView context keys: %s", list(context.keys()))
         return context
