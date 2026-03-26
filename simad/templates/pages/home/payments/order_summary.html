@@ -16,10 +16,10 @@
     <p class="text-center text-xs text-slate-500 mt-4">Étape 2 sur 3: Informations de livraison</p>
   </div>
 
-  <div class="flex flex-col lg:flex-row gap-8">
+  <div x-data="checkoutManager" class="flex flex-col lg:flex-row gap-8">
     <!-- Left Column: Delivery Form -->
     <div class="flex-1 space-y-8">
-      <div x-data="checkoutManager" class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
         <div class="flex items-center gap-3 mb-6">
           <i data-lucide="truck" class="w-6 h-6 text-primary"></i>
           <h2 class="text-2xl font-bold">Informations de livraison</h2>
