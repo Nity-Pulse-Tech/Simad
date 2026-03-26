@@ -66,10 +66,18 @@ if env("USE_DOCKER") == "yes":
 # ------------------------------------------------------------------------------
 # https://django-extensions.readthedocs.io/en/latest/installation_instructions.html#configuration
 INSTALLED_APPS += ["django_extensions"]
+
 # Celery
 # ------------------------------------------------------------------------------
 
 # https://docs.celeryq.dev/en/stable/userguide/configuration.html#task-eager-propagates
 CELERY_TASK_EAGER_PROPAGATES = True
+
+# Redis fallback for local development
+if env("USE_DOCKER", default="no") != "yes" and "redis://redis" in REDIS_URL:
+    REDIS_URL = REDIS_URL.replace("redis://redis", "redis://localhost")
+    CELERY_BROKER_URL = REDIS_URL
+    CELERY_RESULT_BACKEND = REDIS_URL
+
 # Your stuff...
 # ------------------------------------------------------------------------------

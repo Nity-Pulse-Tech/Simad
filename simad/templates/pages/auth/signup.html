@@ -191,10 +191,12 @@
                 window.toastManager.buildToast()
                     .setMessage("{{ message|escapejs }}")
                     .setType("{{ message.tags }}")
+                    .setPosition('bottom-right')
                     .show();
             {% else %}
                 window.toastManager.buildToast()
                     .setMessage("{{ message|escapejs }}")
+                    .setPosition('bottom-right')
                     .show();
             {% endif %}
         {% endfor %}

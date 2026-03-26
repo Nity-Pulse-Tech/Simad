@@ -154,6 +154,7 @@
                     window.toastManager.buildToast()
                         .setMessage("{{ message|escapejs }}")
                         .setType("{{ message.tags|default:'info' }}")
+                        .setPosition('bottom-right')
                         .show();
                 }
             {% endfor %}
@@ -167,7 +168,7 @@
 
             if (loginForm && submitBtn) {
                 loginForm.addEventListener('submit', () => {
-                loginForm.addEventListener('submit', () => {
+                    submitBtn.disabled = true;
                     if (btnText) btnText.textContent = 'Connexion...';
                     if (btnSpinner) btnSpinner.classList.remove('hidden');
                 });

@@ -125,6 +125,7 @@
                 window.toastManager.buildToast()
                     .setMessage("{{ message|escapejs }}")
                     .setType("{{ message.tags|default:'info' }}")
+                    .setPosition('bottom-right')
                     .show();
             {% endfor %}
         });
