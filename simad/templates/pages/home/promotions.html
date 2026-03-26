@@ -1,0 +1,211 @@
+{% extends "pages/base.html" %}
+{% load static %}
+
+{% block title %}Promotions | Azure Meridian{% endblock %}
+
+{% block extra_css %}
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="max-w-screen-2xl mx-auto px-6 py-8">
+<!-- Hero Promotional Banner -->
+<section class="relative w-full h-[400px] rounded-xl overflow-hidden mb-12 shadow-sm group">
+<img alt="Seasonal Sale" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Modern high-end electronics display in a luxury showroom with dramatic overhead lighting and cool blue atmospheric tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXVEl26CjF229rSwEB5baxiPeH3sLAAff8RSPzfE1FIgdkJJIKlOhoDr-dQn52UQLJamIKt6mFJkXbUhtiaw9msSUo7n2zQ5KDcq0wdlEKbqm5AI4K1wgBOpOge6ReLmILzN6-1Lh1RE37dVnNvTplsUW7lnyLLDO_lp3gvgk420c9nISG5b0UyweLLTErQzx39BNfcYFmrtjZwXu1K9GIeoyD85i-Os5TBFORT-mWGorvcSn7dQrWD77saTyvToVFBUoxEgFZ0vg"/>
+<div class="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/40 to-transparent flex flex-col justify-center px-12">
+<span class="text-xs font-bold uppercase tracking-[0.2em] text-blue-400 mb-4">Limited Time Offer</span>
+<h1 class="text-5xl font-extrabold text-white mb-6 leading-tight max-w-xl">Premium Logistics <br/>Solutions Sale</h1>
+<p class="text-slate-200 text-lg mb-8 max-w-md">Upgrade your commerce workflow with exclusive rates on global shipping and enterprise tools.</p>
+<div class="flex gap-4">
+<button class="bg-primary text-white px-8 py-4 rounded-lg font-bold flex items-center gap-2 shadow-lg shadow-primary/30 hover:opacity-90 transition-all">
+                        Shop Now
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<div class="flex items-center gap-2 bg-white/10 backdrop-blur-md px-6 py-4 rounded-lg border border-white/20">
+<span class="text-white font-mono font-bold text-xl">12 : 45 : 09</span>
+<span class="text-white/60 text-xs uppercase tracking-wider">Remaining</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Promotion Categories Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-16">
+<div class="md:col-span-8 bg-surface-container-low rounded-xl p-8 flex flex-col justify-between border border-outline-variant relative overflow-hidden group">
+<div class="relative z-10">
+<span class="inline-block bg-success/10 text-success text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded mb-4">Flash Event</span>
+<h2 class="text-3xl font-bold text-on-surface mb-2">Summer Essentials</h2>
+<p class="text-secondary max-w-sm">Save up to 40% on all cold-chain logistics and specialized hardware.</p>
+</div>
+<div class="mt-8 flex items-baseline gap-4 relative z-10">
+<span class="text-4xl font-extrabold text-primary">40% OFF</span>
+<button class="text-primary font-bold border-b-2 border-primary text-sm hover:pb-1 transition-all">View Collection</button>
+</div>
+<img alt="Warehouse" class="absolute right-0 bottom-0 w-1/2 h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity mix-blend-multiply" data-alt="Professional logistics warehouse with organized industrial shelving and bright clean floor under high-key commercial lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC52H4Q1rhMwO0taZkZZWQurwnamkRSo3iV6rZ60xgipZN76ssqYoK2NxjTlJ1U5CO6VvT-fgE5gKgsT5cn8xndRIyaA7Z_j9RL9q0aCRky625WmPAm9GVHYRqPl5B4IA7GqlucZvxMm7ECyVfUHRNvmww_bwcqbD1EE4pqNSVwkVfh7XmR7LqGUVF1xcIV2kZOQwNuCb_HztYTGdwzf7EtG4Ce3y14twOMqTUuj6NWaNhlH4LKVokTx7BSHyty1synnAmCExw_X_Q"/>
+</div>
+<div class="md:col-span-4 bg-primary text-white rounded-xl p-8 flex flex-col justify-center items-center text-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-6xl mb-4" data-weight="fill">verified</span>
+<h3 class="text-2xl font-bold mb-2">Member Exclusive</h3>
+<p class="text-primary-fixed-dim text-sm mb-6">Unlock an additional 10% discount on your first three global shipments.</p>
+<button class="w-full py-3 bg-white text-primary font-bold rounded-lg hover:bg-slate-100 transition-colors">Join SIMAD.cm</button>
+</div>
+</div>
+<!-- Section Header -->
+<div class="flex items-end justify-between mb-8">
+<div>
+<span class="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary mb-1 block">Live Promotions</span>
+<h2 class="text-3xl font-extrabold text-on-surface">Flash Sale Deals</h2>
+</div>
+<div class="flex gap-2">
+<button class="p-2 border border-outline-variant rounded-full hover:bg-white transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="p-2 border border-outline-variant rounded-full hover:bg-white transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Product Card 1 -->
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group">
+<div class="relative aspect-square bg-surface-container-low overflow-hidden">
+<img alt="Product" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Side profile of a premium crimson red athletic sneaker against a minimalist neutral studio background with soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7c59o8GtBvSM4RDT9g_v-brk0HxYwpuXpiJZs_P_ucfhj1ovzAKsONmVvqahYbtcSSOyBHq5y5v-y_FKoyedz9yj82zPZ_zpgOD-91CJBnZWcJIeWgmptg-FDdIthrnj7ShzwjIXaDVeFO7sjVGXS0UdJfasm8QGqZyQqSU3B_NWaJ4EXni2v-p019cT0Z8HYQvrBvcEbG6XPLWyv0jFit2wDpYFHRVLzlDVYPsgata6LfQvEhTFaBU8r4TvgeiUxzqCVVMkwWuc"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="bg-error text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">FLASH SALE</span>
+<span class="bg-success text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">-25%</span>
+</div>
+<button class="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur rounded-full text-secondary hover:text-error transition-colors">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+<!-- Countdown overlay -->
+<div class="absolute bottom-0 inset-x-0 bg-white/80 backdrop-blur-md py-2 px-3 flex justify-center gap-4 text-[10px] font-bold text-on-surface border-t border-outline-variant/30">
+<div class="flex flex-col items-center"><span>08</span><span class="text-[8px] font-normal text-secondary uppercase">Hrs</span></div>
+<div class="flex flex-col items-center"><span>42</span><span class="text-[8px] font-normal text-secondary uppercase">Min</span></div>
+<div class="flex flex-col items-center"><span>15</span><span class="text-[8px] font-normal text-secondary uppercase">Sec</span></div>
+</div>
+</div>
+<div class="p-5">
+<h3 class="font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Meridian Peak Performance</h3>
+<p class="text-xs text-secondary mb-4">Professional Grade Apparel</p>
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-xs text-secondary line-through">$120.00</span>
+<span class="text-lg font-extrabold text-on-surface">$89.99</span>
+</div>
+<button class="p-3 bg-primary text-white rounded-lg hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group">
+<div class="relative aspect-square bg-surface-container-low overflow-hidden">
+<img alt="Product" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Minimalist elegant matte white designer wristwatch on a matching light surface with soft diffused natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8csd4wXNcDLg_5tO0m51ja5Z_EHmlIOt3Z1_v5IKERLG1E9M3VXKGvu0wvLqEDXrQpgZJiczY1gH4QBsZQ_tpbrwym-mtuKXHWGIi5qT3Ai1mejPJf_7iu2rozbMRAc1rsChptHYaCMji2gCILzsxlV9RrWVkK-mBcu88LyrFIskx_LNRjZZURodYEK8dVsp5eUX6ye48lK0IJ1vJEVrooEdBUY_VPIxCGnx72wmXZHdfA7y-ES2dQjYEDj-NRA2X1NBxT-XgQl0"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="bg-primary text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">BEST SELLER</span>
+<span class="bg-success text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">-15%</span>
+</div>
+<button class="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur rounded-full text-secondary hover:text-error transition-colors">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+<div class="absolute bottom-0 inset-x-0 bg-white/80 backdrop-blur-md py-2 px-3 flex justify-center gap-4 text-[10px] font-bold text-on-surface border-t border-outline-variant/30">
+<div class="flex flex-col items-center"><span>02</span><span class="text-[8px] font-normal text-secondary uppercase">Hrs</span></div>
+<div class="flex flex-col items-center"><span>11</span><span class="text-[8px] font-normal text-secondary uppercase">Min</span></div>
+<div class="flex flex-col items-center"><span>34</span><span class="text-[8px] font-normal text-secondary uppercase">Sec</span></div>
+</div>
+</div>
+<div class="p-5">
+<h3 class="font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Chrono Voyager Elite</h3>
+<p class="text-xs text-secondary mb-4">Precision Instrumentation</p>
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-xs text-secondary line-through">$350.00</span>
+<span class="text-lg font-extrabold text-on-surface">$297.50</span>
+</div>
+<button class="p-3 bg-primary text-white rounded-lg hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group">
+<div class="relative aspect-square bg-surface-container-low overflow-hidden">
+<img alt="Product" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Professional studio quality black over-ear noise-cancelling headphones resting on a textured concrete surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXHnG04yFkMauIdwEAH_4gL_kfWL_ISre6JIreTiVdOZUHQuUOHcw73mfU_PQXREmgX4zNvo1z1kBY5COODkqflJq8_BzikUbUllfx3MweeNtXcxrtwcyGyNZyueqXVO_4iHr6x6kT576oj88BV7EWCdeyD_Hb0C7hBylkqrmfbFDoiDQT2U2NuXodiRGNOgKSG68Nw7CwvcD5V99rDK28GJP8ozOEXJmeU5VBhgzmKXPtxERqmHmMrhL3P-eG8FgBEoiMYotYlj0"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="bg-error text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">FLASH SALE</span>
+<span class="bg-success text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">-50%</span>
+</div>
+<button class="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur rounded-full text-secondary hover:text-error transition-colors">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+<div class="absolute bottom-0 inset-x-0 bg-white/80 backdrop-blur-md py-2 px-3 flex justify-center gap-4 text-[10px] font-bold text-on-surface border-t border-outline-variant/30">
+<div class="flex flex-col items-center"><span>15</span><span class="text-[8px] font-normal text-secondary uppercase">Hrs</span></div>
+<div class="flex flex-col items-center"><span>22</span><span class="text-[8px] font-normal text-secondary uppercase">Min</span></div>
+<div class="flex flex-col items-center"><span>59</span><span class="text-[8px] font-normal text-secondary uppercase">Sec</span></div>
+</div>
+</div>
+<div class="p-5">
+<h3 class="font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Acoustic Nomad ANC</h3>
+<p class="text-xs text-secondary mb-4">Industrial Audio Engineering</p>
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-xs text-secondary line-through">$199.00</span>
+<span class="text-lg font-extrabold text-on-surface">$99.50</span>
+</div>
+<button class="p-3 bg-primary text-white rounded-lg hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group">
+<div class="relative aspect-square bg-surface-container-low overflow-hidden">
+<img alt="Product" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Modern high-tech instant camera with sleek black design on a bright yellow studio background with punchy lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuUB4rCyKmvEfmzMKyU_X3K92mCamwHqBTq3F87V-YGXhUauq8tXmUlm1a4rPUdjgnEEl-N6QHuJjZVVWE2kJm9c054sU_enxC94RSFVqrTTmjeQXB7SgN8vDLGRlRgL7fqjx04l5MHCvEpu1ErDcvoAUlazhDIBcJn1NmjpqNfOE5PyvhdxQ4hhmXROquspOm3jabmAra0LQVdqBWDFYN79FXIEoWM2D5kVxhaqhx2XWAMLE-XMR3pX_T0Vpefvse8OQqL5qKFus"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="bg-error text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">NEW PRICE</span>
+<span class="bg-success text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">-30%</span>
+</div>
+<button class="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur rounded-full text-secondary hover:text-error transition-colors">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+<div class="absolute bottom-0 inset-x-0 bg-white/80 backdrop-blur-md py-2 px-3 flex justify-center gap-4 text-[10px] font-bold text-on-surface border-t border-outline-variant/30">
+<div class="flex flex-col items-center"><span>04</span><span class="text-[8px] font-normal text-secondary uppercase">Hrs</span></div>
+<div class="flex flex-col items-center"><span>09</span><span class="text-[8px] font-normal text-secondary uppercase">Min</span></div>
+<div class="flex flex-col items-center"><span>12</span><span class="text-[8px] font-normal text-secondary uppercase">Sec</span></div>
+</div>
+</div>
+<div class="p-5">
+<h3 class="font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Optic Frame X1</h3>
+<p class="text-xs text-secondary mb-4">Precision Imaging Gear</p>
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-xs text-secondary line-through">$240.00</span>
+<span class="text-lg font-extrabold text-on-surface">$168.00</span>
+</div>
+<button class="p-3 bg-primary text-white rounded-lg hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Promotional Banner -->
+<section class="mt-16 relative h-[300px] rounded-xl overflow-hidden shadow-lg">
+<img alt="Warehouse Sale" class="absolute inset-0 w-full h-full object-cover" data-alt="Overhead shot of an organized clean retail stock room with white walls and professional shelving systems" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARp0ASE_Pfa-zIJ9bAr7XiqkYbatSd2gnAlIJ-7IDtY6Vmwf7fH0MMeAgV5y5IJbJxi6J8AdSqZmF3dfy6uhNcKYw39-48btkEVyIrvJFj5GuxthxeRxbSP736LbJ_-PXcT-EEYDhESuvDaUWtC19oSXgD2TlLyWYmJnDEUYml_YnATXoRnckdk8aWpSyhKSMFxmE8ICr_9VXFLTcp3ma47wlOx8XZhLF_PhkxKVB4MuFbAAhCyJulRj9XWVn4uNqTi0FsL8PrKWs"/>
+<div class="absolute inset-0 bg-primary/90 mix-blend-multiply"></div>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+<h2 class="text-4xl font-extrabold text-white mb-4">Bulk Procurement Event</h2>
+<p class="text-primary-fixed max-w-2xl mb-8">Specialized wholesale pricing for logistics hubs and commercial enterprises. Discount applied automatically at checkout.</p>
+<button class="bg-white text-primary px-10 py-3 rounded-lg font-bold shadow-xl hover:bg-slate-50 active:scale-95 transition-all">Explore Wholesale</button>
+</div>
+</section>
+</main>
+{% endblock %}

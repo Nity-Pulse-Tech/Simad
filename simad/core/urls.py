@@ -11,12 +11,18 @@ from .views import (
     CreateOrderView,
     WishlistToggleView,
     ProductSearchView,
+    SolutionsView,
+    PromotionsView,
+    AboutUsView,
 )
 
 app_name = "core"
 
 urlpatterns = [
     path("", HomeView.as_view(), name="home"),
+    path("solutions/", SolutionsView.as_view(), name="solutions"),
+    path("promotions/", PromotionsView.as_view(), name="promotions"),
+    path("about-us/", AboutUsView.as_view(), name="about-us"),
     path("wishlist/toggle/", WishlistToggleView.as_view(), name="wishlist-toggle"),
     path("products/", ProductListView.as_view(), name="product-list"),
     path("products/<slug:slug>/", ProductDetailView.as_view(), name="product-detail"),

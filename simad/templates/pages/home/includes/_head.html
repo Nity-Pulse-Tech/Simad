@@ -7,7 +7,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicons/apple-touch-icon.png' %}">
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>SIMAD.cm | Solutions Professionnelles pour l'Hygiène et la Propreté</title>
+<title>{% block title %}SIMAD.cm | Solutions Professionnelles pour l'Hygiène et la Propreté{% endblock %}</title>
+{% block extra_css %}{% endblock %}
 <!-- Tailwind Compiled CSS -->
 <link href="{% static 'css/output.css' %}?v={% now 'U' %}" rel="stylesheet"/>
 <!-- Alpine.js -->

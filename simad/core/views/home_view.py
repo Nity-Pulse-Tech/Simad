@@ -51,3 +51,13 @@ class HomeView(TemplateView):
             request.META.get("REMOTE_ADDR"),
         )
         return super().get(request, *args, **kwargs)
+class SolutionsView(TemplateView):
+    template_name = "pages/home/solutions.html"
+
+
+class PromotionsView(TemplateView):
+    template_name = "pages/home/promotions.html"
+
+
+class AboutUsView(TemplateView):
+    template_name = "pages/home/about-us.html"

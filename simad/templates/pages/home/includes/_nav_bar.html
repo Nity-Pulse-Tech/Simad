@@ -27,7 +27,7 @@
 >
   <nav class="container mx-auto px-4 md:px-20 py-2 flex items-center justify-between gap-4">
     <!-- Logo -->
-    <a href="/" class="flex items-center gap-5 shrink-0 group">
+    <a href="{% url 'core:home' %}" class="flex items-center gap-5 shrink-0 group">
       <img 
         src="{% static 'images/logo/logo.webp' %}" 
         alt="SIMAD Logo" 
@@ -62,17 +62,17 @@
         Produits
         <span class="absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 {% if request.resolver_match.url_name == 'product-list' or request.resolver_match.url_name == 'product-detail' %}w-full{% else %}w-0 group-hover:w-full{% endif %}"></span>
       </a>
-      <a class="hover:text-primary transition-all py-2 relative group" href="#">
+      <a class="hover:text-primary transition-all py-2 relative group {% if request.resolver_match.url_name == 'solutions' %}text-primary{% endif %}" href="{% url 'core:solutions' %}">
         Solutions
-        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+        <span class="absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 {% if request.resolver_match.url_name == 'solutions' %}w-full{% else %}w-0 group-hover:w-full{% endif %}"></span>
       </a>
-      <a class="hover:text-primary transition-all py-2 relative group" href="#">
+      <a class="hover:text-primary transition-all py-2 relative group {% if request.resolver_match.url_name == 'promotions' %}text-primary{% endif %}" href="{% url 'core:promotions' %}">
         Promotions
-        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+        <span class="absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 {% if request.resolver_match.url_name == 'promotions' %}w-full{% else %}w-0 group-hover:w-full{% endif %}"></span>
       </a>
-      <a class="hover:text-primary transition-all py-2 relative group" href="#">
+      <a class="hover:text-primary transition-all py-2 relative group {% if request.resolver_match.url_name == 'about-us' %}text-primary{% endif %}" href="{% url 'core:about-us' %}">
         À propos
-        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+        <span class="absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 {% if request.resolver_match.url_name == 'about-us' %}w-full{% else %}w-0 group-hover:w-full{% endif %}"></span>
       </a>
     </div>
 
@@ -268,15 +268,15 @@
             <i data-lucide="package" class="w-5 h-5"></i>
             Produits
           </a>
-          <a href="#" class="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 font-bold text-slate-700 transition-colors">
+          <a href="{% url 'core:solutions' %}" class="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 font-bold text-slate-700 transition-colors {% if request.resolver_match.url_name == 'solutions' %}bg-primary/5 text-primary{% endif %}">
             <i data-lucide="layers" class="w-5 h-5"></i>
             Solutions
           </a>
-          <a href="#" class="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 font-bold text-slate-700 transition-colors">
+          <a href="{% url 'core:promotions' %}" class="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 font-bold text-slate-700 transition-colors {% if request.resolver_match.url_name == 'promotions' %}bg-primary/5 text-primary{% endif %}">
             <i data-lucide="zap" class="w-5 h-5"></i>
             Promotions
           </a>
-          <a href="#" class="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 font-bold text-slate-700 transition-colors">
+          <a href="{% url 'core:about-us' %}" class="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 font-bold text-slate-700 transition-colors {% if request.resolver_match.url_name == 'about-us' %}bg-primary/5 text-primary{% endif %}">
             <i data-lucide="info" class="w-5 h-5"></i>
             À propos
           </a>
