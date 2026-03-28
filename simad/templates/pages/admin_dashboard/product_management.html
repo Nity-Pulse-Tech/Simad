@@ -64,162 +64,64 @@
 </tr>
 </thead>
 <tbody class="divide-y divide-slate-50">
-<!-- Row 1 -->
+{% for product in products %}
 <tr class="hover:bg-surface-container-high transition-colors group">
 <td class="px-6 py-5">
 <div class="flex items-center gap-4">
-<img class="w-12 h-12 rounded-lg object-cover bg-surface-container" data-alt="clean product photography of a minimalist white wristwatch on a light grey background with soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxb-3mc-i4GY74cgqhToi5OlcSp0LoZx6xGPlaFJzkjmA0phGl9Iv5eM5-LZG0NZTQSGKIaCvsr2hjaR_2ZLJUZN9oA9lngOokY2BjKDkyC6GYw1Yp3KaPA7mziRop8TRROA_d440027iclflN4AUeIBSrnbAvwByWgNRrOtB_jzP5zPc7eRvawRwdEoicOJw6on-d1dJ46ztbD5ro52vP8hTKcADGr076Vq1fh4wihrwaL90y--HNPrnx4uQCiCGQ8u5OAJ35RsU"/>
+{% if product.thumbnail %}
+<img class="w-12 h-12 rounded-lg object-cover bg-surface-container" src="{{ product.thumbnail.url }}" alt="{{ product.name }}"/>
+{% else %}
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant/40">inventory_2</span>
+</div>
+{% endif %}
 <div>
-<p class="font-bold text-on-surface text-sm">Chronos Minimalist V2</p>
-<p class="text-[11px] text-on-surface-variant">SKU: SIM-CH-001</p>
+<p class="font-bold text-on-surface text-sm">{{ product.name }}</p>
+<p class="text-[11px] text-on-surface-variant">SKU: {{ product.sku|default:"N/A" }}</p>
 </div>
 </div>
 </td>
 <td class="px-6 py-5">
-<span class="text-sm text-on-surface-variant">Accessories</span>
+<span class="text-sm text-on-surface-variant">{{ product.category.name|default:"Uncategorized" }}</span>
 </td>
 <td class="px-6 py-5">
 <div class="flex flex-col gap-1">
-<span class="text-sm font-medium text-on-surface">452 units</span>
+<span class="text-sm font-medium text-on-surface">{{ product.stock_quantity }} units</span>
 <div class="w-24 h-1 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="bg-tertiary-fixed-dim h-full w-[85%]"></div>
+<div class="{% if product.stock_quantity > product.low_stock_threshold %}bg-tertiary-fixed-dim{% elif product.stock_quantity > 0 %}bg-error-container{% else %}bg-slate-300{% endif %} h-full" style="width: min(100%, {% widthratio product.stock_quantity 500 100 %}%);"></div>
 </div>
 </div>
 </td>
 <td class="px-6 py-5">
-<span class="text-sm font-bold text-primary">$189.00</span>
+<span class="text-sm font-bold text-primary">{{ product.price }} XAF</span>
 </td>
 <td class="px-6 py-5">
+{% if product.stock_quantity > product.low_stock_threshold %}
 <span class="px-3 py-1 rounded-full bg-tertiary-fixed-dim text-on-tertiary-fixed-variant text-[10px] font-bold uppercase tracking-wide">In Stock</span>
-</td>
-<td class="px-6 py-5 text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
-<span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
-</button>
-<button class="p-2 text-on-surface-variant hover:text-error transition-colors">
-<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 2 -->
-<tr class="hover:bg-surface-container-high transition-colors group">
-<td class="px-6 py-5">
-<div class="flex items-center gap-4">
-<img class="w-12 h-12 rounded-lg object-cover bg-surface-container" data-alt="high-end over-ear studio headphones in matte black finish on a dark textured surface with dramatic top lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaPDn0q3WZLqiyX4mKYMI1Vx0_i6bAvPUHZaDFfYroe3K-FPW3sPhCLQL_fmw-IXaRcRDGz4aq0WOQJAA5LGdB9kQseRhEEdSj9w4Z2C-gdBzmRUxtJtnJAnR_LDt-SF654F--XVD1lXRE3CEO32DKOwF_yzFfP4WF1VmRTGW_d0odJGIJha4gAM0evoJ7UbzoFiDCqEFins6XWd9_osLPhoa-fvYQU5362e2ZSfJKHcRE6oHENxfqGDtKg498OGsiGjfgy5URz1k"/>
-<div>
-<p class="font-bold text-on-surface text-sm">Aural Studio Pro</p>
-<p class="text-[11px] text-on-surface-variant">SKU: SIM-AU-920</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<span class="text-sm text-on-surface-variant">Electronics</span>
-</td>
-<td class="px-6 py-5">
-<div class="flex flex-col gap-1">
-<span class="text-sm font-medium text-on-surface">12 units</span>
-<div class="w-24 h-1 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="bg-error h-full w-[15%]"></div>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<span class="text-sm font-bold text-primary">$349.50</span>
-</td>
-<td class="px-6 py-5">
+{% elif product.stock_quantity > 0 %}
 <span class="px-3 py-1 rounded-full bg-error-container text-on-error-container text-[10px] font-bold uppercase tracking-wide">Low Stock</span>
-</td>
-<td class="px-6 py-5 text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
-<span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
-</button>
-<button class="p-2 text-on-surface-variant hover:text-error transition-colors">
-<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 3 -->
-<tr class="hover:bg-surface-container-high transition-colors group">
-<td class="px-6 py-5">
-<div class="flex items-center gap-4">
-<img class="w-12 h-12 rounded-lg object-cover bg-surface-container" data-alt="vibrant red athletic sneaker floating in mid-air against a clean white background with sharp focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrZNdEQvIgA8jEDMH4tGB3tJrxq7HAZIOxP2_YNuGb9QuWCwQxeidKCuFV73cinXfEF9gp8prGnLSo0WtKuykSxqIgGdT6oK0nwlIvnXEucFeQCNd1weQ_BP_kVH_czzfonOl8rg_F-gtDyFdHiILa7CmHLY302wNFwQbTZBcCe8UL2PU84IRwTAYWXaxVJPSsxdCERsnLlU--J6jJK8KqbrXS2953o9OMwd3FjPLbVIOVmgn61nneU1EaAXNq1P-6jJxZGD9n5BQ"/>
-<div>
-<p class="font-bold text-on-surface text-sm">Nitro Runner Elite</p>
-<p class="text-[11px] text-on-surface-variant">SKU: SIM-FT-005</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<span class="text-sm text-on-surface-variant">Footwear</span>
-</td>
-<td class="px-6 py-5">
-<div class="flex flex-col gap-1">
-<span class="text-sm font-medium text-on-surface">88 units</span>
-<div class="w-24 h-1 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="bg-primary-container h-full w-[40%]"></div>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<span class="text-sm font-bold text-primary">$120.00</span>
-</td>
-<td class="px-6 py-5">
-<span class="px-3 py-1 rounded-full bg-tertiary-fixed-dim text-on-tertiary-fixed-variant text-[10px] font-bold uppercase tracking-wide">In Stock</span>
-</td>
-<td class="px-6 py-5 text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
-<span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
-</button>
-<button class="p-2 text-on-surface-variant hover:text-error transition-colors">
-<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 4 -->
-<tr class="hover:bg-surface-container-high transition-colors group">
-<td class="px-6 py-5">
-<div class="flex items-center gap-4">
-<img class="w-12 h-12 rounded-lg object-cover bg-surface-container" data-alt="vintage style instant film camera on a bright yellow surface with cheerful shadows and professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvfOmsnRz5i_6mbGIXoO61kDKr9NrYN4QmgLJ22uoc0S-PjdTZpXJGMiE1YojLq1pr0J401sLiYynZIePd36eLDBRLYjWeU_uTPLitCFmIc8dPJxQoop1P54oeBkXI4rVzqQK9LuOcsD6sdvzM07UAHg4dRi7yS3lKfeb9-v-n9RXUFNnqFz1usTVELbEHWDwyXNtGgZE81pujpOsVTabC-qduC5UwiVOWxZ8Pd2ky66igh9BZoP2Lx0ZB6PE2AVBcn4gfS27FWQ8"/>
-<div>
-<p class="font-bold text-on-surface text-sm">RetroCapture Instant</p>
-<p class="text-[11px] text-on-surface-variant">SKU: SIM-CM-881</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<span class="text-sm text-on-surface-variant">Photography</span>
-</td>
-<td class="px-6 py-5">
-<div class="flex flex-col gap-1">
-<span class="text-sm font-medium text-on-surface">0 units</span>
-<div class="w-24 h-1 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="bg-slate-300 h-full w-[0%]"></div>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<span class="text-sm font-bold text-primary">$89.99</span>
-</td>
-<td class="px-6 py-5">
+{% else %}
 <span class="px-3 py-1 rounded-full bg-surface-dim text-on-surface-variant text-[10px] font-bold uppercase tracking-wide">Out of Stock</span>
+{% endif %}
 </td>
 <td class="px-6 py-5 text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<div class="flex justify-end gap-2 transition-opacity">
+<a href="{% url 'core:admin-edit-product' product.pk %}" class="p-2 text-on-surface-variant hover:text-primary transition-colors">
 <span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
-</button>
-<button class="p-2 text-on-surface-variant hover:text-error transition-colors">
+</a>
+<button onclick="openDeleteModal({{ product.id }})" class="p-2 text-on-surface-variant hover:text-error transition-colors">
 <span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
 </button>
 </div>
 </td>
 </tr>
+{% empty %}
+<tr>
+<td colspan="6" class="px-6 py-8 text-center text-on-surface-variant">
+    No products found in the catalog.
+</td>
+</tr>
+{% endfor %}
 </tbody>
 </table>
 </div>
@@ -273,4 +175,57 @@
 </div>
 </div>
 </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 bg-slate-900/50 z-[100] hidden items-center justify-center backdrop-blur-sm">
+    <div class="bg-surface-container-lowest rounded-2xl w-full max-w-sm p-6 shadow-2xl scale-95 opacity-0 transition-all duration-200" id="deleteModalContent">
+        <div class="w-12 h-12 rounded-full bg-error-container text-error flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-xl">delete_forever</span>
+        </div>
+        <h3 class="text-xl font-bold text-on-surface mb-2">Delete Product?</h3>
+        <p class="text-sm text-on-surface-variant mb-6">This action cannot be undone. This product will be permanently removed from the catalog.</p>
+        <div class="flex gap-3">
+            <button onclick="closeDeleteModal()" class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-on-surface border border-outline-variant hover:bg-surface-container-low transition-colors">Cancel</button>
+            <form id="deleteForm" method="post" action="" class="flex-1">
+                {% csrf_token %}
+                <button type="submit" class="w-full py-2.5 rounded-lg text-sm font-semibold text-white bg-error hover:bg-error/90 transition-colors shadow-lg shadow-error/20">Confirm Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function openDeleteModal(productId) {
+    const modal = document.getElementById('deleteModal');
+    const modalContent = document.getElementById('deleteModalContent');
+    const form = document.getElementById('deleteForm');
+    
+    // Set the action URL dynamically
+    form.action = `/admin-dashboard/delete-product/${productId}/`;
+    
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    
+    // Trigger animation
+    setTimeout(() => {
+        modalContent.classList.remove('scale-95', 'opacity-0');
+        modalContent.classList.add('scale-100', 'opacity-100');
+    }, 10);
+}
+
+function closeDeleteModal() {
+    const modal = document.getElementById('deleteModal');
+    const modalContent = document.getElementById('deleteModalContent');
+    
+    modalContent.classList.remove('scale-100', 'opacity-100');
+    modalContent.classList.add('scale-95', 'opacity-0');
+    
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }, 200);
+}
+</script>
+
 {% endblock %}

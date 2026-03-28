@@ -1,10 +1,10 @@
 {% extends 'pages/admin_dashboard/base.html' %}
 
-{% block title %}Add Product{% endblock %}
+{% block title %}{% if product %}Edit {{ product.name }}{% else %}Add Product{% endif %}{% endblock %}
 
 {% block content %}
 <!-- Hero Header -->
-<form method="post" action="{% url 'core:admin-add-product' %}" enctype="multipart/form-data">
+<form method="post" action="{% if product %}{% url 'core:admin-edit-product' product.pk %}{% else %}{% url 'core:admin-add-product' %}{% endif %}" enctype="multipart/form-data">
 {% csrf_token %}
 <div class="pb-6">
 <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
@@ -12,9 +12,9 @@
 <nav class="flex items-center gap-2 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-2">
 <span>Inventory</span>
 <span class="material-symbols-outlined text-[10px]" data-icon="chevron_right">chevron_right</span>
-<span class="text-primary">New Product</span>
+<span class="text-primary">{% if product %}Edit Product{% else %}New Product{% endif %}</span>
 </nav>
-<h1 class="text-3xl font-headline font-extrabold tracking-tighter text-on-surface">Add New Product</h1>
+<h1 class="text-3xl font-headline font-extrabold tracking-tighter text-on-surface">{% if product %}Edit {{ product.name }}{% else %}Add New Product{% endif %}</h1>
 <p class="text-on-surface-variant mt-1 max-w-lg">Define administrative metadata, clinical directives, and logistical parameters for the institutional ledger.</p>
 </div>
 <div class="flex gap-2 sm:gap-3">
@@ -34,50 +34,36 @@
 </div>
 <div class="grid grid-cols-2 gap-6">
 <div class="col-span-2">
-<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Product Name</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="e.g. Paracetamol 500mg Institutional Grade" type="text"/>
+<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Product Name *</label>
+<input name="name" value="{{ product.name|default:'' }}" required class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="e.g. Paracetamol 500mg Institutional Grade" type="text"/>
 </div>
-<div class="col-span-1">
-<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Slug</label>
-<div class="flex items-center bg-surface-container-low rounded-lg overflow-hidden px-4 py-3">
-<span class="text-on-surface-variant/40 text-xs">simad.cm/p/</span>
-<input class="flex-1 bg-transparent border-none p-0 ml-1 text-xs focus:ring-0" placeholder="paracetamol-500mg" type="text"/>
-</div>
-</div>
-<div class="col-span-1">
+<div class="col-span-2">
 <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Category</label>
-<select class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all text-sm">
-<option>Analgesics</option>
-<option>Cardiovascular</option>
-<option>Dermatology</option>
-<option>Emergency Kits</option>
+<select name="category" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all text-sm">
+<option value="">Select Category</option>
+{% for cat in categories %}
+<option value="{{ cat.id }}" {% if product and product.category_id == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+{% endfor %}
 </select>
 </div>
 <div class="col-span-2">
 <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Short Description</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="Brief tagline for catalog view..." type="text"/>
+<input name="short_description" value="{{ product.short_description|default:'' }}" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="Brief tagline for catalog view..." type="text"/>
 </div>
 <div class="col-span-2">
-<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Full Description (WYSIWYG)</label>
+<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Full Description</label>
 <div class="bg-surface-container-low rounded-lg border border-outline-variant/10 overflow-hidden">
-<div class="flex items-center gap-1 p-2 bg-surface-container-high/50 border-b border-outline-variant/10">
-<button class="p-1.5 hover:bg-white rounded transition-colors"><span class="material-symbols-outlined text-lg" data-icon="format_bold">format_bold</span></button>
-<button class="p-1.5 hover:bg-white rounded transition-colors"><span class="material-symbols-outlined text-lg" data-icon="format_italic">format_italic</span></button>
-<button class="p-1.5 hover:bg-white rounded transition-colors"><span class="material-symbols-outlined text-lg" data-icon="format_list_bulleted">format_list_bulleted</span></button>
-<div class="w-px h-4 bg-outline-variant/30 mx-1"></div>
-<button class="p-1.5 hover:bg-white rounded transition-colors"><span class="material-symbols-outlined text-lg" data-icon="link">link</span></button>
-</div>
-<textarea class="w-full bg-transparent border-none px-4 py-3 focus:ring-0 text-sm" placeholder="Detailed product clinical efficacy and historical data..." rows="6"></textarea>
+<textarea name="description" class="w-full bg-transparent border-none px-4 py-3 focus:ring-0 text-sm" placeholder="Detailed product clinical efficacy and historical data..." rows="6">{{ product.description|default:'' }}</textarea>
 </div>
 </div>
 <div class="col-span-1">
 <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">SKU</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="SIM-000-XXX" type="text"/>
+<input name="sku" value="{{ product.sku|default:'' }}" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="SIM-000-XXX" type="text"/>
 </div>
 <div class="col-span-1">
 <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Barcode</label>
 <div class="relative">
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="000123456789" type="text"/>
+<input name="barcode" value="{{ product.barcode|default:'' }}" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="000123456789" type="text"/>
 <span class="absolute inset-y-0 right-3 flex items-center text-slate-400">
 <span class="material-symbols-outlined text-lg" data-icon="barcode_scanner">barcode_scanner</span>
 </span>
@@ -94,20 +80,17 @@
 <div class="space-y-6">
 <div>
 <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Clinical Notes</label>
-<textarea class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all text-sm" placeholder="Internal clinical considerations..." rows="3"></textarea>
+<textarea name="clinical_notes" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all text-sm" placeholder="Internal clinical considerations..." rows="3">{{ product.clinical_notes|default:'' }}</textarea>
 </div>
 <div>
-<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Usage Instructions (Step-by-Step)</label>
+<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Usage Instructions</label>
 <div class="space-y-2">
-<div class="flex gap-2">
-<input class="flex-1 bg-surface-container-low border-none rounded-lg px-4 py-2 text-sm focus:ring-1 focus:ring-primary/20" placeholder="1. Administer orally after meals..." type="text"/>
-<button class="p-2 text-primary hover:bg-primary/5 rounded-lg"><span class="material-symbols-outlined" data-icon="add">add</span></button>
-</div>
+<input name="usage_instructions" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:ring-1 focus:ring-primary/20" placeholder="1. Administer orally after meals..." type="text"/>
 </div>
 </div>
 <div>
 <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Precautions</label>
-<textarea class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all text-sm" placeholder="Known contraindications and warning signs..." rows="3"></textarea>
+<textarea name="precautions" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all text-sm" placeholder="Known contraindications and warning signs..." rows="3">{{ product.precautions|default:'' }}</textarea>
 </div>
 </div>
 </section>
@@ -144,19 +127,20 @@
 <div>
 <label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Primary Thumbnail</label>
 <div class="aspect-square w-full rounded-xl bg-surface-container-low border-2 border-dashed border-outline-variant/30 flex flex-col items-center justify-center relative overflow-hidden group cursor-pointer">
+<input type="file" name="thumbnail" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
 <div class="flex flex-col items-center group-hover:scale-105 transition-transform">
 <span class="material-symbols-outlined text-3xl text-primary/40 mb-2" data-icon="add_photo_alternate">add_photo_alternate</span>
 <span class="text-[10px] font-bold text-on-surface-variant">UPLOAD MAIN IMAGE</span>
 </div>
-<!-- Overlay gradient for hover effect -->
 <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
 </div>
 </div>
 <div>
 <label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Gallery Upload</label>
-<div class="p-6 rounded-xl bg-surface-container-low border-2 border-dashed border-outline-variant/30 text-center">
-<span class="material-symbols-outlined text-2xl text-on-surface-variant/30" data-icon="cloud_upload">cloud_upload</span>
-<p class="text-[10px] text-on-surface-variant mt-2">Drag files to upload or <span class="text-primary font-bold">browse</span></p>
+<div class="relative p-6 rounded-xl bg-surface-container-low border-2 border-dashed border-outline-variant/30 text-center group overflow-hidden cursor-pointer">
+<input type="file" name="gallery_images" accept="image/*" multiple class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+<span class="material-symbols-outlined text-2xl text-on-surface-variant/30 group-hover:text-primary transition-colors" data-icon="cloud_upload">cloud_upload</span>
+<p class="text-[10px] text-on-surface-variant mt-2 group-hover:text-on-surface transition-colors">Drag files to upload or <span class="text-primary font-bold">browse</span></p>
 </div>
 <div class="grid grid-cols-4 gap-2 mt-3">
 <div class="aspect-square rounded-lg bg-surface-container-high animate-pulse"></div>
@@ -170,7 +154,7 @@
 <div>
 <label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Product Video URL</label>
 <div class="relative">
-<input class="w-full bg-surface-container-low border-none rounded-lg pl-4 pr-10 py-2.5 text-xs focus:ring-1 focus:ring-primary/20 transition-all" placeholder="https://vimeo.com/..." type="text"/>
+<input name="video_url" value="{% if product and product.productvideo_set.first %}{{ product.productvideo_set.first.video_url }}{% endif %}" class="w-full bg-surface-container-low border-none rounded-lg pl-4 pr-10 py-2.5 text-xs focus:ring-1 focus:ring-primary/20 transition-all" placeholder="https://vimeo.com/..." type="url"/>
 <span class="absolute inset-y-0 right-3 flex items-center text-slate-400">
 <span class="material-symbols-outlined text-lg" data-icon="play_circle">play_circle</span>
 </span>
@@ -184,22 +168,22 @@
 <div class="space-y-6">
 <div class="grid grid-cols-2 gap-4">
 <div class="col-span-1">
-<label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Price (XAF)</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-xs" placeholder="0.00" type="number"/>
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Price (XAF) *</label>
+<input name="price" value="{{ product.price|default:'' }}" required class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-xs" placeholder="0.00" type="number" step="0.01"/>
 </div>
 <div class="col-span-1">
 <label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Cost Price</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-xs" placeholder="0.00" type="number"/>
+<input name="cost_price" value="{{ product.cost_price|default:'' }}" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-xs" placeholder="0.00" type="number" step="0.01"/>
 </div>
 </div>
 <div class="grid grid-cols-2 gap-4">
 <div class="col-span-1">
 <label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Stock Qty</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-xs" placeholder="500" type="number"/>
+<input name="stock_quantity" value="{{ product.stock_quantity|default:'' }}" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-xs" placeholder="500" type="number"/>
 </div>
 <div class="col-span-1">
 <label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Low Threshold</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-xs" placeholder="50" type="number"/>
+<input name="low_stock_threshold" value="{{ product.low_stock_threshold|default:'' }}" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-xs" placeholder="50" type="number"/>
 </div>
 </div>
 <div class="pt-4 border-t border-outline-variant/10">
@@ -209,7 +193,7 @@
 <span class="text-[10px] text-on-surface-variant">Promote on homepage</span>
 </div>
 <label class="relative inline-flex items-center cursor-pointer">
-<input class="sr-only peer" type="checkbox" value=""/>
+<input name="is_featured" class="sr-only peer" type="checkbox" {% if product and product.is_featured %}checked{% endif %}/>
 <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
 </label>
 </div>
@@ -219,7 +203,7 @@
 <span class="text-[10px] text-on-surface-variant">Enable procurement</span>
 </div>
 <label class="relative inline-flex items-center cursor-pointer">
-<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<input name="is_available" class="sr-only peer" type="checkbox" {% if not product or product.is_available %}checked{% endif %}/>
 <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-tertiary"></div>
 </label>
 </div>
@@ -227,7 +211,7 @@
 <div>
 <label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Weight (kg)</label>
 <div class="flex items-center bg-surface-container-low rounded-lg overflow-hidden px-4">
-<input class="flex-1 bg-transparent border-none py-2.5 text-xs focus:ring-0" placeholder="0.25" type="text"/>
+<input name="weight" value="{{ product.weight|default:'' }}" class="flex-1 bg-transparent border-none py-2.5 text-xs focus:ring-0" placeholder="0.25" type="number" step="0.01"/>
 <span class="text-[10px] font-bold text-on-surface-variant/40">KG</span>
 </div>
 </div>

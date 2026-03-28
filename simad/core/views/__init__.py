@@ -9,4 +9,8 @@ from .admin_views import (
     AdminAddProductView,
     AdminProductListView,
     AdminUsersView,
+    AdminCorporateSettingsView,
+    AdminLegalPagesView,
+    AdminEditProductView,
+    AdminDeleteProductView,
 )
