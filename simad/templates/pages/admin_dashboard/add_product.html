@@ -4,8 +4,10 @@
 
 {% block content %}
 <!-- Hero Header -->
-<div class="px-10 pt-10 pb-6">
-<div class="flex items-end justify-between">
+<form method="post" action="{% url 'core:admin-add-product' %}" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="pb-6">
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
 <div>
 <nav class="flex items-center gap-2 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-2">
 <span>Inventory</span>
@@ -15,13 +17,13 @@
 <h1 class="text-3xl font-headline font-extrabold tracking-tighter text-on-surface">Add New Product</h1>
 <p class="text-on-surface-variant mt-1 max-w-lg">Define administrative metadata, clinical directives, and logistical parameters for the institutional ledger.</p>
 </div>
-<div class="flex gap-3">
-<button class="px-6 py-2.5 rounded-lg text-sm font-semibold text-on-surface border border-outline-variant hover:bg-surface-container-low transition-all">Discard Draft</button>
-<button class="px-8 py-2.5 rounded-lg text-sm font-semibold text-on-primary bg-gradient-to-br from-primary to-primary-container shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform active:scale-95">Save Product</button>
+<div class="flex gap-2 sm:gap-3">
+<button type="button" class="px-4 py-2 sm:px-6 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold text-on-surface border border-outline-variant hover:bg-surface-container-low transition-all">Discard</button>
+<button type="submit" class="px-4 py-2 sm:px-8 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold text-on-primary bg-gradient-to-br from-primary to-primary-container shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform active:scale-95">Save Product</button>
 </div>
 </div>
 </div>
-<div class="px-10 py-6 grid grid-cols-12 gap-8">
+<div class="grid grid-cols-12 gap-8">
 <!-- Left Column: Primary Data -->
 <div class="col-span-12 lg:col-span-8 flex flex-col gap-8">
 <!-- Section 1: Basic Information -->
@@ -247,4 +249,6 @@
 </div>
 </div>
 </div>
+</div>
+</form>
 {% endblock %}

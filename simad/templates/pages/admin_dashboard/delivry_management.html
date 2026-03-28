@@ -4,47 +4,26 @@
 
 {% block content %}
 <!-- TopNavBar Anchor -->
-<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-white/85 dark:bg-slate-950/85 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 flex justify-between items-center h-16 px-8">
-<div class="flex items-center gap-6 flex-1">
-<div class="relative w-full max-w-md">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
-<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg text-sm focus:ring-1 focus:ring-blue-200 outline-none transition-all" placeholder="Search orders, delivery IDs..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<button class="p-2 text-slate-600 hover:text-[#1A4A8A] transition-all focus:ring-1 focus:ring-blue-200 rounded-full">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="p-2 text-slate-600 hover:text-[#1A4A8A] transition-all focus:ring-1 focus:ring-blue-200 rounded-full">
-<span class="material-symbols-outlined">settings</span>
-</button>
-<div class="h-8 w-[1px] bg-slate-200 mx-2"></div>
-<div class="flex items-center gap-3 pl-2 cursor-pointer group">
-<div class="text-right">
-<p class="text-xs font-bold text-on-surface">Admin User</p>
-<p class="text-[10px] text-slate-400 font-medium">Logistics Lead</p>
-</div>
-<img alt="Admin User Profile" class="w-9 h-9 rounded-full bg-slate-200 border border-slate-100 group-hover:border-primary-container transition-colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBsjQPkYkVMYhZ4gNrh-mWR-xI3rCsCBz4cnowkIebaMhFp7Rq2Rrep8pxa9q7OH3tkfntYGXKGkJlqXqzPIcdcjoTV8260CRwYWdbashO_kUQ6SObggmxXxQox1qNKBf9ztS0W8UA6oFDyFpWwfR8ZCSnok4ebp-DB8UAl3va4DpGl0BqEa9cpw9q3DCfZHT5n-8LgkX6Q5FqsgC9gyEs4OVba6Vqk0NWJgckazV5LJIablgxomz4Ab5Ac0RLT8YYBoQzEcX3lpw"/>
-</div>
-</div>
-</header>
+<!-- Removed TopNavBar Shell -->
 <!-- Page Content -->
-<div class="pt-24 pb-12 px-8 max-w-7xl mx-auto">
+<div class="w-full">
 <!-- Page Header & Stats -->
 <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
 <div>
 <h2 class="text-3xl font-extrabold tracking-tight text-primary mb-1">Delivery Logistics</h2>
 <p class="text-on-surface-variant text-sm font-medium">Real-time oversight of local and international shipments</p>
 </div>
-<div class="flex gap-3">
-<button class="bg-surface-container-highest px-4 py-2 rounded-md text-on-surface text-sm font-semibold flex items-center gap-2 hover:bg-surface-container-high transition-colors">
-<span class="material-symbols-outlined text-base">filter_list</span>
-                        Filter Status
-                    </button>
-<button class="bg-gradient-to-br from-primary to-primary-container text-white px-5 py-2 rounded-md text-sm font-semibold shadow-sm flex items-center gap-2">
-<span class="material-symbols-outlined text-base">add</span>
-                        New Shipment
-                    </button>
+<div class="flex gap-2 sm:gap-3">
+<button class="bg-surface-container-highest px-3 py-2 sm:px-4 sm:py-2 rounded-md text-on-surface text-xs sm:text-sm font-semibold flex items-center gap-1 sm:gap-2 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm sm:text-base">filter_list</span>
+    <span class="hidden sm:inline">Filter Status</span>
+    <span class="sm:hidden">Filter</span>
+</button>
+<button class="bg-gradient-to-br from-primary to-primary-container text-white px-3 py-2 sm:px-5 sm:py-2 rounded-md text-xs sm:text-sm font-semibold shadow-sm flex items-center gap-1 sm:gap-2">
+<span class="material-symbols-outlined text-sm sm:text-base">add</span>
+    <span class="hidden sm:inline">New Shipment</span>
+    <span class="sm:hidden">New</span>
+</button>
 </div>
 </div>
 <!-- Bento Grid Layout -->

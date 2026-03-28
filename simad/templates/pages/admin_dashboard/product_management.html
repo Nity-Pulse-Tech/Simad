@@ -3,48 +3,20 @@
 {% block title %}Product Management{% endblock %}
 
 {% block content %}
-<!-- TopNavBar Shell -->
-<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 px-8 flex justify-between items-center glass-header border-b border-slate-100 z-40">
-<div class="flex items-center gap-4 flex-1">
-<div class="relative w-full max-w-md">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg" data-icon="search">search</span>
-<input class="w-full bg-surface-container-low border-none rounded-xl py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-blue-200 transition-all outline-none" placeholder="Search products, SKUs, or categories..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-6">
-<div class="flex items-center gap-4 text-slate-600">
-<button class="hover:text-[#1A4A8A] transition-all focus:ring-1 focus:ring-blue-200 rounded-full p-1">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-<button class="hover:text-[#1A4A8A] transition-all focus:ring-1 focus:ring-blue-200 rounded-full p-1">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-</button>
-<button class="hover:text-[#1A4A8A] transition-all focus:ring-1 focus:ring-blue-200 rounded-full p-1">
-<span class="material-symbols-outlined" data-icon="help">help</span>
-</button>
-</div>
-<div class="h-8 w-[1px] bg-slate-200"></div>
-<div class="flex items-center gap-3">
-<div class="text-right">
-<p class="text-xs font-bold text-[#1A4A8A]">Admin User</p>
-<p class="text-[10px] text-slate-500">Super Admin</p>
-</div>
-<img class="w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover" data-alt="close-up portrait of a professional man in a business suit with soft studio lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrezF4hQKHVEF97vLUD-6YiIk1_KjjPs70rLMOd519l5JmNlb7zZLu8RIdpmYWHnHAFSK0aP3IG6bW4t3NurfcexKS3v8igqB9-Pd5DkmyWVyrKZse3sF5VaOL1kWdoPsqmJXSOeSgAjncyEY64YPe2fcHsGIUR9GEwNXaPuqA810qJgw625oId9gaKVWMYQmkJd_jDHX_cg1JvGGr-F08zxLlMm6hQiHxM10K-A76jHOJuDROxMzrm5lPlH9GcAQzLCRo7MxtDcc"/>
-</div>
-</div>
-</header>
+<!-- Removed TopNavBar Shell -->
 <!-- Canvas Content -->
-<div class="pt-8 px-8 pb-12">
+<div class="w-full">
 <!-- Page Header -->
 <div class="flex justify-between items-end mb-10">
 <div>
 <h2 class="text-3xl font-extrabold text-[#00336b] tracking-tighter mb-1">Product Inventory</h2>
 <p class="text-on-surface-variant text-sm">Manage your global catalog, stock levels, and regional pricing from a central ledger.</p>
 </div>
-<button class="bg-gradient-to-br from-[#00336b] to-[#1a4a8a] text-white px-6 py-2.5 rounded-lg flex items-center gap-2 font-semibold text-sm shadow-lg shadow-blue-900/10 hover:opacity-90 transition-all">
-<span class="material-symbols-outlined text-lg" data-icon="add">add</span>
-                    Add Product
-                </button>
+<button class="bg-gradient-to-br from-[#00336b] to-[#1a4a8a] text-white px-4 py-2 sm:px-6 sm:py-2.5 rounded-lg flex items-center gap-1 sm:gap-2 font-semibold text-xs sm:text-sm shadow-lg shadow-blue-900/10 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-base sm:text-lg" data-icon="add">add</span>
+    <span class="hidden sm:inline">Add Product</span>
+    <span class="sm:hidden">Add</span>
+</button>
 </div>
 <!-- Dashboard Stats Summary (Bento Style) -->
 <div class="grid grid-cols-4 gap-6 mb-10">

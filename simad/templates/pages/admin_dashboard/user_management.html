@@ -3,22 +3,24 @@
 {% block title %}User Management{% endblock %}
 
 {% block content %}
-<div class="p-8 max-w-7xl mx-auto">
+<div class="w-full">
 <!-- Header Section -->
 <div class="flex justify-between items-end mb-10">
 <div>
 <h2 class="text-3xl font-extrabold text-primary tracking-tight mb-1">User Management</h2>
 <p class="text-on-surface-variant font-body">Manage permissions, monitor activity, and oversee administrative access.</p>
 </div>
-<div class="flex gap-3">
-<button class="px-5 py-2.5 bg-surface-container-highest text-on-surface rounded-md text-sm font-semibold flex items-center gap-2 hover:bg-slate-200 transition-colors">
-<span class="material-symbols-outlined text-lg" data-icon="file_download">file_download</span>
-                        Export CSV
-                    </button>
-<button class="px-5 py-2.5 bg-gradient-to-br from-[#00336b] to-[#1a4a8a] text-white rounded-md text-sm font-semibold flex items-center gap-2 shadow-sm hover:opacity-90 transition-opacity">
-<span class="material-symbols-outlined text-lg" data-icon="person_add">person_add</span>
-                        Invite New User
-                    </button>
+<div class="flex gap-2 sm:gap-3">
+<button class="px-3 py-2 sm:px-5 sm:py-2.5 bg-surface-container-highest text-on-surface rounded-md text-xs sm:text-sm font-semibold flex items-center gap-1 sm:gap-2 hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined text-base sm:text-lg" data-icon="file_download">file_download</span>
+    <span class="hidden sm:inline">Export CSV</span>
+    <span class="sm:hidden">Export</span>
+</button>
+<button class="px-3 py-2 sm:px-5 sm:py-2.5 bg-gradient-to-br from-[#00336b] to-[#1a4a8a] text-white rounded-md text-xs sm:text-sm font-semibold flex items-center gap-1 sm:gap-2 shadow-sm hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-base sm:text-lg" data-icon="person_add">person_add</span>
+    <span class="hidden sm:inline">Invite New User</span>
+    <span class="sm:hidden">Invite</span>
+</button>
 </div>
 </div>
 <!-- Dashboard Stats Summary (Bento-lite) -->

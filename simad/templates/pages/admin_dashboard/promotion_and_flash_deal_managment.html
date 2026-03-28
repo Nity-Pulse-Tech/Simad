@@ -3,32 +3,9 @@
 {% block title %}Promotion And Flash Deal Managment{% endblock %}
 
 {% block content %}
-<!-- TopNavBar (Shared Component) -->
-<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 flex justify-between items-center h-16 px-8 bg-white/85 dark:bg-slate-950/85 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 shadow-sm dark:shadow-none">
-<div class="flex items-center flex-1 max-w-md">
-<div class="relative w-full">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg" data-icon="search">search</span>
-<input class="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-2 text-sm focus:ring-1 focus:ring-blue-200 dark:focus:ring-blue-800 transition-all outline-none" placeholder="Search promotions, products..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-6">
-<div class="flex items-center gap-4 text-slate-600 dark:text-slate-400">
-<button class="hover:text-[#1A4A8A] transition-all"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
-<button class="hover:text-[#1A4A8A] transition-all"><span class="material-symbols-outlined" data-icon="settings">settings</span></button>
-<button class="hover:text-[#1A4A8A] transition-all"><span class="material-symbols-outlined" data-icon="help">help</span></button>
-</div>
-<div class="h-8 w-[1px] bg-slate-200"></div>
-<div class="flex items-center gap-3">
-<div class="text-right hidden sm:block">
-<p class="text-xs font-bold text-on-surface">Alex Thompson</p>
-<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">System Admin</p>
-</div>
-<img alt="Admin User Profile" class="w-9 h-9 rounded-full object-cover ring-2 ring-primary/10" data-alt="professional portrait of a male corporate administrator in a modern office setting with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdRyXkNJWbWlZP_MKLBWDzlK3ntpDy0JZQcc7YUeyjC9Atjt1oXsi7aaVUoqCT5PgX8jCWoi96zK8FWwIUKGughJgB9T2ojrU70ARqFOTQl7uVAKuFWEwa2lXeWW7J_Yfzm4q1UgM_NpaXqN_ZXhUiZnWAVsg15BjQEeeo1ov08aMF6Elj1pvwCYySsYRHqlDnOP4OM7H1Po1yt1Jy3dAKOy5TqYMuJ8NYp2MUFvEyH10FBf7sjnr6nuZ60vTxn_K8SyBsKcASbBU"/>
-</div>
-</div>
-</header>
+<!-- Removed TopNavBar Shell -->
 <!-- Canvas -->
-<div class="pt-16 pb-12 px-8 max-w-7xl mx-auto">
+<div class="w-full">
 <!-- Page Header -->
 <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
 <div>
@@ -36,10 +13,11 @@
 <h2 class="text-3xl font-extrabold text-primary tracking-tight">Promotions &amp; Flash Deals</h2>
 <p class="text-on-surface-variant mt-1 text-sm font-medium">Manage institutional revenue drivers and seasonal campaigns.</p>
 </div>
-<button class="flex items-center gap-2 bg-gradient-to-br from-primary to-primary-container text-white px-6 py-3 rounded-md shadow-lg shadow-primary/20 hover:opacity-90 transition-all font-semibold text-sm">
-<span class="material-symbols-outlined" data-icon="add">add</span>
-                    Create New Promotion
-                </button>
+<button class="flex items-center gap-1 sm:gap-2 bg-gradient-to-br from-primary to-primary-container text-white px-4 py-2 sm:px-6 sm:py-3 rounded-md shadow-lg shadow-primary/20 hover:opacity-90 transition-all font-semibold text-xs sm:text-sm">
+<span class="material-symbols-outlined text-base sm:text-lg" data-icon="add">add</span>
+    <span class="hidden sm:inline">Create New Promotion</span>
+    <span class="sm:hidden">Create</span>
+</button>
 </div>
 <!-- Dashboard Bento Grid -->
 <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
