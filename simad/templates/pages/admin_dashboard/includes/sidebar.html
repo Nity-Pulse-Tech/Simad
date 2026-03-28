@@ -1,0 +1,51 @@
+<!-- sidebar.html -->
+<aside id="admin-sidebar" class="fixed left-0 top-0 h-full w-64 z-50 bg-slate-50 dark:bg-slate-950 flex flex-col py-6 px-4 gap-2 no-border bg-slate-100/50 dark:bg-slate-900/50 transition-transform transform -translate-x-full lg:translate-x-0">
+    <div class="mb-8 px-4 flex justify-between items-center">
+        <div>
+            <h1 class="text-lg font-black tracking-tighter text-blue-900 dark:text-white uppercase">SIMAD Admin</h1>
+            <p class="text-[10px] text-slate-500 font-medium tracking-widest uppercase mt-1">Institutional Ledger</p>
+        </div>
+        <button id="mobile-menu-close" class="lg:hidden text-slate-500 hover:text-error transition-colors">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    <nav class="flex-1 space-y-1">
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-700 hover:translate-x-1 transition-transform duration-200 {% if 'products' in request.path %}text-blue-900 bg-white rounded-lg shadow-sm font-bold{% endif %}" href="{% url 'core:admin-product-list' %}">
+            <span class="material-symbols-outlined">inventory_2</span>
+            <span class="font-sans DM-Sans text-sm font-medium">Products</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-700 hover:translate-x-1 transition-transform duration-200 {% if 'promotions' in request.path %}text-blue-900 bg-white rounded-lg shadow-sm font-bold{% endif %}" href="{% url 'core:admin-promotions' %}">
+            <span class="material-symbols-outlined">sell</span>
+            <span class="font-sans DM-Sans text-sm font-medium">Promotions</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-700 hover:translate-x-1 transition-transform duration-200 {% if 'users' in request.path %}text-blue-900 bg-white rounded-lg shadow-sm font-bold{% endif %}" href="{% url 'core:admin-users' %}">
+            <span class="material-symbols-outlined">group</span>
+            <span class="font-sans DM-Sans text-sm font-medium">Users</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-700 hover:translate-x-1 transition-transform duration-200 {% if 'deliveries' in request.path %}text-blue-900 bg-white rounded-lg shadow-sm font-bold{% endif %}" href="{% url 'core:admin-deliveries' %}">
+            <span class="material-symbols-outlined">local_shipping</span>
+            <span class="font-sans DM-Sans text-sm font-medium">Deliveries</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-700 hover:translate-x-1 transition-transform duration-200 {% if request.path == '/admin-dashboard/' %}text-blue-900 bg-white rounded-lg shadow-sm font-bold{% endif %}" href="{% url 'core:admin-dashboard' %}">
+            <span class="material-symbols-outlined">analytics</span>
+            <span class="font-sans DM-Sans text-sm font-medium">Analytics</span>
+        </a>
+    </nav>
+    <div class="mt-auto space-y-4">
+        <button class="w-full py-3 bg-primary text-white text-xs font-bold rounded shadow-lg shadow-primary/20 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+            Export Reports
+        </button>
+        <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-1">
+            <a class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-blue-700 transition-colors" href="#">
+                <span class="material-symbols-outlined text-lg">help</span>
+                <span class="text-sm font-medium">Help Center</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-error transition-colors" href="{% url 'account_logout' %}">
+                <span class="material-symbols-outlined text-lg">logout</span>
+                <span class="text-sm font-medium">Logout</span>
+            </a>
+        </div>
+    </div>
+</aside>
+<!-- Mobile Sidebar Overlay -->
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>

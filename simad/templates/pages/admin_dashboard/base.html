@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SIMAD.cm | {% block title %}Admin Dashboard{% endblock %}</title>
+<!-- Google Fonts: Inter & DM Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<link href="{% static 'css/output.css' %}" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+    }
+    body { font-family: 'DM Sans', sans-serif; }
+    h1, h2, h3, .brand-font { font-family: 'Inter', sans-serif; }
+</style>
+{% block extra_head %}{% endblock %}
+</head>
+<body class="bg-background text-on-surface">
+
+{% include 'pages/admin_dashboard/includes/sidebar.html' %}
+{% include 'pages/admin_dashboard/includes/topnav.html' %}
+
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 pt-24 pb-12 px-4 lg:px-8 min-h-screen">
+    {% block content %}{% endblock %}
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const sidebar = document.getElementById('admin-sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        const toggleBtn = document.getElementById('mobile-menu-toggle');
+        const closeBtn = document.getElementById('mobile-menu-close');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('-translate-x-full');
+            if (overlay) overlay.classList.toggle('hidden');
+        }
+
+        if(toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
+        if(closeBtn) closeBtn.addEventListener('click', toggleSidebar);
+        if(overlay) overlay.addEventListener('click', toggleSidebar);
+    });
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

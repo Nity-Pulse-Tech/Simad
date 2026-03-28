@@ -1,0 +1,32 @@
+<!-- topnav.html -->
+<header class="fixed top-0 left-0 lg:left-64 right-0 z-40 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md flex justify-between items-center h-16 px-4 lg:px-6 border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm dark:shadow-none transition-all">
+    <div class="flex items-center gap-4">
+        <!-- Hamburger Menu Button -->
+        <button id="mobile-menu-toggle" class="lg:hidden p-2 text-slate-500 hover:bg-slate-50 rounded-lg transition-colors">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+        <div class="hidden sm:flex relative">
+            <span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
+                <span class="material-symbols-outlined text-xl">search</span>
+            </span>
+            <input class="bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-sm w-64 lg:w-80 focus:ring-1 focus:ring-primary/20 focus:bg-white transition-all" placeholder="Search system records..." type="text"/>
+        </div>
+    </div>
+    <div class="flex items-center gap-2 lg:gap-4">
+        <button class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors relative">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+        </button>
+        <button class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors hidden sm:block">
+            <span class="material-symbols-outlined">settings</span>
+        </button>
+        <div class="h-8 w-px bg-slate-200 mx-1 lg:mx-2 hidden sm:block"></div>
+        <div class="flex items-center gap-3 pl-1 lg:pl-2">
+            <div class="text-right hidden sm:block">
+                <p class="text-xs font-bold text-on-surface leading-none">{{ request.user.username|default:"Admin User" }}</p>
+                <p class="text-[10px] text-slate-500 mt-1 uppercase tracking-tight">System Overseer</p>
+            </div>
+            <img alt="Admin User Profile" class="w-8 h-8 lg:w-9 lg:h-9 rounded-full object-cover border border-slate-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjjcBmGcCWSpR7pznFh2HmMLRrnVN7okq9Efir6vyxIzJm88sckn6WstRC2jN0Ct00rPSzFuvO1GNShGMPYxFoE5eMw_PZFbOZcWT0lAb18VNCAkMt0XUCaYE9gtz9Wu3M2zec_FrssUZmR4v-db_uvbkHir_mmS2htaRyyPPbBA3jWEaOuFVoCAC_zzmwlVLv0LYF7oKq3wJrTk20kXkOSlr92Hl6AWAQtGaIPT9EmT4XpMnh7hVNpClSVNQawwcxRA7gncyOrcg"/>
+        </div>
+    </div>
+</header>

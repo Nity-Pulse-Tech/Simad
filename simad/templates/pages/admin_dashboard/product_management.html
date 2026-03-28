@@ -1,128 +1,8 @@
-<!DOCTYPE html>
+{% extends 'pages/admin_dashboard/base.html' %}
 
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>SIMAD Admin - Product Management</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<style>
-        body { font-family: 'DM Sans', sans-serif; }
-        h1, h2, h3, h4, .headline { font-family: 'Inter', sans-serif; }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .glass-header {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-        }
-    </style>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "error-container": "#ffdad6",
-                        "on-secondary": "#ffffff",
-                        "on-primary-container": "#96bbff",
-                        "secondary-fixed-dim": "#b8c7e6",
-                        "on-primary": "#ffffff",
-                        "on-tertiary-fixed": "#00210f",
-                        "tertiary": "#003d20",
-                        "on-surface": "#1a1c20",
-                        "background": "#f9f9ff",
-                        "on-secondary-container": "#53617c",
-                        "on-error-container": "#93000a",
-                        "surface": "#f9f9ff",
-                        "error": "#ba1a1a",
-                        "surface-dim": "#d9d9df",
-                        "inverse-primary": "#aac7ff",
-                        "on-tertiary-fixed-variant": "#00522d",
-                        "outline": "#737781",
-                        "secondary-container": "#cfddfd",
-                        "primary-fixed-dim": "#aac7ff",
-                        "on-secondary-fixed-variant": "#394761",
-                        "outline-variant": "#c3c6d2",
-                        "surface-container-highest": "#e2e2e8",
-                        "secondary-fixed": "#d6e3ff",
-                        "on-tertiary-container": "#6bcf91",
-                        "on-error": "#ffffff",
-                        "tertiary-fixed": "#93f7b6",
-                        "on-primary-fixed": "#001b3e",
-                        "on-tertiary": "#ffffff",
-                        "on-secondary-fixed": "#0c1c33",
-                        "on-background": "#1a1c20",
-                        "surface-bright": "#f9f9ff",
-                        "on-surface-variant": "#434750",
-                        "on-primary-fixed-variant": "#144686",
-                        "primary-container": "#1a4a8a",
-                        "tertiary-fixed-dim": "#77db9b",
-                        "surface-container-high": "#e8e8ee",
-                        "surface-container-low": "#f3f3f9",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-tint": "#335e9f",
-                        "primary": "#00336b",
-                        "surface-container": "#eeedf3",
-                        "inverse-surface": "#2f3035",
-                        "primary-fixed": "#d6e3ff",
-                        "secondary": "#515f7a",
-                        "surface-variant": "#e2e2e8",
-                        "inverse-on-surface": "#f0f0f6",
-                        "tertiary-fixed": "#93f7b6"
-                    },
-                    fontFamily: {
-                        "headline": ["Inter"],
-                        "body": ["DM Sans"],
-                        "label": ["Inter"]
-                    },
-                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
-                },
-            },
-        }
-    </script>
-</head>
-<body class="bg-surface text-on-surface min-h-screen">
-<!-- SideNavBar Shell -->
-<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-50 border-r-0 flex flex-col py-6 px-4 z-50">
-<div class="mb-10 px-2">
-<h1 class="text-xl font-bold text-[#1A4A8A] tracking-tighter">SIMAD Admin</h1>
-<p class="text-xs font-['Inter'] font-medium text-slate-500 tracking-tight">Management Portal</p>
-</div>
-<nav class="flex-1 space-y-1">
-<!-- Active Tab: Products -->
-<a class="flex items-center gap-3 px-3 py-2.5 bg-blue-50 text-[#1A4A8A] font-semibold border-r-4 border-[#1A4A8A] transition-all" href="#">
-<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
-<span class="font-['Inter'] text-sm tracking-tight">Products</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 hover:text-[#1A4A8A] hover:bg-slate-200/50 transition-colors duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
-<span class="font-['Inter'] text-sm tracking-tight">Promotions</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 hover:text-[#1A4A8A] hover:bg-slate-200/50 transition-colors duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="group">group</span>
-<span class="font-['Inter'] text-sm tracking-tight">Users</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 hover:text-[#1A4A8A] hover:bg-slate-200/50 transition-colors duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
-<span class="font-['Inter'] text-sm tracking-tight">Deliveries</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 hover:text-[#1A4A8A] hover:bg-slate-200/50 transition-colors duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
-<span class="font-['Inter'] text-sm tracking-tight">Analytics</span>
-</a>
-</nav>
-<div class="mt-auto px-2">
-<button class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-slate-200/50 hover:bg-slate-200 text-slate-700 rounded-lg transition-all text-sm font-medium">
-<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
-                System Settings
-            </button>
-</div>
-</aside>
-<!-- Main Content Area -->
-<main class="ml-64 min-h-screen">
+{% block title %}Product Management{% endblock %}
+
+{% block content %}
 <!-- TopNavBar Shell -->
 <header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 px-8 flex justify-between items-center glass-header border-b border-slate-100 z-40">
 <div class="flex items-center gap-4 flex-1">
@@ -419,5 +299,4 @@
 </div>
 </div>
 </div>
-</main>
-</body></html>
+{% endblock %}

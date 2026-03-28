@@ -14,6 +14,12 @@ from .views import (
     SolutionsView,
     PromotionsView,
     AboutUsView,
+    AdminDashboardView,
+    AdminDeliveriesView,
+    AdminPromotionsView,
+    AdminAddProductView,
+    AdminProductListView,
+    AdminUsersView,
 )
 
 app_name = "core"
@@ -33,4 +39,12 @@ urlpatterns = [
     path("checkout/success/", PaymentSuccessView.as_view(), name="payment-success"),
     path("checkout/failure/", PaymentFailureView.as_view(), name="payment-failure"),
     path("api/search/", ProductSearchView.as_view(), name="api-search"),
+    
+    # Admin URLs
+    path("admin-dashboard/", AdminDashboardView.as_view(), name="admin-dashboard"),
+    path("admin-dashboard/deliveries/", AdminDeliveriesView.as_view(), name="admin-deliveries"),
+    path("admin-dashboard/promotions/", AdminPromotionsView.as_view(), name="admin-promotions"),
+    path("admin-dashboard/add-product/", AdminAddProductView.as_view(), name="admin-add-product"),
+    path("admin-dashboard/products/", AdminProductListView.as_view(), name="admin-product-list"),
+    path("admin-dashboard/users/", AdminUsersView.as_view(), name="admin-users"),
 ]
