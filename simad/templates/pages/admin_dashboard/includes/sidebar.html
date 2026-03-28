@@ -30,6 +30,14 @@
             <span class="material-symbols-outlined">analytics</span>
             <span class="font-sans DM-Sans text-sm font-medium">Analytics</span>
         </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-700 hover:translate-x-1 transition-transform duration-200 {% if 'settings' in request.path %}text-blue-900 bg-white rounded-lg shadow-sm font-bold{% endif %}" href="{% url 'core:admin-settings' %}">
+            <span class="material-symbols-outlined">domain</span>
+            <span class="font-sans DM-Sans text-sm font-medium">Company Settings</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-700 hover:translate-x-1 transition-transform duration-200 {% if 'legal' in request.path %}text-blue-900 bg-white rounded-lg shadow-sm font-bold{% endif %}" href="{% url 'core:admin-legal-pages' %}">
+            <span class="material-symbols-outlined">gavel</span>
+            <span class="font-sans DM-Sans text-sm font-medium">Legal Pages</span>
+        </a>
     </nav>
     <div class="mt-auto space-y-4">
         <button class="w-full py-3 bg-primary text-white text-xs font-bold rounded shadow-lg shadow-primary/20 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">

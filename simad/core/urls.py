@@ -20,6 +20,8 @@ from .views import (
     AdminAddProductView,
     AdminProductListView,
     AdminUsersView,
+    AdminCorporateSettingsView,
+    AdminLegalPagesView,
 )
 
 app_name = "core"
@@ -47,4 +49,6 @@ urlpatterns = [
     path("admin-dashboard/add-product/", AdminAddProductView.as_view(), name="admin-add-product"),
     path("admin-dashboard/products/", AdminProductListView.as_view(), name="admin-product-list"),
     path("admin-dashboard/users/", AdminUsersView.as_view(), name="admin-users"),
+    path("admin-dashboard/settings/", AdminCorporateSettingsView.as_view(), name="admin-settings"),
+    path("admin-dashboard/legal/", AdminLegalPagesView.as_view(), name="admin-legal-pages"),
 ]

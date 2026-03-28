@@ -1,0 +1,83 @@
+{% extends 'pages/admin_dashboard/base.html' %}
+
+{% block title %}Company Settings{% endblock %}
+
+{% block content %}
+<div class="w-full">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+        <div>
+            <h2 class="text-3xl font-extrabold text-primary tracking-tight mb-1">Company Settings</h2>
+            <p class="text-on-surface-variant font-medium text-sm">Manage corporate identity, support contacts, and system preferences.</p>
+        </div>
+        <div class="flex gap-3">
+            <button class="px-6 py-2.5 rounded-lg text-sm font-semibold text-on-surface border border-outline-variant hover:bg-surface-container-low transition-all">Cancel</button>
+            <button class="px-8 py-2.5 rounded-lg text-sm font-semibold text-on-primary bg-gradient-to-br from-primary to-primary-container shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform active:scale-95">Save Changes</button>
+        </div>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Brand Identity -->
+        <div class="bg-surface-container-lowest p-6 md:p-8 rounded-xl border border-outline-variant/10 shadow-sm">
+            <h3 class="text-lg font-bold text-primary mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined">branding_watermark</span> Brand Identity
+            </h3>
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Company Name</label>
+                    <input type="text" class="w-full bg-surface-container-low border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary/40 outline-none transition-shadow" value="SIMAD S.A.R.L">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Platform Logo</label>
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-4 border-2 border-dashed border-outline-variant/30 rounded-lg p-6 hover:bg-surface-container-low transition-colors cursor-pointer group">
+                        <div class="w-16 h-16 bg-white border border-slate-100 rounded-lg flex items-center justify-center p-2 shadow-sm group-hover:border-primary/40 transition-colors shrink-0">
+                            <span class="material-symbols-outlined text-3xl text-primary">image</span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-on-surface">Upload new logo</p>
+                            <p class="text-xs text-slate-500 mt-1 leading-relaxed">PNG, SVG or WEBP up to 2MB. Transparent background recommended.</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Favicon</label>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-white border border-slate-100 rounded flex items-center justify-center shadow-sm">
+                            <span class="material-symbols-outlined text-xl text-primary">public</span>
+                        </div>
+                        <button class="text-xs font-bold text-primary hover:underline px-2 py-1">Change Favicon</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact & Support Info -->
+        <div class="bg-surface-container-lowest p-6 md:p-8 rounded-xl border border-outline-variant/10 shadow-sm">
+            <h3 class="text-lg font-bold text-primary mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined">contact_support</span> Support &amp; Contact
+            </h3>
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Support Email</label>
+                    <input type="email" class="w-full bg-surface-container-low border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary/40 outline-none transition-shadow" value="support@simad.cm">
+                </div>
+                <div class="flex flex-col sm:flex-row gap-5">
+                    <div class="flex-1">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Support Phone</label>
+                        <input type="tel" class="w-full bg-surface-container-low border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary/40 outline-none transition-shadow" value="+237 600 000 000">
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">WhatsApp Business</label>
+                        <input type="tel" class="w-full bg-surface-container-low border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary/40 outline-none transition-shadow" value="+237 600 000 000">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Physical Address</label>
+                    <textarea class="w-full bg-surface-container-low border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary/40 outline-none transition-shadow h-24 resize-none">Akwa, Douala
+Cameroon</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

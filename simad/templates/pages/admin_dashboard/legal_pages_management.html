@@ -1,0 +1,95 @@
+{% extends 'pages/admin_dashboard/base.html' %}
+
+{% block title %}Legal Pages Management{% endblock %}
+
+{% block content %}
+<div class="w-full">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+        <div>
+            <h2 class="text-3xl font-extrabold text-primary tracking-tight mb-1">Legal Documents</h2>
+            <p class="text-on-surface-variant font-medium text-sm">Manage Privacy Policy, Terms of Service, and Refund agreements.</p>
+        </div>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Document Navigator -->
+        <div class="col-span-1 bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm overflow-hidden flex flex-col h-fit">
+            <div class="p-4 bg-surface-container-low/50 border-b border-outline-variant/10 flex justify-between items-center">
+                <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest">Active Documents</h3>
+                <button class="p-1 hover:bg-slate-200 rounded text-slate-400 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-[1rem]">add</span>
+                </button>
+            </div>
+            <div class="p-2 space-y-1">
+                <button class="w-full flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary font-bold rounded-lg transition-colors text-left group">
+                    <span class="material-symbols-outlined text-lg">policy</span>
+                    <span class="text-sm flex-1">Privacy Policy</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary opacity-100 group-hover:opacity-100"></span>
+                </button>
+                <button class="w-full flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 font-medium rounded-lg transition-colors text-left group">
+                    <span class="material-symbols-outlined text-lg">gavel</span>
+                    <span class="text-sm flex-1">Terms of Service</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                </button>
+                <button class="w-full flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 font-medium rounded-lg transition-colors text-left group">
+                    <span class="material-symbols-outlined text-lg">currency_exchange</span>
+                    <span class="text-sm flex-1">Refund Policy</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Document Editor -->
+        <div class="col-span-1 lg:col-span-2 bg-surface-container-lowest p-6 md:p-8 rounded-xl border border-outline-variant/10 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-outline-variant/10">
+                <div class="flex items-center gap-3">
+                    <span class="p-2 bg-primary-fixed text-primary rounded-lg shrink-0">
+                        <span class="material-symbols-outlined" data-icon="policy">policy</span>
+                    </span>
+                    <div>
+                        <input type="text" class="text-xl font-bold text-primary bg-transparent border-none p-0 focus:ring-0 w-full" value="Privacy Policy">
+                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Last updated: Oct 12, 2026</p>
+                    </div>
+                </div>
+                <button class="w-full sm:w-auto px-6 py-2.5 rounded-lg text-sm font-semibold text-on-primary bg-primary shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[1.1rem]">save</span> Publish Updates
+                </button>
+            </div>
+
+            <!-- WYSIWYG Editor Mockup -->
+            <div class="border border-outline-variant/20 rounded-lg overflow-hidden flex flex-col h-[600px] focus-within:ring-2 focus-within:ring-primary/30 transition-shadow">
+                <div class="bg-surface-container-low p-2 border-b border-outline-variant/20 flex gap-1 flex-wrap items-center">
+                    <select class="text-xs bg-transparent border-none font-bold text-slate-600 focus:ring-0 cursor-pointer mr-2">
+                        <option>Normal Text</option>
+                        <option>Heading 1</option>
+                        <option>Heading 2</option>
+                        <option>Heading 3</option>
+                    </select>
+                    <div class="w-px h-5 bg-slate-300 mx-1"></div>
+                    <button class="p-1.5 text-slate-600 hover:bg-white hover:text-primary rounded transition-colors"><span class="material-symbols-outlined text-sm">format_bold</span></button>
+                    <button class="p-1.5 text-slate-600 hover:bg-white hover:text-primary rounded transition-colors"><span class="material-symbols-outlined text-sm">format_italic</span></button>
+                    <button class="p-1.5 text-slate-600 hover:bg-white hover:text-primary rounded transition-colors"><span class="material-symbols-outlined text-sm">format_underlined</span></button>
+                    <div class="w-px h-5 bg-slate-300 mx-1"></div>
+                    <button class="p-1.5 text-slate-600 hover:bg-white hover:text-primary rounded transition-colors"><span class="material-symbols-outlined text-sm">format_list_bulleted</span></button>
+                    <button class="p-1.5 text-slate-600 hover:bg-white hover:text-primary rounded transition-colors"><span class="material-symbols-outlined text-sm">format_list_numbered</span></button>
+                    <div class="w-px h-5 bg-slate-300 mx-1"></div>
+                    <button class="p-1.5 text-slate-600 hover:bg-white hover:text-primary rounded transition-colors"><span class="material-symbols-outlined text-sm">link</span></button>
+                    <button class="p-1.5 text-slate-600 hover:bg-white hover:text-primary rounded transition-colors"><span class="material-symbols-outlined text-sm">format_clear</span></button>
+                </div>
+                <textarea class="flex-1 w-full p-6 text-sm text-on-surface bg-transparent border-none focus:ring-0 outline-none resize-none leading-relaxed">1. Information We Collect
+We collect information that you submit to us directly, such as when you create an account, purchase a product, or contact support. 
+
+2. How We Use Your Information
+We use the information we collect to provide, maintain, and improve our services, to process transactions, and to communicate with you.
+
+3. Sharing of Information
+We may share your information with third-party vendors and service providers that perform services on our behalf.
+
+4. Data Security
+We take reasonable measures to help protect your personal information from loss, theft, misuse, and unauthorized access.</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -22,3 +22,9 @@ class AdminProductListView(AdminRequiredMixin, TemplateView):
 
 class AdminUsersView(AdminRequiredMixin, TemplateView):
     template_name = "pages/admin_dashboard/user_management.html"
+
+class AdminCorporateSettingsView(AdminRequiredMixin, TemplateView):
+    template_name = "pages/admin_dashboard/corporate_settings.html"
+
+class AdminLegalPagesView(AdminRequiredMixin, TemplateView):
+    template_name = "pages/admin_dashboard/legal_pages_management.html"
