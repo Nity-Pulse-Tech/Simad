@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SIMAD Admin - Promotions &amp; Flash Deals</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'DM Sans', sans-serif; }
+        h1, h2, h3, h4, .headline { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "error-container": "#ffdad6",
+                "on-secondary": "#ffffff",
+                "on-primary-container": "#96bbff",
+                "secondary-fixed-dim": "#b8c7e6",
+                "on-primary": "#ffffff",
+                "on-tertiary-fixed": "#00210f",
+                "tertiary": "#003d20",
+                "on-surface": "#1a1c20",
+                "background": "#f9f9ff",
+                "on-secondary-container": "#53617c",
+                "on-error-container": "#93000a",
+                "surface": "#f9f9ff",
+                "error": "#ba1a1a",
+                "surface-dim": "#d9d9df",
+                "inverse-primary": "#aac7ff",
+                "on-tertiary-fixed-variant": "#00522d",
+                "outline": "#737781",
+                "secondary-container": "#cfddfd",
+                "primary-fixed-dim": "#aac7ff",
+                "on-secondary-fixed-variant": "#394761",
+                "outline-variant": "#c3c6d2",
+                "surface-container-highest": "#e2e2e8",
+                "secondary-fixed": "#d6e3ff",
+                "on-tertiary-container": "#6bcf91",
+                "on-error": "#ffffff",
+                "tertiary-fixed": "#93f7b6",
+                "on-primary-fixed": "#001b3e",
+                "on-tertiary": "#ffffff",
+                "on-secondary-fixed": "#0c1c33",
+                "on-background": "#1a1c20",
+                "surface-bright": "#f9f9ff",
+                "on-surface-variant": "#434750",
+                "on-primary-fixed-variant": "#144686",
+                "primary-container": "#1a4a8a",
+                "tertiary-fixed-dim": "#77db9b",
+                "surface-container-high": "#e8e8ee",
+                "surface-container-low": "#f3f3f9",
+                "surface-container-lowest": "#ffffff",
+                "surface-tint": "#335e9f",
+                "primary": "#00336b",
+                "surface-container": "#eeedf3",
+                "inverse-surface": "#2f3035",
+                "primary-fixed": "#d6e3ff",
+                "secondary": "#515f7a",
+                "surface-variant": "#e2e2e8",
+                "inverse-on-surface": "#f0f0f6",
+                "tertiary-fixed-dim": "#77db9b",
+              },
+              fontFamily: {
+                "headline": ["Inter"],
+                "body": ["DM Sans"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen">
+<!-- SideNavBar (Shared Component) -->
+<aside class="h-screen w-64 border-r-0 fixed left-0 top-0 bg-slate-50 dark:bg-slate-900 flex flex-col py-6 px-4 z-50">
+<div class="mb-10 px-2 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="inventory_2">inventory_2</span>
+</div>
+<div>
+<h1 class="text-xl font-bold text-[#1A4A8A] dark:text-blue-400 tracking-tighter">SIMAD Admin</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Management Portal</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-[#1A4A8A] dark:hover:text-blue-200 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 font-medium text-sm tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+                Products
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-[#1A4A8A] dark:text-blue-300 font-semibold border-r-4 border-[#1A4A8A] text-sm tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+                Promotions
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-[#1A4A8A] dark:hover:text-blue-200 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 font-medium text-sm tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                Users
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-[#1A4A8A] dark:hover:text-blue-200 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 font-medium text-sm tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+                Deliveries
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-[#1A4A8A] dark:hover:text-blue-200 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 font-medium text-sm tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                Analytics
+            </a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800">
+<button class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-slate-200 text-slate-700 text-xs font-bold rounded shadow-sm hover:bg-slate-50 transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="settings">settings</span>
+                System Settings
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 min-h-screen bg-background relative">
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 flex justify-between items-center h-16 px-8 bg-white/85 dark:bg-slate-950/85 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 shadow-sm dark:shadow-none">
+<div class="flex items-center flex-1 max-w-md">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-2 text-sm focus:ring-1 focus:ring-blue-200 dark:focus:ring-blue-800 transition-all outline-none" placeholder="Search promotions, products..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-slate-600 dark:text-slate-400">
+<button class="hover:text-[#1A4A8A] transition-all"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
+<button class="hover:text-[#1A4A8A] transition-all"><span class="material-symbols-outlined" data-icon="settings">settings</span></button>
+<button class="hover:text-[#1A4A8A] transition-all"><span class="material-symbols-outlined" data-icon="help">help</span></button>
+</div>
+<div class="h-8 w-[1px] bg-slate-200"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-on-surface">Alex Thompson</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">System Admin</p>
+</div>
+<img alt="Admin User Profile" class="w-9 h-9 rounded-full object-cover ring-2 ring-primary/10" data-alt="professional portrait of a male corporate administrator in a modern office setting with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdRyXkNJWbWlZP_MKLBWDzlK3ntpDy0JZQcc7YUeyjC9Atjt1oXsi7aaVUoqCT5PgX8jCWoi96zK8FWwIUKGughJgB9T2ojrU70ARqFOTQl7uVAKuFWEwa2lXeWW7J_Yfzm4q1UgM_NpaXqN_ZXhUiZnWAVsg15BjQEeeo1ov08aMF6Elj1pvwCYySsYRHqlDnOP4OM7H1Po1yt1Jy3dAKOy5TqYMuJ8NYp2MUFvEyH10FBf7sjnr6nuZ60vTxn_K8SyBsKcASbBU"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="pt-24 pb-12 px-8 max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+<div>
+<span class="label-sm text-[0.65rem] font-bold text-on-surface-variant tracking-[0.15em] uppercase mb-2 block">Campaign Management</span>
+<h2 class="text-3xl font-extrabold text-primary tracking-tight">Promotions &amp; Flash Deals</h2>
+<p class="text-on-surface-variant mt-1 text-sm font-medium">Manage institutional revenue drivers and seasonal campaigns.</p>
+</div>
+<button class="flex items-center gap-2 bg-gradient-to-br from-primary to-primary-container text-white px-6 py-3 rounded-md shadow-lg shadow-primary/20 hover:opacity-90 transition-all font-semibold text-sm">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                    Create New Promotion
+                </button>
+</div>
+<!-- Dashboard Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Main Promotions List -->
+<div class="md:col-span-8 space-y-8">
+<!-- Section Title -->
+<div class="flex items-center justify-between border-b border-outline-variant/15 pb-4">
+<h3 class="headline-sm font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="local_fire_department">local_fire_department</span>
+                            Live Flash Deals
+                        </h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] font-bold rounded-full uppercase tracking-wider">3 Active</span>
+</div>
+</div>
+<!-- Flash Deal Card 1 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden flex flex-col md:flex-row transition-all hover:bg-surface-container-low">
+<div class="md:w-56 h-48 relative overflow-hidden">
+<img alt="Minimalist Watch" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="high-end minimalist silver watch on a soft grey textured surface with clean studio lighting and sharp shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMa5xCWzbtmctfV8Xfoif0B2YB1ydfYj0f-tUFBYcl8yfvUed_uS8oelrhuPmv4QN2Eqv3r15aIcCbhQLTbZ7vV62ai492VYHYzS6RKYvZ1_d-QxOMUG0EKcLDlRAoBW5GrPCoLS3YcueCCaIsANJL_kLF1do3bs9fvr2AH8yaZOROW-sCAMKMQIpajY0PwwGuoqgA8RWnx6q9LaKIxEl0gj-MH-oLYSGn8UUevn-zll5PjA2ZEE_UcW_Fq6_aJ72j6ftIEOfnUs0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-end items-end p-4">
+<span class="bg-error text-white text-[10px] font-black px-2 py-1 rounded-sm uppercase tracking-widest">-45% OFF</span>
+</div>
+</div>
+<div class="flex-1 p-6 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-lg font-bold text-on-surface tracking-tight">Mid-Summer Premium Series</h4>
+<p class="text-xs text-on-surface-variant font-medium mt-1">Applied to: Chrono Elite &amp; Signature Quartz</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold text-error uppercase tracking-widest mb-1">Ends In</p>
+<div class="flex gap-2 text-primary font-mono font-bold text-sm">
+<div class="bg-surface-container-high px-2 py-1 rounded">04h</div>
+<div class="bg-surface-container-high px-2 py-1 rounded">22m</div>
+<div class="bg-surface-container-high px-2 py-1 rounded">15s</div>
+</div>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden"><img class="w-full h-full object-cover" data-alt="red athletic running shoe side profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSYfae22s6Q6xClLo96umVkA4T4M4Ap-Z4DhGzx4p-BZxhwaY7ysbSK5zogQBiIxNxZqndItgZNTDqaOETKcS_Yy1EpPudZ6uRpgydoU8pC6XRe-9lsBBdUQhuGz-h1AT5ygMDGa9wOcyd7WTI7V5bQHbwq2Q1WoeNmUaTsYP_rTwWqfLqxKqPi8AsS1NJxT3lYgx0HrSjTpE_Mu9s_MZnlnIboU5eenh5yFnM68svgnOEvs_6SYnBdAP2wyishnyxrFDCBCFP5n0"/></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden"><img class="w-full h-full object-cover" data-alt="black wireless over-ear headphones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvi7AEw5u1KApQmJHqoJ6t5hk8WPd-zXAMbhxGPcCRppZ7Cj2rcdIYVmOppDqQMOf0RwDoYx1VVja6c8jaCw4APqUU_6YQqQJ0CwJInB6CBniFvLM9vElg5KIFMBYzYZooajY1eszIHCheU2OSzoSO3nDILHW6USTJYin7U4kjblGq44mnLk4oCu-9PjcrOqNNNJu0EkQboW5f9iw7roSJR0CV8AHp4vEnid5wcFIz6jmMUll3YX3Z8QySgcjee1KPN12OPYD6pxk"/></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-surface-container-high flex items-center justify-center text-[10px] font-bold text-on-surface-variant">+12</div>
+</div>
+<div class="flex gap-3">
+<button class="text-primary text-xs font-bold hover:underline">Edit Logistics</button>
+<div class="h-4 w-[1px] bg-outline-variant/30"></div>
+<button class="text-error text-xs font-bold hover:underline">Terminate</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Flash Deal Card 2 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden flex flex-col md:flex-row transition-all hover:bg-surface-container-low">
+<div class="md:w-56 h-48 relative overflow-hidden">
+<img alt="Nike Sneakers" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="close-up profile of a vibrant red sports sneaker on a dark background with dramatic spotlighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMIMzzcP3aHKOJcKJkSq4QeF_l2kRJ99oPPAL5jZMDh0hbp4_b-RIrBmOjLEc1HEnBwKHzvtvmeZtTI7TNHMtCdXo3-HyzbsD_u5Us7_LUOf_pwVD7GSqd1CDNq9fArI6jf8z2n5cShbqtLAN0THIoiLos9L478-F7NVecb0HvLsIuq6djUJa_T_zr0hUPuQcERU0vkSlXtDS1D3vZg5rOQOA5h8TL87_0k_lsCnq3ewJtGIYnB4S_ZNtIsCskapKqAqz0UkGf98A"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-end items-end p-4">
+<span class="bg-error text-white text-[10px] font-black px-2 py-1 rounded-sm uppercase tracking-widest">-30% OFF</span>
+</div>
+</div>
+<div class="flex-1 p-6 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-lg font-bold text-on-surface tracking-tight">Athletic Performance Week</h4>
+<p class="text-xs text-on-surface-variant font-medium mt-1">Applied to: All Footwear Categories</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold text-error uppercase tracking-widest mb-1">Ends In</p>
+<div class="flex gap-2 text-primary font-mono font-bold text-sm">
+<div class="bg-surface-container-high px-2 py-1 rounded">12h</div>
+<div class="bg-surface-container-high px-2 py-1 rounded">08m</div>
+<div class="bg-surface-container-high px-2 py-1 rounded">59s</div>
+</div>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden"><img class="w-full h-full object-cover" data-alt="brown leather boots" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIklw1KuQ9R1InqLtAuyLiPhlSV1haU-m_Ruw-njbwavTNoDxAAfyogj586Wbpizc572taaqJMU12qdUUiEEs6-pRnMJ5rxBB2v2qocRODw2lK9NRSpE7Lhgdh4LuoSKeQsKMFS5x9o8e7HlaDO-hW6nEaURtxtNQI5d3VUSX1skgW4tdoBm8g3eNdRneGPDuOVuGDrPPA3Z9udksTW4oXGucYRmLYzL59k-Jx_li_8KGoQCqIRDs8bEqphZGu8rVvA6zC5bG-iJk"/></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden"><img class="w-full h-full object-cover" data-alt="lime green sneakers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHtqtT8rrkPDxXzAN3tsWr9Ghdbd6Q_EbTvFz3hD0GMRdvVkVX-xNdMbcgFz212e1oqOYuW6tO5xWZfR72T-6cC82dSh9rIM3vLwz_ZJI2p5VRq_iXBPdQ0TjN07QoPIsSJpIVhYUVxodMi6xYlkxi-YbMLSwYYqxUw5BwA-qWVsDBsPIq2jyosukqDP4gBHWvz8yAoUXG77SPY8GMk80xg2H3IS0-3b-gpbdhWbzECICyCTrtQ0GKZ6kqIF7saWWnOEPn8J557F8"/></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-surface-container-high flex items-center justify-center text-[10px] font-bold text-on-surface-variant">+24</div>
+</div>
+<div class="flex gap-3">
+<button class="text-primary text-xs font-bold hover:underline">Edit Logistics</button>
+<div class="h-4 w-[1px] bg-outline-variant/30"></div>
+<button class="text-error text-xs font-bold hover:underline">Terminate</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Upcoming List Table (Institutional Ledger Style) -->
+<div class="mt-12">
+<h3 class="headline-sm font-bold text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="calendar_month">calendar_month</span>
+                            Scheduled Promotions
+                        </h3>
+<div class="overflow-hidden rounded-xl bg-surface-container-lowest">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Promotion Name</th>
+<th class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Scheduled Date</th>
+<th class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Status</th>
+<th class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Forecasted ROI</th>
+<th class="py-4 px-6"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="py-5 px-6">
+<p class="text-sm font-bold text-on-surface">Back to School Bundle</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-medium">Sitewide - 15%</p>
+</td>
+<td class="py-5 px-6 text-sm text-on-surface-variant font-medium">Aug 15 - Sep 01</td>
+<td class="py-5 px-6">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded-full uppercase tracking-wider">Pending</span>
+</td>
+<td class="py-5 px-6 text-sm font-bold text-tertiary">+$12,400</td>
+<td class="py-5 px-6 text-right">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="py-5 px-6">
+<p class="text-sm font-bold text-on-surface">New Arrival: Tech Flow</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-medium">Specific - 10%</p>
+</td>
+<td class="py-5 px-6 text-sm text-on-surface-variant font-medium">Aug 20 - Aug 25</td>
+<td class="py-5 px-6">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded-full uppercase tracking-wider">Pending</span>
+</td>
+<td class="py-5 px-6 text-sm font-bold text-tertiary">+$8,900</td>
+<td class="py-5 px-6 text-right">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Sidebar / Form Side -->
+<div class="md:col-span-4 space-y-8">
+<!-- Quick Stats Cards (Tonal Layering) -->
+<div class="bg-primary text-white p-6 rounded-xl shadow-xl shadow-primary/10 relative overflow-hidden">
+<div class="relative z-10">
+<p class="text-[10px] font-bold uppercase tracking-[0.2em] opacity-70 mb-1">Total Campaign Revenue</p>
+<h4 class="text-3xl font-extrabold tracking-tight">$248,600</h4>
+<div class="mt-4 flex items-center gap-2">
+<span class="flex items-center text-[10px] bg-tertiary-container/40 px-2 py-0.5 rounded-full font-bold text-tertiary-fixed">
+<span class="material-symbols-outlined text-[12px] mr-1" data-icon="trending_up">trending_up</span>
+                                    12.4%
+                                </span>
+<span class="text-[10px] opacity-60 font-medium">vs last period</span>
+</div>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined text-8xl" data-icon="payments">payments</span>
+</div>
+</div>
+<!-- Create New Promotion Form -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/20">
+<div class="mb-6">
+<h4 class="text-lg font-bold text-on-surface tracking-tight">Campaign Blueprint</h4>
+<p class="text-xs text-on-surface-variant font-medium">Configure your next market move.</p>
+</div>
+<form class="space-y-5">
+<div>
+<label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-1.5">Promotion Name</label>
+<input class="w-full bg-surface-container-low border-none rounded focus:ring-1 focus:ring-primary/40 text-sm py-2.5 transition-all" placeholder="e.g. Flash Friday Elite" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-1.5">Discount (%)</label>
+<input class="w-full bg-surface-container-low border-none rounded focus:ring-1 focus:ring-primary/40 text-sm py-2.5 transition-all" placeholder="20" type="number"/>
+</div>
+<div>
+<label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-1.5">Flash Deal</label>
+<select class="w-full bg-surface-container-low border-none rounded focus:ring-1 focus:ring-primary/40 text-sm py-2.5 transition-all appearance-none">
+<option>Enabled</option>
+<option>Disabled</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-1.5">Duration</label>
+<div class="flex items-center gap-2 bg-surface-container-low rounded p-2">
+<span class="material-symbols-outlined text-on-surface-variant text-lg" data-icon="event">event</span>
+<input class="bg-transparent border-none text-xs w-full focus:ring-0 font-medium text-on-surface" type="text" value="Aug 20 - Aug 25"/>
+</div>
+</div>
+<div>
+<label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-1.5">Assign Products</label>
+<div class="flex flex-wrap gap-2">
+<div class="bg-surface-container-high px-3 py-1.5 rounded-full text-[10px] font-bold text-on-surface-variant flex items-center gap-2 group">
+                                        Watches
+                                        <button class="material-symbols-outlined text-[12px] opacity-0 group-hover:opacity-100" data-icon="close">close</button>
+</div>
+<div class="bg-surface-container-high px-3 py-1.5 rounded-full text-[10px] font-bold text-on-surface-variant flex items-center gap-2 group">
+                                        Accessories
+                                        <button class="material-symbols-outlined text-[12px] opacity-0 group-hover:opacity-100" data-icon="close">close</button>
+</div>
+<button class="bg-primary/5 text-primary px-3 py-1.5 rounded-full text-[10px] font-bold flex items-center gap-1 hover:bg-primary/10 transition-all">
+<span class="material-symbols-outlined text-[12px]" data-icon="add">add</span>
+                                        Add Tags
+                                    </button>
+</div>
+</div>
+<button class="w-full py-3 mt-4 bg-primary text-white text-xs font-bold rounded uppercase tracking-[0.15em] hover:bg-primary-container transition-all" type="button">
+                                Initialize Campaign
+                            </button>
+</form>
+</div>
+<!-- Performance Insight Card -->
+<div class="bg-surface-container-high/30 p-6 rounded-xl border border-dashed border-outline-variant/50">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-tertiary/10 rounded-full flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div>
+<h5 class="text-sm font-bold text-on-surface tracking-tight">AI Optimization Tip</h5>
+<p class="text-[11px] text-on-surface-variant font-medium leading-relaxed mt-1">Increasing "Flash Friday" by 5% on mobile users specifically could yield 12% higher conversion based on last week's traffic.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB Suppression: FAB only on dashboard/promotions main view -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 md:hidden">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</body></html>

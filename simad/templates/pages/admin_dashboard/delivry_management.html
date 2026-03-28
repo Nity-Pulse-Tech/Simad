@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SIMAD Admin - Delivery Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #f9f9ff;
+        }
+        h1, h2, h3, h4, .headline {
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "error-container": "#ffdad6",
+                "on-secondary": "#ffffff",
+                "on-primary-container": "#96bbff",
+                "secondary-fixed-dim": "#b8c7e6",
+                "on-primary": "#ffffff",
+                "on-tertiary-fixed": "#00210f",
+                "tertiary": "#003d20",
+                "on-surface": "#1a1c20",
+                "background": "#f9f9ff",
+                "on-secondary-container": "#53617c",
+                "on-error-container": "#93000a",
+                "surface": "#f9f9ff",
+                "error": "#ba1a1a",
+                "surface-dim": "#d9d9df",
+                "inverse-primary": "#aac7ff",
+                "on-tertiary-fixed-variant": "#00522d",
+                "outline": "#737781",
+                "secondary-container": "#cfddfd",
+                "primary-fixed-dim": "#aac7ff",
+                "on-secondary-fixed-variant": "#394761",
+                "outline-variant": "#c3c6d2",
+                "surface-container-highest": "#e2e2e8",
+                "secondary-fixed": "#d6e3ff",
+                "on-tertiary-container": "#6bcf91",
+                "on-error": "#ffffff",
+                "tertiary-fixed": "#93f7b6",
+                "on-primary-fixed": "#001b3e",
+                "on-tertiary": "#ffffff",
+                "on-secondary-fixed": "#0c1c33",
+                "on-background": "#1a1c20",
+                "surface-bright": "#f9f9ff",
+                "on-surface-variant": "#434750",
+                "on-primary-fixed-variant": "#144686",
+                "primary-container": "#1a4a8a",
+                "tertiary-fixed-dim": "#77db9b",
+                "surface-container-high": "#e8e8ee",
+                "surface-container-low": "#f3f3f9",
+                "surface-container-lowest": "#ffffff",
+                "surface-tint": "#335e9f",
+                "primary": "#00336b",
+                "surface-container": "#eeedf3",
+                "inverse-surface": "#2f3035",
+                "primary-fixed": "#d6e3ff",
+                "secondary": "#515f7a",
+                "surface-variant": "#e2e2e8",
+                "inverse-on-surface": "#f0f0f6",
+                "tertiary-fixed-dim": "#77db9b",
+              },
+              fontFamily: {
+                "headline": ["Inter"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+          },
+        }
+      </script>
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar Anchor -->
+<aside class="h-screen w-64 border-r-0 fixed left-0 top-0 bg-slate-50 dark:bg-slate-900 flex flex-col py-6 px-4 z-50">
+<div class="mb-10 px-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">package_2</span>
+</div>
+<div>
+<h1 class="text-xl font-bold text-[#1A4A8A] dark:text-blue-400 tracking-tighter">SIMAD Admin</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Management Portal</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-200/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-['Inter'] font-medium text-sm tracking-tight">Products</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-200/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">bolt</span>
+<span class="font-['Inter'] font-medium text-sm tracking-tight">Promotions</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-200/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-['Inter'] font-medium text-sm tracking-tight">Users</span>
+</a>
+<!-- Active Tab: Deliveries -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-[#1A4A8A] dark:text-blue-300 font-semibold border-r-4 border-[#1A4A8A]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+<span class="font-['Inter'] font-medium text-sm tracking-tight">Deliveries</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-200/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-['Inter'] font-medium text-sm tracking-tight">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-200/50">
+<button class="w-full flex items-center justify-between px-3 py-2 text-slate-500 hover:text-primary transition-colors">
+<span class="font-['Inter'] font-medium text-sm">System Settings</span>
+<span class="material-symbols-outlined text-sm">settings</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar Anchor -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-white/85 dark:bg-slate-950/85 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 flex justify-between items-center h-16 px-8">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg text-sm focus:ring-1 focus:ring-blue-200 outline-none transition-all" placeholder="Search orders, delivery IDs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-600 hover:text-[#1A4A8A] transition-all focus:ring-1 focus:ring-blue-200 rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-600 hover:text-[#1A4A8A] transition-all focus:ring-1 focus:ring-blue-200 rounded-full">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 mx-2"></div>
+<div class="flex items-center gap-3 pl-2 cursor-pointer group">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface">Admin User</p>
+<p class="text-[10px] text-slate-400 font-medium">Logistics Lead</p>
+</div>
+<img alt="Admin User Profile" class="w-9 h-9 rounded-full bg-slate-200 border border-slate-100 group-hover:border-primary-container transition-colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBsjQPkYkVMYhZ4gNrh-mWR-xI3rCsCBz4cnowkIebaMhFp7Rq2Rrep8pxa9q7OH3tkfntYGXKGkJlqXqzPIcdcjoTV8260CRwYWdbashO_kUQ6SObggmxXxQox1qNKBf9ztS0W8UA6oFDyFpWwfR8ZCSnok4ebp-DB8UAl3va4DpGl0BqEa9cpw9q3DCfZHT5n-8LgkX6Q5FqsgC9gyEs4OVba6Vqk0NWJgckazV5LJIablgxomz4Ab5Ac0RLT8YYBoQzEcX3lpw"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="pt-24 pb-12 px-8 max-w-7xl mx-auto">
+<!-- Page Header & Stats -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+<div>
+<h2 class="text-3xl font-extrabold tracking-tight text-primary mb-1">Delivery Logistics</h2>
+<p class="text-on-surface-variant text-sm font-medium">Real-time oversight of local and international shipments</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-highest px-4 py-2 rounded-md text-on-surface text-sm font-semibold flex items-center gap-2 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-base">filter_list</span>
+                        Filter Status
+                    </button>
+<button class="bg-gradient-to-br from-primary to-primary-container text-white px-5 py-2 rounded-md text-sm font-semibold shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-base">add</span>
+                        New Shipment
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6 mb-8">
+<!-- Map View (Large Bento Cell) -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl p-1 overflow-hidden h-[450px] relative group border border-transparent hover:border-outline-variant/20 transition-all">
+<div class="absolute top-6 left-6 z-10 bg-white/90 backdrop-blur px-4 py-3 rounded-lg shadow-sm">
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Live Fleet Location</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="text-sm font-bold text-on-surface">14 Vehicles Active</span>
+</div>
+</div>
+<div class="w-full h-full bg-slate-100 rounded-lg overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-80 mix-blend-multiply" data-alt="high contrast minimalist vector map of an urban city layout with stylized navy blue roads and golden logistics markers" data-location="Yaoundé" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDshH_kbGYLEKELjk3s6gqSEVf5mS031zgTAgdBcBAcTb671Miz3_A5NMuNCqWzAcKFY4pz62FnqkUvcw3-Un1Q0GlvF2Q7NdEtFMorUIVXcYUuJNMf-A5hdaFf2037KqZTKO-1Si31QHqXsmbPdipAcFiycpm09brHrnqb8aex2-SGDLbjQoHw-Mms_MUKMCE8FNfRYaThr6BTBe3gmJCkU1WV7_UZHmYHJJqSkvfFjABJxDbSuVw6S5YnuuFMzvcz5KJEkZnj8C4"/>
+<!-- Custom Map Markers Overlay -->
+<div class="absolute top-1/2 left-1/3 p-2 bg-primary rounded-full shadow-lg border-2 border-white transform -translate-y-12">
+<span class="material-symbols-outlined text-white text-xs" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+</div>
+<div class="absolute top-1/4 right-1/4 p-2 bg-tertiary rounded-full shadow-lg border-2 border-white transform translate-x-8">
+<span class="material-symbols-outlined text-white text-xs" style="font-variation-settings: 'FILL' 1;">home</span>
+</div>
+</div>
+</div>
+<!-- Delivery Metrics (Small Bento Cells) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<div class="bg-surface-container-lowest rounded-xl p-6 flex-1 flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-primary mb-4 p-2 bg-primary-fixed rounded-lg">speed</span>
+<h3 class="font-bold text-lg mb-1">Average Transit</h3>
+</div>
+<div>
+<p class="text-4xl font-extrabold text-on-surface leading-none mb-2">4.2 <span class="text-base font-medium text-slate-400">hours</span></p>
+<p class="text-xs text-tertiary-fixed-variant flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-xs">trending_down</span>
+                                12% faster than last week
+                            </p>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-6 flex-1 flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-tertiary mb-4 p-2 bg-tertiary-fixed rounded-lg">check_circle</span>
+<h3 class="font-bold text-lg mb-1">Completed Today</h3>
+</div>
+<div>
+<p class="text-4xl font-extrabold text-on-surface leading-none mb-2">184</p>
+<p class="text-xs text-slate-400 font-medium">98.5% success rate</p>
+</div>
+</div>
+</div>
+</div>
+<!-- The Ledger: Delivery List -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+<div class="p-6 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30">
+<h3 class="font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">list_alt</span>
+                        Active Shipments
+                    </h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-primary-fixed text-on-primary-fixed text-[10px] font-bold rounded-full">34 PROCESSING</span>
+<span class="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold rounded-full">12 SHIPPED</span>
+</div>
+</div>
+<div class="overflow-x-auto no-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant">
+<th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider">Order ID</th>
+<th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider">Customer</th>
+<th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider">Timeline</th>
+<th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-right">ETA</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-high transition-colors group cursor-pointer">
+<td class="px-6 py-4">
+<span class="font-mono text-sm font-bold text-primary">#SIM-82910</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500">MK</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Moussa Keita</p>
+<p class="text-[10px] text-slate-400">Douala, CM</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-primary-fixed text-on-primary-fixed">
+                                        SHIPPED
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="w-48">
+<div class="flex justify-between text-[9px] font-bold text-slate-400 mb-1">
+<span>HUB</span>
+<span>TRANSIT</span>
+<span class="text-tertiary">DEST</span>
+</div>
+<div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden flex">
+<div class="h-full bg-primary w-2/3"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="text-sm font-bold text-on-surface">Today, 14:30</p>
+<p class="text-[10px] text-tertiary font-bold">In 45 mins</p>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high transition-colors group cursor-pointer">
+<td class="px-6 py-4">
+<span class="font-mono text-sm font-bold text-primary">#SIM-82894</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500">AB</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Alice Bekono</p>
+<p class="text-[10px] text-slate-400">Yaoundé, CM</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-surface-container-highest text-on-surface-variant">
+                                        PROCESSING
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="w-48">
+<div class="flex justify-between text-[9px] font-bold text-slate-400 mb-1">
+<span class="text-primary">HUB</span>
+<span>TRANSIT</span>
+<span>DEST</span>
+</div>
+<div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden flex">
+<div class="h-full bg-primary w-1/4"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="text-sm font-bold text-on-surface">Tomorrow</p>
+<p class="text-[10px] text-slate-400 font-bold">Pending pickup</p>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-high transition-colors group cursor-pointer">
+<td class="px-6 py-4">
+<span class="font-mono text-sm font-bold text-primary">#SIM-82755</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500">JN</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Jean Njoh</p>
+<p class="text-[10px] text-slate-400">Kribi, CM</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed">
+                                        DELIVERED
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="w-48">
+<div class="flex justify-between text-[9px] font-bold text-slate-400 mb-1">
+<span>HUB</span>
+<span>TRANSIT</span>
+<span class="text-tertiary">DEST</span>
+</div>
+<div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden flex">
+<div class="h-full bg-tertiary w-full"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="text-sm font-bold text-on-surface">12 Oct, 10:15</p>
+<p class="text-[10px] text-slate-400 font-bold">Completed</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 bg-surface-container-low/50 flex items-center justify-between">
+<p class="text-xs text-on-surface-variant font-medium">Showing 1-10 of 248 deliveries</p>
+<div class="flex gap-2">
+<button class="p-1 rounded hover:bg-white text-slate-400 transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="p-1 rounded hover:bg-white text-slate-400 transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB (Only for Home/Dashboard/Logistics Main) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-tertiary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-50">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_location_alt</span>
+</button>
+</body></html>

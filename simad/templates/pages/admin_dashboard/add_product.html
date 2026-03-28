@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add New Product | SIMAD Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "surface": "#f9f9ff",
+                "on-primary": "#ffffff",
+                "on-error": "#ffffff",
+                "tertiary": "#003d20",
+                "on-surface": "#1a1c20",
+                "inverse-surface": "#2f3035",
+                "tertiary-fixed": "#93f7b6",
+                "outline-variant": "#c3c6d2",
+                "on-surface-variant": "#434750",
+                "secondary-fixed-dim": "#b8c7e6",
+                "surface-bright": "#f9f9ff",
+                "primary-fixed-dim": "#aac7ff",
+                "surface-variant": "#e2e2e8",
+                "on-secondary-fixed-variant": "#394761",
+                "on-tertiary-container": "#6bcf91",
+                "on-primary-container": "#96bbff",
+                "inverse-primary": "#aac7ff",
+                "secondary": "#515f7a",
+                "error-container": "#ffdad6",
+                "error": "#ba1a1a",
+                "surface-container-low": "#f3f3f9",
+                "on-error-container": "#93000a",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary-fixed": "#00210f",
+                "on-primary-fixed": "#001b3e",
+                "primary-container": "#1a4a8a",
+                "surface-tint": "#335e9f",
+                "secondary-fixed": "#d6e3ff",
+                "surface-container-highest": "#e2e2e8",
+                "surface-dim": "#d9d9df",
+                "secondary-container": "#cfddfd",
+                "on-secondary": "#ffffff",
+                "background": "#f9f9ff",
+                "on-primary-fixed-variant": "#144686",
+                "primary": "#00336b",
+                "on-tertiary-fixed-variant": "#00522d",
+                "tertiary-container": "#005730",
+                "on-secondary-fixed": "#0c1c33",
+                "on-secondary-container": "#53617c",
+                "surface-container-high": "#e8e8ee",
+                "primary-fixed": "#d6e3ff",
+                "on-background": "#1a1c20",
+                "outline": "#737781",
+                "on-tertiary": "#ffffff",
+                "inverse-on-surface": "#f0f0f6",
+                "tertiary-fixed-dim": "#77db9b",
+                "surface-container": "#eeedf3"
+              },
+              fontFamily: {
+                "headline": ["Inter"],
+                "body": ["DM Sans"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-nav { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e2e8; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<div class="flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-full p-4 gap-2 bg-slate-50/85 dark:bg-slate-900/85 backdrop-blur-md h-screen w-64 border-r-0 font-['Inter'] font-medium tracking-tight text-sm z-50">
+<div class="px-2 py-4 mb-6">
+<span class="text-xl font-bold tracking-tighter text-blue-900 dark:text-white">SIMAD.cm</span>
+<p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Institutional Ledger</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1 overflow-y-auto custom-scrollbar">
+<a class="flex items-center gap-3 px-3 py-2.5 bg-white dark:bg-slate-800 text-blue-900 dark:text-blue-300 font-bold rounded-lg shadow-sm active:scale-[0.98] duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>Products</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-blue-800 hover:bg-slate-200/50 dark:hover:bg-slate-700/50 transition-colors active:scale-[0.98] duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="sell">sell</span>
+<span>Promotions</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-blue-800 hover:bg-slate-200/50 dark:hover:bg-slate-700/50 transition-colors active:scale-[0.98] duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-blue-800 hover:bg-slate-200/50 dark:hover:bg-slate-700/50 transition-colors active:scale-[0.98] duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span>Deliveries</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-blue-800 hover:bg-slate-200/50 dark:hover:bg-slate-700/50 transition-colors active:scale-[0.98] duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Analytics</span>
+</a>
+</nav>
+<div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-blue-800 hover:bg-slate-200/50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-blue-800 hover:bg-slate-200/50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help_center">help_center</span>
+<span>Support</span>
+</a>
+<div class="mt-4 p-3 bg-surface-container-high rounded-lg flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-fixed-dim flex items-center justify-center overflow-hidden">
+<img alt="SIMAD Admin Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBllNAg-GSP2_fHEmPkUmggNHfIV7wJzddYPQ9g_SfWWP7gi2DWnnaf0JbJc7Dbmj6MpvLBkwJWvUWz88y9c9sVNP189ygslyfT30NFl2h5Pi8Wj848eNpzAMAALgvfyWFkMqthBIzAvphGUAg-ul_AHt4gZCbdJfmFo3o8sjCiIwu_Tu2HdAQoitqLUoaUsB1jx3oQ4-8MG9O1y9nSD2Xrn1mt3WQaLzYT1eME7M8u0miiYEZwy3bGY_JyUeNoIyagfrMySFII9Fc"/>
+</div>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-on-surface">Admin User</span>
+<span class="text-[10px] text-on-surface-variant">System Master</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+<!-- TopNavBar -->
+<header class="w-full h-16 sticky top-0 z-40 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 shadow-sm dark:shadow-none flex items-center justify-between px-6 font-['Inter'] text-sm tracking-normal">
+<div class="flex items-center gap-8">
+<div class="relative group">
+<span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
+<span class="material-symbols-outlined text-lg" data-icon="search">search</span>
+</span>
+<input class="pl-10 pr-4 py-1.5 bg-slate-100/50 border-none rounded-full text-xs focus:ring-1 focus:ring-primary/20 w-64 transition-all" placeholder="Search catalog..." type="text"/>
+</div>
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-slate-500 hover:text-blue-700 transition-all" href="#">Dashboard</a>
+<a class="text-slate-500 hover:text-blue-700 transition-all" href="#">Reports</a>
+<a class="text-slate-500 hover:text-blue-700 transition-all" href="#">Logs</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-highest text-on-surface rounded-md hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="ios_share">ios_share</span>
+<span>Quick Export</span>
+</button>
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<main class="flex-1 overflow-y-auto custom-scrollbar bg-surface pb-20">
+<!-- Hero Header -->
+<div class="px-10 pt-10 pb-6">
+<div class="flex items-end justify-between">
+<div>
+<nav class="flex items-center gap-2 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-2">
+<span>Inventory</span>
+<span class="material-symbols-outlined text-[10px]" data-icon="chevron_right">chevron_right</span>
+<span class="text-primary">New Product</span>
+</nav>
+<h1 class="text-3xl font-headline font-extrabold tracking-tighter text-on-surface">Add New Product</h1>
+<p class="text-on-surface-variant mt-1 max-w-lg">Define administrative metadata, clinical directives, and logistical parameters for the institutional ledger.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 rounded-lg text-sm font-semibold text-on-surface border border-outline-variant hover:bg-surface-container-low transition-all">Discard Draft</button>
+<button class="px-8 py-2.5 rounded-lg text-sm font-semibold text-on-primary bg-gradient-to-br from-primary to-primary-container shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform active:scale-95">Save Product</button>
+</div>
+</div>
+</div>
+<div class="px-10 py-6 grid grid-cols-12 gap-8">
+<!-- Left Column: Primary Data -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-8">
+<!-- Section 1: Basic Information -->
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<div class="flex items-center gap-3 mb-8">
+<span class="w-1.5 h-6 bg-primary rounded-full"></span>
+<h2 class="text-lg font-headline font-bold text-on-surface">Basic Information</h2>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="col-span-2">
+<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Product Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="e.g. Paracetamol 500mg Institutional Grade" type="text"/>
+</div>
+<div class="col-span-1">
+<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Slug</label>
+<div class="flex items-center bg-surface-container-low rounded-lg overflow-hidden px-4 py-3">
+<span class="text-on-surface-variant/40 text-xs">simad.cm/p/</span>
+<input class="flex-1 bg-transparent border-none p-0 ml-1 text-xs focus:ring-0" placeholder="paracetamol-500mg" type="text"/>
+</div>
+</div>
+<div class="col-span-1">
+<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Category</label>
+<select class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all text-sm">
+<option>Analgesics</option>
+<option>Cardiovascular</option>
+<option>Dermatology</option>
+<option>Emergency Kits</option>
+</select>
+</div>
+<div class="col-span-2">
+<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Short Description</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="Brief tagline for catalog view..." type="text"/>
+</div>
+<div class="col-span-2">
+<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Full Description (WYSIWYG)</label>
+<div class="bg-surface-container-low rounded-lg border border-outline-variant/10 overflow-hidden">
+<div class="flex items-center gap-1 p-2 bg-surface-container-high/50 border-b border-outline-variant/10">
+<button class="p-1.5 hover:bg-white rounded transition-colors"><span class="material-symbols-outlined text-lg" data-icon="format_bold">format_bold</span></button>
+<button class="p-1.5 hover:bg-white rounded transition-colors"><span class="material-symbols-outlined text-lg" data-icon="format_italic">format_italic</span></button>
+<button class="p-1.5 hover:bg-white rounded transition-colors"><span class="material-symbols-outlined text-lg" data-icon="format_list_bulleted">format_list_bulleted</span></button>
+<div class="w-px h-4 bg-outline-variant/30 mx-1"></div>
+<button class="p-1.5 hover:bg-white rounded transition-colors"><span class="material-symbols-outlined text-lg" data-icon="link">link</span></button>
+</div>
+<textarea class="w-full bg-transparent border-none px-4 py-3 focus:ring-0 text-sm" placeholder="Detailed product clinical efficacy and historical data..." rows="6"></textarea>
+</div>
+</div>
+<div class="col-span-1">
+<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">SKU</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="SIM-000-XXX" type="text"/>
+</div>
+<div class="col-span-1">
+<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Barcode</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="000123456789" type="text"/>
+<span class="absolute inset-y-0 right-3 flex items-center text-slate-400">
+<span class="material-symbols-outlined text-lg" data-icon="barcode_scanner">barcode_scanner</span>
+</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Medical/Clinical Info -->
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<div class="flex items-center gap-3 mb-8">
+<span class="w-1.5 h-6 bg-tertiary rounded-full"></span>
+<h2 class="text-lg font-headline font-bold text-on-surface">Medical &amp; Clinical Directives</h2>
+</div>
+<div class="space-y-6">
+<div>
+<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Clinical Notes</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all text-sm" placeholder="Internal clinical considerations..." rows="3"></textarea>
+</div>
+<div>
+<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Usage Instructions (Step-by-Step)</label>
+<div class="space-y-2">
+<div class="flex gap-2">
+<input class="flex-1 bg-surface-container-low border-none rounded-lg px-4 py-2 text-sm focus:ring-1 focus:ring-primary/20" placeholder="1. Administer orally after meals..." type="text"/>
+<button class="p-2 text-primary hover:bg-primary/5 rounded-lg"><span class="material-symbols-outlined" data-icon="add">add</span></button>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Precautions</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary/20 transition-all text-sm" placeholder="Known contraindications and warning signs..." rows="3"></textarea>
+</div>
+</div>
+</section>
+<!-- Section 3: Technical Details -->
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<div class="flex items-center gap-3 mb-8">
+<span class="w-1.5 h-6 bg-secondary rounded-full"></span>
+<h2 class="text-lg font-headline font-bold text-on-surface">Technical Specifications</h2>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="col-span-2">
+<label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Key-Value Pairs (JSON Attributes)</label>
+<div class="flex flex-col gap-3">
+<div class="flex gap-3">
+<input class="flex-1 bg-surface-container-low border-none rounded-lg px-4 py-2 text-xs" placeholder="Attribute (e.g. Composition)" type="text"/>
+<input class="flex-1 bg-surface-container-low border-none rounded-lg px-4 py-2 text-xs" placeholder="Value (e.g. 500mg Active)" type="text"/>
+<button class="p-2 text-on-surface-variant/40"><span class="material-symbols-outlined" data-icon="delete">delete</span></button>
+</div>
+<button class="w-fit text-[11px] font-bold text-primary flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-sm" data-icon="add_circle">add_circle</span>
+                                            ADD NEW SPECIFICATION
+                                        </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Secondary Metadata -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-8">
+<!-- Media Section -->
+<section class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+<h2 class="text-sm font-headline font-bold text-on-surface mb-6 uppercase tracking-widest">Media Assets</h2>
+<div class="space-y-6">
+<div>
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Primary Thumbnail</label>
+<div class="aspect-square w-full rounded-xl bg-surface-container-low border-2 border-dashed border-outline-variant/30 flex flex-col items-center justify-center relative overflow-hidden group cursor-pointer">
+<div class="flex flex-col items-center group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-3xl text-primary/40 mb-2" data-icon="add_photo_alternate">add_photo_alternate</span>
+<span class="text-[10px] font-bold text-on-surface-variant">UPLOAD MAIN IMAGE</span>
+</div>
+<!-- Overlay gradient for hover effect -->
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+</div>
+<div>
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Gallery Upload</label>
+<div class="p-6 rounded-xl bg-surface-container-low border-2 border-dashed border-outline-variant/30 text-center">
+<span class="material-symbols-outlined text-2xl text-on-surface-variant/30" data-icon="cloud_upload">cloud_upload</span>
+<p class="text-[10px] text-on-surface-variant mt-2">Drag files to upload or <span class="text-primary font-bold">browse</span></p>
+</div>
+<div class="grid grid-cols-4 gap-2 mt-3">
+<div class="aspect-square rounded-lg bg-surface-container-high animate-pulse"></div>
+<div class="aspect-square rounded-lg bg-surface-container-high animate-pulse"></div>
+<div class="aspect-square rounded-lg bg-surface-container-high animate-pulse"></div>
+<div class="aspect-square rounded-lg flex items-center justify-center border border-outline-variant/20">
+<span class="material-symbols-outlined text-lg text-on-surface-variant/40" data-icon="add">add</span>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Product Video URL</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-lg pl-4 pr-10 py-2.5 text-xs focus:ring-1 focus:ring-primary/20 transition-all" placeholder="https://vimeo.com/..." type="text"/>
+<span class="absolute inset-y-0 right-3 flex items-center text-slate-400">
+<span class="material-symbols-outlined text-lg" data-icon="play_circle">play_circle</span>
+</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing & Inventory Section -->
+<section class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+<h2 class="text-sm font-headline font-bold text-on-surface mb-6 uppercase tracking-widest">Economics &amp; Logistics</h2>
+<div class="space-y-6">
+<div class="grid grid-cols-2 gap-4">
+<div class="col-span-1">
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Price (XAF)</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-xs" placeholder="0.00" type="number"/>
+</div>
+<div class="col-span-1">
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Cost Price</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-xs" placeholder="0.00" type="number"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="col-span-1">
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Stock Qty</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-xs" placeholder="500" type="number"/>
+</div>
+<div class="col-span-1">
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Low Threshold</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-xs" placeholder="50" type="number"/>
+</div>
+</div>
+<div class="pt-4 border-t border-outline-variant/10">
+<div class="flex items-center justify-between py-2">
+<div class="flex flex-col">
+<span class="text-xs font-bold text-on-surface">Mark as Featured</span>
+<span class="text-[10px] text-on-surface-variant">Promote on homepage</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between py-2">
+<div class="flex flex-col">
+<span class="text-xs font-bold text-on-surface">Available for Order</span>
+<span class="text-[10px] text-on-surface-variant">Enable procurement</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-tertiary"></div>
+</label>
+</div>
+</div>
+<div>
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Weight (kg)</label>
+<div class="flex items-center bg-surface-container-low rounded-lg overflow-hidden px-4">
+<input class="flex-1 bg-transparent border-none py-2.5 text-xs focus:ring-0" placeholder="0.25" type="text"/>
+<span class="text-[10px] font-bold text-on-surface-variant/40">KG</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Audit History (Mini) -->
+<div class="p-6 bg-primary/5 rounded-xl border border-primary/10">
+<h3 class="text-[10px] font-bold text-primary uppercase tracking-widest mb-4">Ledger Integrity</h3>
+<div class="flex flex-col gap-3">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="history">history</span>
+<p class="text-[10px] text-on-surface-variant">Created by <span class="font-bold text-on-surface">Admin_01</span> on Oct 24, 2023</p>
+</div>
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="verified">verified</span>
+<p class="text-[10px] text-on-surface-variant">Compliance checked: <span class="font-bold text-tertiary">PASSED</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Footer Action (Mobile Only) -->
+<div class="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-white shadow-2xl flex gap-3 border-t border-slate-100 z-50">
+<button class="flex-1 px-6 py-3 rounded-lg text-xs font-bold text-on-surface border border-outline-variant">Discard</button>
+<button class="flex-[2] px-6 py-3 rounded-lg text-xs font-bold text-on-primary bg-primary shadow-lg">Save Changes</button>
+</div>
+</div>
+</div>
+</body></html>

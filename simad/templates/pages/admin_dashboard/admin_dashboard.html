@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SIMAD.cm | Admin Dashboard</title>
+<!-- Google Fonts: Inter & DM Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#cfddfd",
+              "surface-container": "#eeedf3",
+              "on-tertiary-fixed-variant": "#00522d",
+              "surface-tint": "#335e9f",
+              "surface-container-low": "#f3f3f9",
+              "outline": "#737781",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#d6e3ff",
+              "background": "#f9f9ff",
+              "on-surface": "#1a1c20",
+              "on-secondary-fixed": "#0c1c33",
+              "primary-container": "#1a4a8a",
+              "outline-variant": "#c3c6d2",
+              "tertiary": "#003d20",
+              "on-primary-fixed-variant": "#144686",
+              "tertiary-fixed-dim": "#77db9b",
+              "surface-dim": "#d9d9df",
+              "on-secondary-fixed-variant": "#394761",
+              "primary-fixed": "#d6e3ff",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e2e2e8",
+              "surface-bright": "#f9f9ff",
+              "secondary-fixed-dim": "#b8c7e6",
+              "on-primary-fixed": "#001b3e",
+              "tertiary-fixed": "#93f7b6",
+              "surface-variant": "#e2e2e8",
+              "tertiary-container": "#005730",
+              "primary": "#00336b",
+              "error-container": "#ffdad6",
+              "on-tertiary-container": "#6bcf91",
+              "on-primary-container": "#96bbff",
+              "secondary": "#515f7a",
+              "surface-container-high": "#e8e8ee",
+              "on-surface-variant": "#434750",
+              "inverse-primary": "#aac7ff",
+              "error": "#ba1a1a",
+              "on-secondary": "#ffffff",
+              "on-error-container": "#93000a",
+              "surface": "#f9f9ff",
+              "on-tertiary": "#ffffff",
+              "on-background": "#1a1c20",
+              "primary-fixed-dim": "#aac7ff",
+              "inverse-surface": "#2f3035",
+              "inverse-on-surface": "#f0f0f6",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary-fixed": "#00210f"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["DM Sans"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'DM Sans', sans-serif; }
+        h1, h2, h3, .brand-font { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- SideNavBar (Authority Source: JSON) -->
+<aside class="fixed left-0 top-0 h-full w-64 z-50 bg-slate-50 dark:bg-slate-950 flex flex-col h-full py-6 px-4 gap-2 no-border bg-slate-100/50 dark:bg-slate-900/50">
+<div class="mb-8 px-4">
+<h1 class="text-lg font-black tracking-tighter text-blue-900 dark:text-white uppercase">SIMAD Admin</h1>
+<p class="text-[10px] text-slate-500 font-medium tracking-widest uppercase mt-1">Institutional Ledger</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Active Navigation (Inferred: Analytics for Dashboard view) -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-300 hover:translate-x-1 transition-transform duration-200 cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-sans DM-Sans text-sm font-medium">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-300 hover:translate-x-1 transition-transform duration-200 cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="sell">sell</span>
+<span class="font-sans DM-Sans text-sm font-medium">Promotions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-300 hover:translate-x-1 transition-transform duration-200 cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-sans DM-Sans text-sm font-medium">Users</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-300 hover:translate-x-1 transition-transform duration-200 cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-sans DM-Sans text-sm font-medium">Deliveries</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-900 dark:text-white bg-white dark:bg-slate-900 rounded-lg shadow-sm font-bold hover:translate-x-1 transition-transform duration-200 cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-sans DM-Sans text-sm font-medium">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto space-y-4">
+<button class="w-full py-3 bg-primary text-white text-xs font-bold rounded shadow-lg shadow-primary/20 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+                Export Reports
+            </button>
+<div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-blue-700 transition-colors" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="help">help</span>
+<span class="text-sm font-medium">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
+<span class="text-sm font-medium">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- TopNavBar (Authority Source: JSON) -->
+<header class="fixed top-0 right-0 w-full z-40 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md flex justify-between items-center h-16 px-6 ml-64 border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm dark:shadow-none">
+<div class="flex items-center gap-4 ml-64">
+<div class="relative">
+<span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
+<span class="material-symbols-outlined text-xl" data-icon="search">search</span>
+</span>
+<input class="bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-sm w-80 focus:ring-1 focus:ring-primary/20 focus:bg-white transition-all" placeholder="Search system records..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-px bg-slate-200 mx-2"></div>
+<div class="flex items-center gap-3 pl-2">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface leading-none">Admin User</p>
+<p class="text-[10px] text-slate-500 mt-1 uppercase tracking-tight">System Overseer</p>
+</div>
+<img alt="Admin User Profile" class="w-9 h-9 rounded-full object-cover border border-slate-200" data-alt="professional portrait of a confident male executive in a neutral studio setting with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjjcBmGcCWSpR7pznFh2HmMLRrnVN7okq9Efir6vyxIzJm88sckn6WstRC2jN0Ct00rPSzFuvO1GNShGMPYxFoE5eMw_PZFbOZcWT0lAb18VNCAkMt0XUCaYE9gtz9Wu3M2zec_FrssUZmR4v-db_uvbkHir_mmS2htaRyyPPbBA3jWEaOuFVoCAC_zzmwlVLv0LYF7oKq3wJrTk20kXkOSlr92Hl6AWAQtGaIPT9EmT4XpMnh7hVNpClSVNQawwcxRA7gncyOrcg"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 pb-12 px-8 min-h-screen">
+<!-- Header Section -->
+<header class="mb-10">
+<h2 class="text-3xl font-extrabold tracking-tight text-primary">System Dashboard</h2>
+<p class="text-on-surface-variant font-medium mt-1">Institutional Ledger &amp; Performance Analytics Overview</p>
+</header>
+<!-- KPI Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<!-- Revenue KPI -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm flex flex-col justify-between border-b-4 border-primary">
+<div class="flex justify-between items-start">
+<span class="p-2 bg-primary-fixed text-primary rounded-lg">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+</span>
+<span class="text-tertiary font-bold text-xs flex items-center gap-1 bg-tertiary-fixed/30 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span> +12%
+                    </span>
+</div>
+<div class="mt-4">
+<p class="text-label-sm uppercase tracking-widest text-slate-500 font-bold text-[10px]">Total Revenue</p>
+<h3 class="text-2xl font-black text-on-surface mt-1">24.8M FCFA</h3>
+</div>
+</div>
+<!-- Orders KPI -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm flex flex-col justify-between border-b-4 border-secondary">
+<div class="flex justify-between items-start">
+<span class="p-2 bg-secondary-fixed text-secondary rounded-lg">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</span>
+<span class="text-tertiary font-bold text-xs flex items-center gap-1 bg-tertiary-fixed/30 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span> +5%
+                    </span>
+</div>
+<div class="mt-4">
+<p class="text-label-sm uppercase tracking-widest text-slate-500 font-bold text-[10px]">Total Orders</p>
+<h3 class="text-2xl font-black text-on-surface mt-1">1,284</h3>
+</div>
+</div>
+<!-- Users KPI -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm flex flex-col justify-between border-b-4 border-on-tertiary-container">
+<div class="flex justify-between items-start">
+<span class="p-2 bg-tertiary-fixed-dim/20 text-tertiary rounded-lg">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</span>
+</div>
+<div class="mt-4">
+<p class="text-label-sm uppercase tracking-widest text-slate-500 font-bold text-[10px]">Active Users</p>
+<h3 class="text-2xl font-black text-on-surface mt-1">843</h3>
+</div>
+</div>
+<!-- Health KPI -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm flex flex-col justify-between border-b-4 border-tertiary">
+<div class="flex justify-between items-start">
+<span class="p-2 bg-tertiary-fixed-dim/20 text-tertiary rounded-lg">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+</span>
+<span class="text-tertiary font-bold text-xs px-2 py-1 bg-tertiary-fixed/30 rounded-full">OPTIMAL</span>
+</div>
+<div class="mt-4">
+<p class="text-label-sm uppercase tracking-widest text-slate-500 font-bold text-[10px]">System Health</p>
+<h3 class="text-2xl font-black text-on-surface mt-1">99.9%</h3>
+</div>
+</div>
+</div>
+<!-- Middle Section: Analytics & Alerts -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+<!-- Revenue Performance Chart Placeholder (Asymmetric 8/12) -->
+<div class="lg:col-span-8 bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="text-lg font-bold text-primary">Monthly Revenue Performance</h3>
+<p class="text-sm text-slate-500">Comparative analysis of regional sales growth</p>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1 text-xs font-bold border border-slate-200 rounded-lg hover:bg-slate-50">1M</button>
+<button class="px-3 py-1 text-xs font-bold bg-primary text-white rounded-lg">6M</button>
+<button class="px-3 py-1 text-xs font-bold border border-slate-200 rounded-lg hover:bg-slate-50">1Y</button>
+</div>
+</div>
+<!-- Abstract Chart Visualization -->
+<div class="h-64 flex items-end gap-3 px-4">
+<div class="flex-1 bg-surface-container-low h-[40%] rounded-t-lg relative group">
+<div class="absolute inset-0 bg-primary opacity-20 transition-opacity group-hover:opacity-40 rounded-t-lg"></div>
+</div>
+<div class="flex-1 bg-surface-container-low h-[55%] rounded-t-lg relative group">
+<div class="absolute inset-0 bg-primary opacity-25 transition-opacity group-hover:opacity-40 rounded-t-lg"></div>
+</div>
+<div class="flex-1 bg-surface-container-low h-[45%] rounded-t-lg relative group">
+<div class="absolute inset-0 bg-primary opacity-30 transition-opacity group-hover:opacity-40 rounded-t-lg"></div>
+</div>
+<div class="flex-1 bg-surface-container-low h-[70%] rounded-t-lg relative group">
+<div class="absolute inset-0 bg-primary opacity-40 transition-opacity group-hover:opacity-40 rounded-t-lg"></div>
+</div>
+<div class="flex-1 bg-surface-container-low h-[65%] rounded-t-lg relative group">
+<div class="absolute inset-0 bg-primary opacity-50 transition-opacity group-hover:opacity-40 rounded-t-lg"></div>
+</div>
+<div class="flex-1 bg-surface-container-low h-[85%] rounded-t-lg relative group">
+<div class="absolute inset-0 bg-primary opacity-70 transition-opacity group-hover:opacity-40 rounded-t-lg"></div>
+</div>
+<div class="flex-1 bg-primary h-[95%] rounded-t-lg relative">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] py-1 px-2 rounded whitespace-nowrap">Current: 24.8M</div>
+</div>
+</div>
+<div class="flex justify-between mt-4 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+<span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span>
+</div>
+</div>
+<!-- Inventory Alerts (Asymmetric 4/12) -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- Alert Card -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border-l-4 border-error flex-1">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-black text-on-surface uppercase tracking-tight">Inventory Alerts</h3>
+<span class="bg-error-container text-error text-[10px] px-2 py-0.5 rounded-full font-bold">4 CRITICAL</span>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-lg">
+<div class="w-10 h-10 rounded bg-white flex items-center justify-center border border-slate-100">
+<span class="material-symbols-outlined text-error" data-icon="inventory">inventory</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface">Industrial Pump X-20</p>
+<p class="text-[10px] text-error font-medium">Out of stock</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-lg">
+<div class="w-10 h-10 rounded bg-white flex items-center justify-center border border-slate-100">
+<span class="material-symbols-outlined text-amber-500" data-icon="inventory">inventory</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface">Lubricant Oil 5L</p>
+<p class="text-[10px] text-amber-600 font-medium">Low stock (3 units left)</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 text-xs font-bold text-primary py-2 border border-primary/20 rounded-lg hover:bg-primary/5 transition-colors">
+                        Manage Inventory
+                    </button>
+</div>
+<!-- Delivery Summary Card -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm flex-1">
+<h3 class="text-sm font-black text-on-surface uppercase tracking-tight mb-4">Shipment Radar</h3>
+<div class="relative h-32 w-full rounded-lg overflow-hidden bg-slate-100">
+<div class="absolute inset-0 bg-cover bg-center opacity-80" data-alt="simplified map illustration showing city streets with pinpoint markers for delivery tracking in Douala" data-location="Douala" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuALx-IperISLjimu3hMr6ee_oQIRWYCQ79cxKXWfWpURLHoLRKNbb8N1yI5BKwdhvkP5mRzxMig7zPvSQrNSmlGO4dcyAK6nH0iBw0NCMXwnUgIpI-sfAg__D_rx-ydz0Rq7WXMh4CUtv1HjRJh4MTSS5ycEeIpzqWUYeasFSmcbfigxcB3BFaz0r1RgQhHCWuW2Y8F8Tlw721zZQ86r39o2FeV74Yeesodorbr4DHq9sMYFRxWRonkeGmiNARGXmQfmAcgTpbgb50')"></div>
+<div class="absolute inset-0 bg-primary/10"></div>
+<!-- Radar Pulse -->
+<div class="absolute top-1/2 left-1/3 w-3 h-3 bg-primary rounded-full ring-4 ring-primary/20 animate-pulse"></div>
+<div class="absolute bottom-1/4 right-1/4 w-3 h-3 bg-tertiary rounded-full ring-4 ring-tertiary/20"></div>
+</div>
+<div class="mt-4 flex justify-between items-center">
+<div class="text-center flex-1">
+<p class="text-[10px] font-bold text-slate-400 uppercase">Transit</p>
+<p class="text-lg font-black text-on-surface">18</p>
+</div>
+<div class="w-px h-8 bg-slate-200"></div>
+<div class="text-center flex-1">
+<p class="text-[10px] font-bold text-slate-400 uppercase">Arriving</p>
+<p class="text-lg font-black text-on-surface">4</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity Table (The Ledger Style) -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center">
+<div>
+<h3 class="text-lg font-bold text-primary">Global Activity Ledger</h3>
+<p class="text-sm text-slate-500">Real-time audit of system actions and transactions</p>
+</div>
+<button class="flex items-center gap-2 text-xs font-bold text-slate-600 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span> Filter Logs
+                </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-8 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Event Description</th>
+<th class="px-8 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Category</th>
+<th class="px-8 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Executor</th>
+<th class="px-8 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Timestamp</th>
+<th class="px-8 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-high transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="text-sm font-bold text-on-surface">New SKU: Industrial Filter V4</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="bg-primary-fixed text-primary text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Inventory</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<img alt="Avatar" class="w-6 h-6 rounded-full" data-alt="close-up of a smiling professional woman with a clean office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBulHbfUSF0_6fUGjOL_HcvJvQAhAt0ioCbby-5MFayM2PIO2_QjzFPZSMogHP6ZWGYOn9-Te1wppPduN6zUHiOj7tFrFTmImydr67Ko6Fgk7w5P7hRWij1TCj66KZieKFbM-2xqJ1MeHkTf-ox1ObEtwYa4kXWeNyXBNtC2-_TtTlDHgEUYI8XTQxgmbvgP56q6HkxA8lsCwhAiI1vYen8uiwuiMiVXw6D-UuF9Kl5SIBMhBeMZeKr0qbKgRt6ja-72_Y9IHZD7Nk"/>
+<span class="text-xs font-medium text-slate-700">Sarah M.</span>
+</div>
+</td>
+<td class="px-8 py-5 text-xs text-slate-500 font-medium">14:28 PM • Today</td>
+<td class="px-8 py-5 text-right">
+<button class="text-primary hover:underline text-xs font-bold">Details</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-sm font-bold text-on-surface">Bulk Order #9842 Shipped</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="bg-secondary-fixed text-secondary text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Logistics</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-[10px] font-bold">SYS</span>
+<span class="text-xs font-medium text-slate-700">Automated System</span>
+</div>
+</td>
+<td class="px-8 py-5 text-xs text-slate-500 font-medium">12:15 PM • Today</td>
+<td class="px-8 py-5 text-right">
+<button class="text-primary hover:underline text-xs font-bold">Track</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-high transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-amber-400"></span>
+<span class="text-sm font-bold text-on-surface">User 'K. Ebogo' Verified</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="bg-surface-container-highest text-on-surface-variant text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Compliance</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<img alt="Avatar" class="w-6 h-6 rounded-full" data-alt="modern headshot of a professional man in a crisp white shirt with soft outdoor lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIad5UGcs7n_Pm_gFlAs6NqaM83kJ8eEM22Z0leH2eq9RKR82Yfy27fuaBD0g0ByPg5j5crgxrF3365NCb3zhSsm8X6aYUT61u8lDN6IklI5XbbrspbgAIlnrcJpVOQ-PJC8AQyEfqMuuVrk1aXaHnbe8rjciX3zf_OFaNBIGeHVCW_pmkTqEadR9wPZSGJLRcVK34icC71ePt_aYiVu6n808cElqRESLkpHzUCFiEQaa0w1e-Bb2QMoodN86D-zc50JS0-ryqQUQ"/>
+<span class="text-xs font-medium text-slate-700">Jean P.</span>
+</div>
+</td>
+<td class="px-8 py-5 text-xs text-slate-500 font-medium">09:40 AM • Today</td>
+<td class="px-8 py-5 text-right">
+<button class="text-primary hover:underline text-xs font-bold">Review</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-8 py-4 bg-surface-container-low text-center">
+<button class="text-xs font-black text-primary uppercase tracking-widest hover:tracking-tighter transition-all">View Full Ledger History</button>
+</div>
+</div>
+</main>
+<!-- Contextual FAB (Hidden on Dashboards per policy, but structure ready if needed) -->
+<!-- Suppression Logic: FAB is for specific actions like "Add Item", shown only on relevant screens. -->
+</body></html>
