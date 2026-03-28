@@ -128,11 +128,19 @@
 <label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-2">Primary Thumbnail</label>
 <div class="aspect-square w-full rounded-xl bg-surface-container-low border-2 border-dashed border-outline-variant/30 flex flex-col items-center justify-center relative overflow-hidden group cursor-pointer">
 <input type="file" name="thumbnail" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
-<div class="flex flex-col items-center group-hover:scale-105 transition-transform">
+{% if product and product.thumbnail %}
+<img src="{{ product.thumbnail.url }}" alt="{{ product.name }}" class="absolute inset-0 w-full h-full object-cover z-0">
+<div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity z-0 flex flex-col items-center justify-center text-white">
+<span class="material-symbols-outlined text-3xl mb-1" data-icon="edit">edit</span>
+<span class="text-[10px] font-bold">CHANGE IMAGE</span>
+</div>
+{% else %}
+<div class="flex flex-col items-center group-hover:scale-105 transition-transform z-0">
 <span class="material-symbols-outlined text-3xl text-primary/40 mb-2" data-icon="add_photo_alternate">add_photo_alternate</span>
 <span class="text-[10px] font-bold text-on-surface-variant">UPLOAD MAIN IMAGE</span>
 </div>
-<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity z-0"></div>
+{% endif %}
 </div>
 </div>
 <div>
@@ -143,12 +151,23 @@
 <p class="text-[10px] text-on-surface-variant mt-2 group-hover:text-on-surface transition-colors">Drag files to upload or <span class="text-primary font-bold">browse</span></p>
 </div>
 <div class="grid grid-cols-4 gap-2 mt-3">
-<div class="aspect-square rounded-lg bg-surface-container-high animate-pulse"></div>
-<div class="aspect-square rounded-lg bg-surface-container-high animate-pulse"></div>
-<div class="aspect-square rounded-lg bg-surface-container-high animate-pulse"></div>
-<div class="aspect-square rounded-lg flex items-center justify-center border border-outline-variant/20">
-<span class="material-symbols-outlined text-lg text-on-surface-variant/40" data-icon="add">add</span>
-</div>
+{% if product and product.images.all %}
+    {% for img in product.images.all|slice:":3" %}
+    <div class="aspect-square rounded-lg bg-surface-container-high relative overflow-hidden group">
+        <img src="{{ img.image.url }}" class="w-full h-full object-cover">
+    </div>
+    {% endfor %}
+    <div class="aspect-square rounded-lg flex items-center justify-center border border-outline-variant/20 bg-surface-container-low">
+        <span class="material-symbols-outlined text-lg text-on-surface-variant/40" data-icon="add">add</span>
+    </div>
+{% else %}
+    <div class="aspect-square rounded-lg bg-surface-container-high animate-pulse"></div>
+    <div class="aspect-square rounded-lg bg-surface-container-high animate-pulse"></div>
+    <div class="aspect-square rounded-lg bg-surface-container-high animate-pulse"></div>
+    <div class="aspect-square rounded-lg flex items-center justify-center border border-outline-variant/20">
+        <span class="material-symbols-outlined text-lg text-on-surface-variant/40" data-icon="add">add</span>
+    </div>
+{% endif %}
 </div>
 </div>
 <div>

@@ -53,6 +53,6 @@ urlpatterns = [
     path("admin-dashboard/users/", AdminUsersView.as_view(), name="admin-users"),
     path("admin-dashboard/settings/", AdminCorporateSettingsView.as_view(), name="admin-settings"),
     path("admin-dashboard/legal/", AdminLegalPagesView.as_view(), name="admin-legal-pages"),
-    path("admin-dashboard/edit-product/<int:pk>/", AdminEditProductView.as_view(), name="admin-edit-product"),
-    path("admin-dashboard/delete-product/<int:pk>/", AdminDeleteProductView.as_view(), name="admin-delete-product"),
+    path("admin-dashboard/edit-product/<uuid:pk>/", AdminEditProductView.as_view(), name="admin-edit-product"),
+    path("admin-dashboard/delete-product/<uuid:pk>/", AdminDeleteProductView.as_view(), name="admin-delete-product"),
 ]
