@@ -61,3 +61,8 @@ class PromotionsView(TemplateView):
 
 class AboutUsView(TemplateView):
     template_name = "pages/home/about-us.html"
+
+
+class ContactView(TemplateView):
+    template_name = "pages/home/contact.html"
+
