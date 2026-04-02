@@ -4,30 +4,82 @@
 {% block title %}À propos | SIMAD.cm{% endblock %}
 
 {% block content %}
-<main class="min-h-[70vh] flex items-center justify-center px-6">
-    <div class="max-w-2xl w-full text-center space-y-8 py-20">
-        <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-widest animate-pulse">
-            <span class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            Notre histoire
+<main class="bg-white min-h-screen">
+    <!-- About Hero -->
+    <section class="relative pt-32 pb-20 overflow-hidden">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 rounded-full text-primary text-xs font-black uppercase tracking-widest">Qui sommes-nous ?</div>
+                    <h1 class="text-5xl md:text-7xl font-black text-slate-900 leading-tight tracking-tight">Plus qu'un Fournisseur, un <span class="text-primary">Partenaire</span>.</h1>
+                    <p class="text-xl text-slate-500 leading-relaxed">Depuis notre création, SIMAD s'est donné pour mission de redéfinir les standards d'hygiène au Cameroun à travers l'innovation et la qualité sans compromis.</p>
+                </div>
+                <div class="relative">
+                    <div class="aspect-square rounded-[3rem] bg-slate-200 overflow-hidden shadow-2xl relative z-10">
+                        <img src="{% static 'images/placeholder-team.webp' %}" class="w-full h-full object-cover" alt="L'équipe SIMAD">
+                    </div>
+                    <div class="absolute -bottom-10 -left-10 w-48 h-48 bg-primary rounded-full blur-3xl opacity-20"></div>
+                </div>
+            </div>
         </div>
-        
-        <h1 class="text-4xl md:text-6xl font-black text-slate-900 leading-tight">
-            La page <span class="text-primary">À propos</span> est en cours.
-        </h1>
-        
-        <p class="text-lg text-slate-500 leading-relaxed max-w-lg mx-auto">
-            Découvrez bientôt l'histoire, les valeurs et l'équipe derrière Azure Meridian et SIMAD.cm.
-        </p>
+    </section>
 
-        <div class="pt-8">
-            <a href="{% url 'core:home' %}" class="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/20 hover:shadow-xl hover:-translate-y-1 transition-all">
-                Retour à l'accueil
-                <span class="material-symbols-outlined">arrow_forward</span>
-            </a>
+    <!-- Mission & Values -->
+    <section class="py-24 bg-slate-900 text-white overflow-hidden relative">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-20">
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-black text-blue-400 uppercase tracking-widest">Notre Mission</h2>
+                    <p class="text-3xl font-bold leading-tight">Assurer un environnement sain et sécurisé pour tous en fournissant des solutions d'hygiène de classe mondiale accessibles partout au Cameroun.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    <div class="p-8 bg-white/5 rounded-3xl border border-white/10">
+                        <div class="text-primary text-3xl font-black mb-4">01.</div>
+                        <h4 class="text-xl font-bold mb-2">Excellence</h4>
+                        <p class="text-sm text-slate-400">Le goût du travail bien fait et l'attention aux moindres détails.</p>
+                    </div>
+                    <div class="p-8 bg-white/5 rounded-3xl border border-white/10">
+                        <div class="text-emerald-400 text-3xl font-black mb-4">02.</div>
+                        <h4 class="text-xl font-bold mb-2">Innovation</h4>
+                        <p class="text-sm text-slate-400">Toujours à la pointe des nouvelles technologies de propreté.</p>
+                    </div>
+                    <div class="p-8 bg-white/5 rounded-3xl border border-white/10">
+                        <div class="text-amber-400 text-3xl font-black mb-4">03.</div>
+                        <h4 class="text-xl font-bold mb-2">Proximité</h4>
+                        <p class="text-sm text-slate-400">Un support local et réactif pour tous nos partenaires.</p>
+                    </div>
+                    <div class="p-8 bg-white/5 rounded-3xl border border-white/10">
+                        <div class="text-blue-400 text-3xl font-black mb-4">04.</div>
+                        <h4 class="text-xl font-bold mb-2">Responsabilité</h4>
+                        <p class="text-sm text-slate-400">Engagement envers l'environnement et la santé publique.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Numbers -->
+    <section class="py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-5xl font-black text-primary mb-2">500+</div>
+                    <div class="text-slate-500 font-bold">Clients Fidèles</div>
+                </div>
+                <div>
+                    <div class="text-5xl font-black text-primary mb-2">10+</div>
+                    <div class="text-slate-500 font-bold">Villes Couvertes</div>
+                </div>
+                <div>
+                    <div class="text-5xl font-black text-primary mb-2">1000+</div>
+                    <div class="text-slate-500 font-bold">Produits</div>
+                </div>
+                <div>
+                    <div class="text-5xl font-black text-primary mb-2">99%</div>
+                    <div class="text-slate-500 font-bold">Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 {% endblock %}

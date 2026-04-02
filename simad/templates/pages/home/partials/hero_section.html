@@ -29,19 +29,19 @@
                 <!-- Expertise Certifiée • Excellence Industrielle -->
             </div>
             
-            <h1 class="text-5xl md:text-7xl font-black leading-[1.1] mb-8 tracking-tight">
+            <h1 class="text-5xl md:text-7xl font-black leading-[1.1] mb-8 tracking-tight hero-title opacity-0">
                 La Référence de <br/>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">l'Hygiène Pro</span> au Cameroun
             </h1>
             
-            <p class="text-xl md:text-2xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-medium">
+            <p class="text-xl md:text-2xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-medium hero-subtitle opacity-0">
                 SIMAD transforme vos standards de propreté avec des équipements de pointe et des consommables haute performance pour les professionnels exigeants.
             </p>
             
-            <div class="flex flex-col sm:flex-row items-center gap-5">
-                <button class="w-full sm:w-auto bg-primary hover:bg-blue-700 text-white px-10 py-5 rounded-2xl font-black text-lg shadow-2xl shadow-primary/40 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3">
+            <div class="flex flex-col sm:flex-row items-center gap-5 hero-btns opacity-0">
+                <button class="w-full sm:w-auto bg-primary hover:bg-blue-700 text-white px-10 py-5 rounded-2xl font-black text-lg shadow-2xl shadow-primary/40 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 group">
                     Découvrir nos Solutions
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                 </button>
                 <button class="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white border border-white/20 backdrop-blur-xl px-10 py-5 rounded-2xl font-bold text-lg transition-all hover:bg-white/15">
                     Consulter le Catalogue
@@ -49,11 +49,10 @@
             </div>
             
             <!-- Trust Indicators -->
-            <div class="mt-16 flex flex-wrap items-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+            <div class="mt-16 flex flex-wrap items-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500 hero-trust opacity-0">
                 <div class="flex items-center gap-2">
                     <span class="text-sm font-bold tracking-widest uppercase">Partenaire de confiance</span>
                 </div>
-                <!-- Placeholder for mini-logos or trust icons -->
                 <div class="h-px w-12 bg-white/20"></div>
                 <div class="text-xs font-medium uppercase tracking-tighter">Hôpitaux • Hôtels • Industries • Restaurants</div>
             </div>
@@ -63,3 +62,38 @@
     <!-- Visual Accent Element -->
     <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-background to-transparent z-10"></div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Hero Entrance Animation
+    const heroTimeline = anime.timeline({
+        easing: 'easeOutExpo',
+    });
+
+    heroTimeline
+    .add({
+        targets: '.hero-title',
+        translateY: [40, 0],
+        opacity: [0, 1],
+        duration: 1200,
+        delay: 300
+    })
+    .add({
+        targets: '.hero-subtitle',
+        translateY: [20, 0],
+        opacity: [0, 1],
+        duration: 1000
+    }, '-=800')
+    .add({
+        targets: '.hero-btns',
+        translateY: [20, 0],
+        opacity: [0, 1],
+        duration: 1000
+    }, '-=800')
+    .add({
+        targets: '.hero-trust',
+        opacity: [0, 0.6],
+        duration: 1000
+    }, '-=600');
+});
+</script>

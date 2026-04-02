@@ -4,29 +4,123 @@
 {% block title %}Promotions | SIMAD.cm{% endblock %}
 
 {% block content %}
-<main class="min-h-[70vh] flex items-center justify-center px-6">
-    <div class="max-w-2xl w-full text-center space-y-8 py-20">
-        <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-widest animate-pulse">
-            <span class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            Offres exclusives
+<main class="bg-slate-50 min-h-screen pb-20">
+    <!-- Promotions Hero -->
+    <section class="relative bg-primary pt-32 pb-20 overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-20">
+            <div class="absolute -top-24 -left-24 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-blue-400 rounded-full blur-3xl"></div>
         </div>
-        
-        <h1 class="text-4xl md:text-6xl font-black text-slate-900 leading-tight">
-            Vos <span class="text-primary">Promotions</span> arrivent bientôt.
-        </h1>
-        
-        <p class="text-lg text-slate-500 leading-relaxed max-w-lg mx-auto">
-            De nouvelles offres et réductions exceptionnelles sur nos produits et services seront bientôt disponibles ici. Restez connectés.
-        </p>
+        <div class="container mx-auto px-4 relative z-10 text-center text-white">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-xs font-black uppercase tracking-[0.2em] mb-6">
+                <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
+                Offres Exceptionnelles
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black mb-6 tracking-tight">Nos Meilleures <span class="text-blue-200">Promotions</span></h1>
+            <p class="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto font-medium">Profitez de remises exclusives sur une sélection d'équipements et de consommables pro.</p>
+        </div>
+    </section>
 
-        <div class="pt-8">
-            <a href="{% url 'core:home' %}" class="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/20 hover:shadow-xl hover:-translate-y-1 transition-all">
-                Retour à l'accueil
-                <span class="material-symbols-outlined">arrow_forward</span>
-            </a>
+    <div class="container mx-auto px-4 -mt-10 relative z-20">
+        <!-- Featured Deal Card -->
+        <div class="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl shadow-slate-200/60 border border-slate-100 mb-16 overflow-hidden relative group">
+            <div class="absolute top-0 right-0 p-8">
+                <div class="bg-red-500 text-white px-6 py-2 rounded-2xl font-black text-xl rotate-3 shadow-lg">-30%</div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div class="inline-block px-4 py-1.5 rounded-xl bg-primary/5 text-primary text-xs font-black uppercase tracking-widest">Offre Vedette</div>
+                    <h2 class="text-3xl md:text-4xl font-black text-slate-900 leading-tight">Pack Hygiène Restauration <br/> <span class="text-primary">Édition Premium</span></h2>
+                    <p class="text-slate-600 leading-relaxed">L'ensemble complet pour maintenir des standards d'hygiène irréprochables dans votre établissement culinaire. Comprend distributeurs, consommables et produits de nettoyage.</p>
+                    
+                    <!-- Countdown Area -->
+                    <div class="flex items-center gap-4 py-4" x-data="{ 
+                        days: '02', 
+                        hours: '14', 
+                        minutes: '45', 
+                        seconds: '30' 
+                    }">
+                        <div class="flex flex-col items-center p-3 bg-slate-50 rounded-2xl min-w-[70px]">
+                            <span class="text-2xl font-black text-slate-900" x-text="days"></span>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Jours</span>
+                        </div>
+                        <div class="text-2xl font-black text-slate-300">:</div>
+                        <div class="flex flex-col items-center p-3 bg-slate-50 rounded-2xl min-w-[70px]">
+                            <span class="text-2xl font-black text-slate-900" x-text="hours"></span>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Heures</span>
+                        </div>
+                        <div class="text-2xl font-black text-slate-300">:</div>
+                        <div class="flex flex-col items-center p-3 bg-slate-50 rounded-2xl min-w-[70px]">
+                            <span class="text-2xl font-black text-slate-900" x-text="minutes"></span>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Min</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-6 pt-4">
+                        <div class="flex flex-col">
+                            <span class="text-slate-400 line-through text-lg font-bold">250.000 FCFA</span>
+                            <span class="text-3xl font-black text-primary tracking-tighter">175.000 FCFA</span>
+                        </div>
+                        <button class="bg-primary text-white px-8 py-4 rounded-2xl font-black shadow-xl shadow-primary/20 hover:scale-105 transition-transform">En profiter</button>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="aspect-square bg-slate-100 rounded-3xl overflow-hidden group-hover:rotate-1 transition-transform duration-500 shadow-inner">
+                         <img src="{% static 'images/placeholder-pack.webp' %}" class="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Pack Pro">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deals Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Promo Card 1 -->
+            <div class="bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/40 border border-slate-100 hover:-translate-y-2 transition-all duration-300 group">
+                <div class="mb-6 relative overflow-hidden rounded-2xl aspect-[4/3] bg-slate-50">
+                    <div class="absolute top-3 left-3 z-10 bg-emerald-500 text-white px-3 py-1 rounded-lg text-xs font-black">-15%</div>
+                    <img src="{% static 'images/placeholder-item.webp' %}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Promo">
+                </div>
+                <h3 class="text-xl font-black text-slate-900 mb-2">Savon Liquide Industriel (5L)</h3>
+                <p class="text-slate-500 text-sm mb-6">Nettoyage puissant et respectueux de la peau pour usage intensif.</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-2xl font-black text-primary">12.500 FCFA</span>
+                    <button class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center hover:bg-primary transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Promo Card 2 -->
+            <div class="bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/40 border border-slate-100 hover:-translate-y-2 transition-all duration-300 group">
+                <div class="mb-6 relative overflow-hidden rounded-2xl aspect-[4/3] bg-slate-50">
+                    <div class="absolute top-3 left-3 z-10 bg-amber-500 text-white px-3 py-1 rounded-lg text-xs font-black">Stock Limité</div>
+                    <img src="{% static 'images/placeholder-item.webp' %}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Promo">
+                </div>
+                <h3 class="text-xl font-black text-slate-900 mb-2">Essuie-mains Distributeur Pro</h3>
+                <p class="text-slate-500 text-sm mb-6">Système de découpe précis pour une économie de consommables.</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-2xl font-black text-primary">28.000 FCFA</span>
+                    <button class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center hover:bg-primary transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Promo Card 3 -->
+            <div class="bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/40 border border-slate-100 hover:-translate-y-2 transition-all duration-300 group">
+                <div class="mb-6 relative overflow-hidden rounded-2xl aspect-[4/3] bg-slate-50">
+                    <div class="absolute top-3 left-3 z-10 bg-primary text-white px-3 py-1 rounded-lg text-xs font-black">Nouveau</div>
+                    <img src="{% static 'images/placeholder-item.webp' %}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Promo">
+                </div>
+                <h3 class="text-xl font-black text-slate-900 mb-2">Kit Désinfection Médical</h3>
+                <p class="text-slate-500 text-sm mb-6">Spécialement conçu pour les cliniques et cabinets dentaires.</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-2xl font-black text-primary">45.000 FCFA</span>
+                    <button class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center hover:bg-primary transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </main>

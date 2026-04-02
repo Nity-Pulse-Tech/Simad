@@ -11,6 +11,9 @@
 {% block extra_css %}{% endblock %}
 <!-- Tailwind Compiled CSS -->
 <link href="{% static 'css/output.css' %}?v={% now 'U' %}" rel="stylesheet"/>
+<style>
+    [x-cloak] { display: none !important; }
+</style>
 <!-- Alpine.js -->
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <!-- Anime.js -->

@@ -4,30 +4,85 @@
 {% block title %}Solutions | SIMAD.cm{% endblock %}
 
 {% block content %}
-<main class="min-h-[70vh] flex items-center justify-center px-6">
-    <div class="max-w-2xl w-full text-center space-y-8 py-20">
-        <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-widest animate-pulse">
-            <span class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            En préparation
+<main class="bg-white min-h-screen">
+    <!-- Solutions Hero -->
+    <section class="bg-slate-900 pt-32 pb-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent z-0"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 rounded-full text-blue-400 text-xs font-black uppercase tracking-widest mb-6">Expertise Industrielle</div>
+                <h1 class="text-4xl md:text-6xl font-black text-white mb-6">Des Solutions d'Hygiène sur Mesure</h1>
+                <p class="text-lg text-slate-300 leading-relaxed mb-8">Nous concevons des écosystèmes de propreté durables adaptés aux exigences spécifiques de chaque secteur professionnel au Cameroun.</p>
+                <a href="#sectors" class="bg-primary text-white px-8 py-4 rounded-2xl font-black shadow-xl shadow-primary/20 hover:-translate-y-1 transition-transform inline-flex items-center gap-2"> Explorer par secteur <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg></a>
+            </div>
         </div>
-        
-        <h1 class="text-4xl md:text-6xl font-black text-slate-900 leading-tight">
-            Nos <span class="text-primary">Solutions</span> arrivent bientôt.
-        </h1>
-        
-        <p class="text-lg text-slate-500 leading-relaxed max-w-lg mx-auto">
-            Nous peaufinons notre catalogue de solutions d'hygiène de pointe pour vous offrir la meilleure expérience possible. 
-        </p>
+    </section>
 
-        <div class="pt-8">
-            <a href="{% url 'core:home' %}" class="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/20 hover:shadow-xl hover:-translate-y-1 transition-all">
-                Retour à l'accueil
-                <span class="material-symbols-outlined">arrow_forward</span>
-            </a>
+    <!-- Sectors Section -->
+    <section id="sectors" class="py-24">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-black text-slate-900 mb-4">Secteurs que nous servons</h2>
+                <div class="w-20 h-1.5 bg-primary mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Sector 1 -->
+                <div class="group p-8 rounded-[2.5rem] bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-2xl hover:shadow-slate-200/60 transition-all duration-500">
+                    <div class="w-16 h-16 rounded-2xl bg-blue-500 text-white flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-black text-slate-900 mb-4">Milieu Médical</h3>
+                    <p class="text-slate-500 leading-relaxed mb-6">Protocoles de désinfection stricts pour hôpitaux et laboratoires, minimisant les risques de contamination croisée.</p>
+                    <ul class="space-y-3 text-sm text-slate-600 font-bold">
+                        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Bloc Opératoire</li>
+                        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Salles de Soins</li>
+                    </ul>
+                </div>
+
+                <!-- Sector 2 -->
+                <div class="group p-8 rounded-[2.5rem] bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-2xl hover:shadow-slate-200/60 transition-all duration-500">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-500 text-white flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-black text-slate-900 mb-4">Hôtellerie & Restauration</h3>
+                    <p class="text-slate-500 leading-relaxed mb-6">Solutions de blanchisserie et nettoyage cuisine pour garantir une expérience client premium et sécurisée.</p>
+                    <ul class="space-y-3 text-sm text-slate-600 font-bold">
+                        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Cuisine Industrielle</li>
+                        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Linge & Literie</li>
+                    </ul>
+                </div>
+
+                <!-- Sector 3 -->
+                <div class="group p-8 rounded-[2.5rem] bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-2xl hover:shadow-slate-200/60 transition-all duration-500">
+                    <div class="w-16 h-16 rounded-2xl bg-indigo-500 text-white flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-black text-slate-900 mb-4">Bureaux & Tertiaire</h3>
+                    <p class="text-slate-500 leading-relaxed mb-6">Entretien des espaces de travail et sanitaires pour le bien-être et la productivité de vos collaborateurs.</p>
+                    <ul class="space-y-3 text-sm text-slate-600 font-bold">
+                        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Espaces Communs</li>
+                        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Gestion des Déchets</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Why Us CTA -->
+    <section class="py-24 bg-slate-50">
+        <div class="container mx-auto px-4">
+            <div class="bg-primary rounded-[3rem] p-12 text-center text-white relative overflow-hidden">
+                <div class="relative z-10">
+                    <h2 class="text-3xl md:text-5xl font-black mb-6">Prêt à élever vos standards ?</h2>
+                    <p class="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">Contactez nos experts pour un audit gratuit de vos besoins en hygiène et propreté.</p>
+                    <div class="flex flex-wrap justify-center gap-6">
+                        <a href="{% url 'core:contact' %}" class="bg-white text-primary px-10 py-5 rounded-2xl font-black shadow-2xl hover:scale-105 transition-transform">Demander un Audit</a>
+                        <a href="https://wa.me/237600000000" class="bg-emerald-500 text-white px-10 py-5 rounded-2xl font-black shadow-2xl hover:scale-105 transition-transform flex items-center gap-2"> Parler sur WhatsApp </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 {% endblock %}

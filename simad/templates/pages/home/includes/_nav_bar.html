@@ -74,6 +74,10 @@
         À propos
         <span class="absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 {% if request.resolver_match.url_name == 'about-us' %}w-full{% else %}w-0 group-hover:w-full{% endif %}"></span>
       </a>
+      <a class="hover:text-primary transition-all py-2 relative group {% if request.resolver_match.url_name == 'contact' %}text-primary{% endif %}" href="{% url 'core:contact' %}">
+        Contact
+        <span class="absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 {% if request.resolver_match.url_name == 'contact' %}w-full{% else %}w-0 group-hover:w-full{% endif %}"></span>
+      </a>
     </div>
 
     <!-- Right Actions -->
@@ -279,6 +283,10 @@
           <a href="{% url 'core:about-us' %}" class="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 font-bold text-slate-700 transition-colors {% if request.resolver_match.url_name == 'about-us' %}bg-primary/5 text-primary{% endif %}">
             <i data-lucide="info" class="w-5 h-5"></i>
             À propos
+          </a>
+          <a href="{% url 'core:contact' %}" class="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 font-bold text-slate-700 transition-colors {% if request.resolver_match.url_name == 'contact' %}bg-primary/5 text-primary{% endif %}">
+            <i data-lucide="mail" class="w-5 h-5"></i>
+            Contact
           </a>
           <hr class="my-4 border-slate-100">
           <a href="{% url 'core:cart' %}" class="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 font-bold text-slate-700 transition-colors">

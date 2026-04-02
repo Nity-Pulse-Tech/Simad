@@ -1,16 +1,27 @@
 {% load static %}
-<section class="py-20">
-<div class="container mx-auto px-4">
-<div class="bg-slate-900 rounded-[50px] p-10 md:p-24 text-center text-white relative overflow-hidden shadow-2xl border border-white/5">
-<div class="absolute inset-0 z-0 opacity-60">
-<img alt="BG Pattern" class="w-full h-full object-cover" src="{% static 'images/img/final_c_t_a.JPG' %}"/>
-</div>
-<div class="absolute inset-0 bg-black/20"></div>
-<div class="relative z-10 max-w-3xl mx-auto">
-<h2 class="text-3xl md:text-5xl font-bold mb-6">Besoin d'une solution professionnelle pour l'hygiène ?</h2>
-<p class="text-xl text-blue-100 mb-10">Nos conseillers sont disponibles pour réaliser un audit gratuit de vos besoins en entreprise.</p>
-<button class="bg-white text-primary px-12 py-5 rounded-2xl font-bold text-xl hover:shadow-xl transition-all transform hover:-translate-y-1">Commander maintenant</button>
-</div>
-</div>
-</div>
+<section class="py-24">
+    <div class="container mx-auto px-4">
+        <div class="bg-slate-900 rounded-[3rem] md:rounded-[5rem] p-12 md:p-24 text-center text-white relative overflow-hidden shadow-3xl shadow-slate-900/40">
+            <!-- Background Elements -->
+            <div class="absolute inset-0 z-0 bg-primary opacity-5"></div>
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-primary rounded-full blur-[120px] opacity-20"></div>
+            <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-500 rounded-full blur-[120px] opacity-10"></div>
+            
+            <div class="relative z-10 max-w-3xl mx-auto space-y-10">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-md rounded-full text-blue-400 text-xs font-black uppercase tracking-[0.2em] border border-white/10">Expertise SIMAD</div>
+                <h2 class="text-4xl md:text-6xl font-black mb-6 leading-tight tracking-tight">Prêt à transformer vos standards de <span class="text-primary">propreté</span> ?</h2>
+                <p class="text-xl text-blue-100/70 max-w-2xl mx-auto font-medium">Nos conseillers sont à votre disposition pour réaliser un audit gratuit et sans engagement de vos besoins.</p>
+                
+                <div class="flex flex-wrap justify-center gap-6 pt-6">
+                    <a href="{% url 'core:contact' %}" class="bg-white text-primary px-10 py-5 rounded-2xl font-black text-lg shadow-2xl hover:scale-105 transition-all active:scale-95 flex items-center gap-3">
+                        Demander un audit gratuit
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </a>
+                    <a href="{% url 'core:product-list' %}" class="bg-white/5 hover:bg-white/10 text-white border border-white/20 backdrop-blur-xl px-10 py-5 rounded-2xl font-bold text-lg transition-all">
+                        Explorer le catalogue
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
