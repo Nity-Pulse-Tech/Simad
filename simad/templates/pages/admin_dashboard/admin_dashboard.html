@@ -22,7 +22,7 @@
 </div>
 <div class="mt-4">
 <p class="text-label-sm uppercase tracking-widest text-slate-500 font-bold text-[10px]">Total Revenue</p>
-<h3 class="text-2xl font-black text-on-surface mt-1">24.8M FCFA</h3>
+<h3 class="text-2xl font-black text-on-surface mt-1">{{ total_revenue|floatformat:0 }} XOF</h3>
 </div>
 </div>
 <!-- Orders KPI -->
@@ -37,7 +37,7 @@
 </div>
 <div class="mt-4">
 <p class="text-label-sm uppercase tracking-widest text-slate-500 font-bold text-[10px]">Total Orders</p>
-<h3 class="text-2xl font-black text-on-surface mt-1">1,284</h3>
+<h3 class="text-2xl font-black text-on-surface mt-1">{{ total_orders }}</h3>
 </div>
 </div>
 <!-- Users KPI -->
@@ -49,7 +49,7 @@
 </div>
 <div class="mt-4">
 <p class="text-label-sm uppercase tracking-widest text-slate-500 font-bold text-[10px]">Active Users</p>
-<h3 class="text-2xl font-black text-on-surface mt-1">843</h3>
+<h3 class="text-2xl font-black text-on-surface mt-1">{{ active_users }}</h3>
 </div>
 </div>
 <!-- Health KPI -->
@@ -83,30 +83,19 @@
 </div>
 <!-- Abstract Chart Visualization -->
 <div class="h-64 flex items-end gap-3 px-4">
-<div class="flex-1 bg-surface-container-low h-[40%] rounded-t-lg relative group">
+{% for value in analytics_revenue %}
+<div class="flex-1 bg-surface-container-low rounded-t-lg relative group" style="height: {% widthratio value total_revenue 100 %}%;">
 <div class="absolute inset-0 bg-primary opacity-20 transition-opacity group-hover:opacity-40 rounded-t-lg"></div>
+{% if forloop.last %}
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] py-1 px-2 rounded whitespace-nowrap">Current: {{ value|floatformat:0 }}</div>
+{% endif %}
 </div>
-<div class="flex-1 bg-surface-container-low h-[55%] rounded-t-lg relative group">
-<div class="absolute inset-0 bg-primary opacity-25 transition-opacity group-hover:opacity-40 rounded-t-lg"></div>
-</div>
-<div class="flex-1 bg-surface-container-low h-[45%] rounded-t-lg relative group">
-<div class="absolute inset-0 bg-primary opacity-30 transition-opacity group-hover:opacity-40 rounded-t-lg"></div>
-</div>
-<div class="flex-1 bg-surface-container-low h-[70%] rounded-t-lg relative group">
-<div class="absolute inset-0 bg-primary opacity-40 transition-opacity group-hover:opacity-40 rounded-t-lg"></div>
-</div>
-<div class="flex-1 bg-surface-container-low h-[65%] rounded-t-lg relative group">
-<div class="absolute inset-0 bg-primary opacity-50 transition-opacity group-hover:opacity-40 rounded-t-lg"></div>
-</div>
-<div class="flex-1 bg-surface-container-low h-[85%] rounded-t-lg relative group">
-<div class="absolute inset-0 bg-primary opacity-70 transition-opacity group-hover:opacity-40 rounded-t-lg"></div>
-</div>
-<div class="flex-1 bg-primary h-[95%] rounded-t-lg relative">
-<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] py-1 px-2 rounded whitespace-nowrap">Current: 24.8M</div>
-</div>
+{% endfor %}
 </div>
 <div class="flex justify-between mt-4 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-<span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span>
+{% for day in analytics_days %}
+<span>{{ day }}</span>
+{% endfor %}
 </div>
 </div>
 <!-- Inventory Alerts (Asymmetric 4/12) -->
@@ -118,24 +107,31 @@
 <span class="bg-error-container text-error text-[10px] px-2 py-0.5 rounded-full font-bold">4 CRITICAL</span>
 </div>
 <div class="space-y-4">
-<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-lg">
-<div class="w-10 h-10 rounded bg-white flex items-center justify-center border border-slate-100">
-<span class="material-symbols-outlined text-error" data-icon="inventory">inventory</span>
-</div>
-<div>
-<p class="text-xs font-bold text-on-surface">Industrial Pump X-20</p>
-<p class="text-[10px] text-error font-medium">Out of stock</p>
-</div>
-</div>
+{% for product in low_stock_products %}
 <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-lg">
 <div class="w-10 h-10 rounded bg-white flex items-center justify-center border border-slate-100">
 <span class="material-symbols-outlined text-amber-500" data-icon="inventory">inventory</span>
 </div>
 <div>
-<p class="text-xs font-bold text-on-surface">Lubricant Oil 5L</p>
-<p class="text-[10px] text-amber-600 font-medium">Low stock (3 units left)</p>
+<p class="text-xs font-bold text-on-surface">{{ product.name }}</p>
+<p class="text-[10px] text-amber-600 font-medium">Low stock ({{ product.stock_quantity }} units left)</p>
 </div>
 </div>
+{% empty %}
+{% for product in out_of_stock_products %}
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-lg">
+<div class="w-10 h-10 rounded bg-white flex items-center justify-center border border-slate-100">
+<span class="material-symbols-outlined text-error" data-icon="inventory">inventory</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface">{{ product.name }}</p>
+<p class="text-[10px] text-error font-medium">Out of stock</p>
+</div>
+</div>
+{% empty %}
+<p class="text-xs text-slate-500 italic">No inventory alerts.</p>
+{% endfor %}
+{% endfor %}
 </div>
 <button class="w-full mt-6 text-xs font-bold text-primary py-2 border border-primary/20 rounded-lg hover:bg-primary/5 transition-colors">
                         Manage Inventory
@@ -188,72 +184,35 @@
 </tr>
 </thead>
 <tbody class="divide-y divide-slate-100">
-<!-- Row 1 -->
+{% for item in recent_activity %}
 <tr class="hover:bg-surface-container-high transition-colors">
 <td class="px-8 py-5">
 <div class="flex items-center gap-3">
-<span class="w-2 h-2 rounded-full bg-tertiary"></span>
-<span class="text-sm font-bold text-on-surface">New SKU: Industrial Filter V4</span>
+<span class="w-2 h-2 rounded-full bg-{{ item.status_color }}"></span>
+<span class="text-sm font-bold text-on-surface">{{ item.description }}</span>
 </div>
 </td>
 <td class="px-8 py-5">
-<span class="bg-primary-fixed text-primary text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Inventory</span>
+<span class="bg-primary-fixed text-primary text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">{{ item.category }}</span>
 </td>
 <td class="px-8 py-5">
 <div class="flex items-center gap-2">
-<img alt="Avatar" class="w-6 h-6 rounded-full" data-alt="close-up of a smiling professional woman with a clean office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBulHbfUSF0_6fUGjOL_HcvJvQAhAt0ioCbby-5MFayM2PIO2_QjzFPZSMogHP6ZWGYOn9-Te1wppPduN6zUHiOj7tFrFTmImydr67Ko6Fgk7w5P7hRWij1TCj66KZieKFbM-2xqJ1MeHkTf-ox1ObEtwYa4kXWeNyXBNtC2-_TtTlDHgEUYI8XTQxgmbvgP56q6HkxA8lsCwhAiI1vYen8uiwuiMiVXw6D-UuF9Kl5SIBMhBeMZeKr0qbKgRt6ja-72_Y9IHZD7Nk"/>
-<span class="text-xs font-medium text-slate-700">Sarah M.</span>
+<span class="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-[10px] font-bold">
+{{ item.executor|slice:":2"|upper }}
+</span>
+<span class="text-xs font-medium text-slate-700">{{ item.executor }}</span>
 </div>
 </td>
-<td class="px-8 py-5 text-xs text-slate-500 font-medium">14:28 PM • Today</td>
+<td class="px-8 py-5 text-xs text-slate-500 font-medium">{{ item.timestamp|date:"H:i A" }} • {{ item.timestamp|date:"D, d M" }}</td>
 <td class="px-8 py-5 text-right">
 <button class="text-primary hover:underline text-xs font-bold">Details</button>
 </td>
 </tr>
-<!-- Row 2 -->
-<tr class="hover:bg-surface-container-high transition-colors">
-<td class="px-8 py-5">
-<div class="flex items-center gap-3">
-<span class="w-2 h-2 rounded-full bg-primary"></span>
-<span class="text-sm font-bold text-on-surface">Bulk Order #9842 Shipped</span>
-</div>
-</td>
-<td class="px-8 py-5">
-<span class="bg-secondary-fixed text-secondary text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Logistics</span>
-</td>
-<td class="px-8 py-5">
-<div class="flex items-center gap-2">
-<span class="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-[10px] font-bold">SYS</span>
-<span class="text-xs font-medium text-slate-700">Automated System</span>
-</div>
-</td>
-<td class="px-8 py-5 text-xs text-slate-500 font-medium">12:15 PM • Today</td>
-<td class="px-8 py-5 text-right">
-<button class="text-primary hover:underline text-xs font-bold">Track</button>
-</td>
+{% empty %}
+<tr>
+<td colspan="5" class="px-8 py-5 text-center text-xs text-slate-400 italic">No recent activity logged.</td>
 </tr>
-<!-- Row 3 -->
-<tr class="hover:bg-surface-container-high transition-colors">
-<td class="px-8 py-5">
-<div class="flex items-center gap-3">
-<span class="w-2 h-2 rounded-full bg-amber-400"></span>
-<span class="text-sm font-bold text-on-surface">User 'K. Ebogo' Verified</span>
-</div>
-</td>
-<td class="px-8 py-5">
-<span class="bg-surface-container-highest text-on-surface-variant text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Compliance</span>
-</td>
-<td class="px-8 py-5">
-<div class="flex items-center gap-2">
-<img alt="Avatar" class="w-6 h-6 rounded-full" data-alt="modern headshot of a professional man in a crisp white shirt with soft outdoor lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIad5UGcs7n_Pm_gFlAs6NqaM83kJ8eEM22Z0leH2eq9RKR82Yfy27fuaBD0g0ByPg5j5crgxrF3365NCb3zhSsm8X6aYUT61u8lDN6IklI5XbbrspbgAIlnrcJpVOQ-PJC8AQyEfqMuuVrk1aXaHnbe8rjciX3zf_OFaNBIGeHVCW_pmkTqEadR9wPZSGJLRcVK34icC71ePt_aYiVu6n808cElqRESLkpHzUCFiEQaa0w1e-Bb2QMoodN86D-zc50JS0-ryqQUQ"/>
-<span class="text-xs font-medium text-slate-700">Jean P.</span>
-</div>
-</td>
-<td class="px-8 py-5 text-xs text-slate-500 font-medium">09:40 AM • Today</td>
-<td class="px-8 py-5 text-right">
-<button class="text-primary hover:underline text-xs font-bold">Review</button>
-</td>
-</tr>
+{% endfor %}
 </tbody>
 </table>
 </div>

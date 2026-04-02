@@ -25,27 +25,25 @@
 <div class="bg-surface-container-lowest p-5 rounded-xl border-none shadow-sm flex flex-col justify-between">
 <span class="label-sm text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Total SKUs</span>
 <div class="flex items-baseline gap-2 mt-4">
-<span class="headline text-2xl font-extrabold text-primary">1,284</span>
-<span class="text-[10px] text-tertiary font-bold">+12%</span>
+<span class="headline text-2xl font-extrabold text-primary">{{ total_skus }}</span>
 </div>
 </div>
 <div class="bg-surface-container-lowest p-5 rounded-xl border-none shadow-sm flex flex-col justify-between">
 <span class="label-sm text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Out of Stock</span>
 <div class="flex items-baseline gap-2 mt-4">
-<span class="headline text-2xl font-extrabold text-error">14</span>
-<span class="text-[10px] text-error font-bold">-2%</span>
+<span class="headline text-2xl font-extrabold text-error">{{ out_of_stock_count }}</span>
 </div>
 </div>
 <div class="bg-surface-container-lowest p-5 rounded-xl border-none shadow-sm flex flex-col justify-between">
 <span class="label-sm text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Total Valuation</span>
 <div class="flex items-baseline gap-2 mt-4">
-<span class="headline text-2xl font-extrabold text-primary">$428.5k</span>
+<span class="headline text-2xl font-extrabold text-primary">{{ total_valuation|floatformat:0 }} XOF</span>
 </div>
 </div>
 <div class="bg-surface-container-lowest p-5 rounded-xl border-none shadow-sm flex flex-col justify-between">
 <span class="label-sm text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Category Reach</span>
 <div class="flex items-baseline gap-2 mt-4">
-<span class="headline text-2xl font-extrabold text-primary">24</span>
+<span class="headline text-2xl font-extrabold text-primary">{{ category_count }}</span>
 </div>
 </div>
 </div>

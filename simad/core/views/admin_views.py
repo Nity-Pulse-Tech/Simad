@@ -5,7 +5,13 @@ from django.db import transaction
 from django.shortcuts import redirect, get_object_or_404
 from django.utils.text import slugify
 
-from simad.catalog.models import Product, Category, ProductImage, ProductVideo
+from django.db.models import Sum, Count, Avg
+from django.utils import timezone
+from datetime import timedelta
+
+from simad.catalog.models import Product, Category, ProductImage, ProductVideo, Promotion, FlashSale
+from simad.orders.models import Order, Delivery, Payment
+from simad.users.models import User
 
 class AdminRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
     def test_func(self):
@@ -14,11 +20,98 @@ class AdminRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
 class AdminDashboardView(AdminRequiredMixin, TemplateView):
     template_name = "pages/admin_dashboard/admin_dashboard.html"
 
-class AdminDeliveriesView(AdminRequiredMixin, TemplateView):
-    template_name = "pages/admin_dashboard/delivry_management.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Dashboard KPIs
+        context['total_revenue'] = Order.objects.filter(is_paid=True).aggregate(Sum('total'))['total__sum'] or 0
+        context['total_orders'] = Order.objects.count()
+        context['active_users'] = User.objects.filter(is_active=True).count()
+        
+        # Inventory Alerts
+        context['low_stock_products'] = Product.objects.filter(
+            stock_quantity__lte=models.F('low_stock_threshold'),
+            stock_quantity__gt=0
+        ).order_by('stock_quantity')[:5]
+        context['out_of_stock_products'] = Product.objects.filter(stock_quantity=0)[:5]
+        
+        # Recent Activity Ledger (Last 10 Actions)
+        # We'll use a simple approach: merge recent records from multiple models
+        recent_orders = Order.objects.order_by('-created')[:5]
+        recent_products = Product.objects.order_by('-created')[:5]
+        recent_users = User.objects.order_by('-created')[:5]
+        
+        activity = []
+        for o in recent_orders:
+            activity.append({
+                'description': f"Order {o.reference} placed",
+                'category': 'Logistics',
+                'executor': o.user.full_name if o.user else 'Guest',
+                'timestamp': o.created,
+                'status_color': 'primary'
+            })
+        for p in recent_products:
+            activity.append({
+                'description': f"New SKU: {p.name}",
+                'category': 'Inventory',
+                'executor': 'Admin',
+                'timestamp': p.created,
+                'status_color': 'tertiary'
+            })
+        for u in recent_users:
+            activity.append({
+                'description': f"User '{u.full_name or u.email}' joined",
+                'category': 'Compliance',
+                'executor': 'System',
+                'timestamp': u.created,
+                'status_color': 'amber-400'
+            })
+            
+        activity.sort(key=lambda x: x['timestamp'], reverse=True)
+        context['recent_activity'] = activity[:10]
+        
+        # Analytics (Last 7 Days)
+        today = timezone.now().date()
+        days = []
+        revenue_data = []
+        for i in range(6, -1, -1):
+            day = today - timedelta(days=i)
+            days.append(day.strftime('%b %d'))
+            day_revenue = Order.objects.filter(
+                created__date=day, 
+                is_paid=True
+            ).aggregate(Sum('total'))['total__sum'] or 0
+            revenue_data.append(float(day_revenue))
+            
+        context['analytics_days'] = days
+        context['analytics_revenue'] = revenue_data
+        
+        return context
 
 class AdminPromotionsView(AdminRequiredMixin, TemplateView):
     template_name = "pages/admin_dashboard/promotion_and_flash_deal_managment.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        flash_sales = FlashSale.objects.all().order_by('-start_date')
+        promotions = Promotion.objects.all().order_by('-start_date')
+        context['flash_sales'] = flash_sales
+        context['promotions'] = promotions
+        context['active_flash_sales_count'] = flash_sales.filter(start_date__lte=timezone.now(), end_date__gte=timezone.now()).count()
+        context['total_campaign_revenue'] = 248600 # Static for now
+        return context
+
+class AdminDeliveriesView(AdminRequiredMixin, TemplateView):
+    template_name = "pages/admin_dashboard/delivry_management.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        deliveries = Delivery.objects.all().order_by('-created')
+        context['deliveries'] = deliveries
+        context['processing_count'] = deliveries.filter(status='PROCESSING').count()
+        context['shipped_count'] = deliveries.filter(status='SHIPPED').count()
+        context['delivered_today'] = deliveries.filter(status='DELIVERED', delivered_at__date=timezone.now().date()).count()
+        return context
 
 class AdminAddProductView(AdminRequiredMixin, TemplateView):
     template_name = "pages/admin_dashboard/add_product.html"
@@ -95,7 +188,15 @@ class AdminProductListView(AdminRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products'] = Product.objects.all().order_by('-created')
+        products = Product.objects.all().order_by('-created')
+        context['products'] = products
+        
+        # Stats Summary
+        context['total_skus'] = products.count()
+        context['out_of_stock_count'] = products.filter(stock_quantity=0).count()
+        context['total_valuation'] = products.aggregate(Sum('price'))['price__sum'] or 0
+        context['category_count'] = Category.objects.count()
+        
         return context
 
 class AdminDeleteProductView(AdminRequiredMixin, View):
@@ -171,6 +272,13 @@ class AdminEditProductView(AdminRequiredMixin, TemplateView):
 
 class AdminUsersView(AdminRequiredMixin, TemplateView):
     template_name = "pages/admin_dashboard/user_management.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        users = User.objects.all().order_by('-created')
+        context['users'] = users
+        context['active_users'] = users.filter(is_active=True).count()
+        return context
 
 class AdminCorporateSettingsView(AdminRequiredMixin, TemplateView):
     template_name = "pages/admin_dashboard/corporate_settings.html"

@@ -28,14 +28,13 @@
 <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm">
 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Total Users</p>
 <div class="flex items-baseline gap-2">
-<span class="text-2xl font-bold text-primary">12,482</span>
-<span class="text-xs font-medium text-tertiary-fixed-dim bg-tertiary-container/10 px-1.5 py-0.5 rounded-full">+4%</span>
+<span class="text-2xl font-bold text-primary">{{ users.count }}</span>
 </div>
 </div>
 <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm">
 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Active Now</p>
 <div class="flex items-baseline gap-2">
-<span class="text-2xl font-bold text-primary">843</span>
+<span class="text-2xl font-bold text-primary">{{ active_users }}</span>
 <span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim animate-pulse"></span>
 </div>
 </div>
@@ -80,30 +79,36 @@
 </tr>
 </thead>
 <tbody class="divide-y divide-outline-variant/10">
-<!-- Row 1 -->
+{% for user in users %}
 <tr class="hover:bg-surface-container-high transition-colors group">
 <td class="px-8 py-5">
 <div class="flex items-center gap-4">
 <div class="w-10 h-10 rounded-lg bg-primary/5 flex items-center justify-center text-primary font-bold overflow-hidden">
-<img alt="User Avatar" class="w-full h-full object-cover" data-alt="Portrait of a young man with glasses smiling against a solid blue background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1kwB2tTlX5Rq_Qg75-tP24__QzmQlVtpVgACnMe9wFr-go2Izw9UuRcotz5S98aeJnyzkhGYWrv3czI1GYN5sv4yY0KPoB7Ytos0lyDxeXZV02y4IV_iFPb9o5RJWBeVJXpAeuE-cIHQiKx2lzMc05rcATVMIt3mAAU99o0SR-LuchpxnVvK-_Y91V_TPBsufoLRvTKjNUvsO6BrTAUUFk9YNBzOmXTBCm7o5KkcnWUQqq8I-XatIHbJp0RmSDRp_csVb2gak2dI"/>
+{% if user.profile.avatar %}
+<img alt="{{ user.full_name }}" class="w-full h-full object-cover" src="{{ user.profile.avatar.url }}"/>
+{% else %}
+<span class="text-sm">{{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}</span>
+{% endif %}
 </div>
 <div>
-<p class="text-sm font-bold text-on-surface">Jean-Pierre Mvondo</p>
-<p class="text-xs text-slate-500 font-body">jp.mvondo@simad.cm</p>
+<p class="text-sm font-bold text-on-surface">{{ user.full_name }}</p>
+<p class="text-xs text-slate-500 font-body">{{ user.email }}</p>
 </div>
 </div>
 </td>
 <td class="px-8 py-5">
-<span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed">Super Admin</span>
+<span class="text-xs font-semibold px-2.5 py-1 rounded-full {% if user.is_staff %}bg-primary-fixed text-on-primary-fixed{% else %}bg-surface-container-highest text-slate-600{% endif %}">
+{{ user.get_user_type_display }}
+</span>
 </td>
 <td class="px-8 py-5">
-<span class="text-[11px] font-bold px-3 py-1 rounded-full bg-tertiary-fixed-dim/20 text-on-tertiary-fixed-variant flex items-center w-fit gap-1.5">
-<span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-dim"></span>
-                                        Active
-                                    </span>
+<span class="text-[11px] font-bold px-3 py-1 rounded-full {% if user.is_active %}bg-tertiary-fixed-dim/20 text-on-tertiary-fixed-variant{% else %}bg-error-container text-on-error-container{% endif %} flex items-center w-fit gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full {% if user.is_active %}bg-tertiary-fixed-dim{% else %}bg-error{% endif %}"></span>
+{% if user.is_active %}Active{% else %}Suspended{% endif %}
+</span>
 </td>
 <td class="px-8 py-5">
-<p class="text-xs text-slate-500 font-body">2 minutes ago</p>
+<p class="text-xs text-slate-500 font-body">{{ user.last_login|timesince }} ago</p>
 </td>
 <td class="px-8 py-5 text-right">
 <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -116,114 +121,11 @@
 </div>
 </td>
 </tr>
-<!-- Row 2 -->
-<tr class="hover:bg-surface-container-high transition-colors group">
-<td class="px-8 py-5">
-<div class="flex items-center gap-4">
-<div class="w-10 h-10 rounded-lg bg-primary/5 flex items-center justify-center text-primary font-bold overflow-hidden">
-<img alt="User Avatar" class="w-full h-full object-cover" data-alt="Cheerful young woman with curly hair laughing, studio shot on neutral grey background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfv3ypgxDT3QQxF1ToU_JEoCXEu6h8kCBLR3Wn-xnvbSsOaRqdjinM5s_b34Mnk7f_zYCbLBdOX-EkdLWz3yZqaxGTFbI1ieJzOF77Od8oqjONORYP0b6sPJFrbwQO-1LYQLhPevc4XKyX6TU_MfkTtISfnr5rfcgMs1gJGxfclY6-65Gj-I5TW6BXZVcXL3YxZW3v--BP-XpAXBI-9NwZNzQk9ics-BTycaFfHbtIxLN_c0kP7cZj5urQZhs-EpwjmtKnjVKEW_g"/>
-</div>
-<div>
-<p class="text-sm font-bold text-on-surface">Sarah Bakary</p>
-<p class="text-xs text-slate-500 font-body">s.bakary@outlook.com</p>
-</div>
-</div>
-</td>
-<td class="px-8 py-5">
-<span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed">Delivery Lead</span>
-</td>
-<td class="px-8 py-5">
-<span class="text-[11px] font-bold px-3 py-1 rounded-full bg-tertiary-fixed-dim/20 text-on-tertiary-fixed-variant flex items-center w-fit gap-1.5">
-<span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-dim"></span>
-                                        Active
-                                    </span>
-</td>
-<td class="px-8 py-5">
-<p class="text-xs text-slate-500 font-body">14 hours ago</p>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-slate-400 hover:text-primary transition-colors" title="Edit Role">
-<span class="material-symbols-outlined text-lg" data-icon="edit_square">edit_square</span>
-</button>
-<button class="p-2 text-slate-400 hover:text-error transition-colors" title="Deactivate">
-<span class="material-symbols-outlined text-lg" data-icon="block">block</span>
-</button>
-</div>
-</td>
+{% empty %}
+<tr>
+<td colspan="5" class="px-8 py-10 text-center text-slate-400 italic">No users found.</td>
 </tr>
-<!-- Row 3 -->
-<tr class="hover:bg-surface-container-high transition-colors group">
-<td class="px-8 py-5">
-<div class="flex items-center gap-4">
-<div class="w-10 h-10 rounded-lg bg-primary/5 flex items-center justify-center text-primary font-bold overflow-hidden">
-<img alt="User Avatar" class="w-full h-full object-cover" data-alt="Serious woman with light freckles looking directly at camera, soft natural daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfqMqV8eXEzBYv8qibTH03T530f01nWsHbhRo3X8FKEi9HqP8J0Aj97n7GeeA_sYxFg518k-hFE8RTipBBN35HM9UikD_dSEeLtcIQ1yaIBA004gs2TtC0yqi8WtGU6xkyIzQvht01sFa1IkLOA4VgSZ0i0INPSe3ZLH7clqHi5RQWYd5M1VHU2k91kGBBHRHbicYnNiiyCgLJrxETNNvvzRe2NL7cnx4qFcVAODQEZDfX0_puBdbMAQnJcH25VZ2_DHXFrbTFQPo"/>
-</div>
-<div>
-<p class="text-sm font-bold text-on-surface">Marie-Claire Ngo</p>
-<p class="text-xs text-slate-500 font-body">mc.ngo@service.cm</p>
-</div>
-</div>
-</td>
-<td class="px-8 py-5">
-<span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-surface-container-highest text-slate-600">Customer</span>
-</td>
-<td class="px-8 py-5">
-<span class="text-[11px] font-bold px-3 py-1 rounded-full bg-error-container text-on-error-container flex items-center w-fit gap-1.5">
-<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
-                                        Suspended
-                                    </span>
-</td>
-<td class="px-8 py-5">
-<p class="text-xs text-slate-500 font-body">3 days ago</p>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-primary hover:text-primary-container transition-colors" title="Reactivate">
-<span class="material-symbols-outlined text-lg" data-icon="check_circle">check_circle</span>
-</button>
-<button class="p-2 text-slate-400 hover:text-primary transition-colors" title="Edit Role">
-<span class="material-symbols-outlined text-lg" data-icon="edit_square">edit_square</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 4 -->
-<tr class="hover:bg-surface-container-high transition-colors group">
-<td class="px-8 py-5">
-<div class="flex items-center gap-4">
-<div class="w-10 h-10 rounded-lg bg-primary/5 flex items-center justify-center text-primary font-bold overflow-hidden">
-<img alt="User Avatar" class="w-full h-full object-cover" data-alt="Portrait of a young black man with a stylish beard wearing a formal blazer, urban professional look" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXC0oWOM_PsPY1J3xKlfACXvJxx4-BMNpcRitTMwiLyoPNDP9dh5BikXCp3ESH11Ej4jDqasFFDvkLi4CFF1e4GfMlNCGdX0tN8f_f522t-gklCvY3xqJ1Rc2-y2OiksP_sWH3QsOFrNfdZWr4FVXx1sxQyCrUfO7K-eiHaSkgqAraVgNPhY4e8Z7VuVJ7XXP7pAJNbUl7GfpdpWzWsZ0userNilfNCyFPq2OQJH2TUkK4GF-Qx_U98EwheWfOHlwgr6Kb7sNW1aE"/>
-</div>
-<div>
-<p class="text-sm font-bold text-on-surface">Emmanuel Eto'o</p>
-<p class="text-xs text-slate-500 font-body">e.etoo@retail.cm</p>
-</div>
-</div>
-</td>
-<td class="px-8 py-5">
-<span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-surface-container-highest text-slate-600">Customer</span>
-</td>
-<td class="px-8 py-5">
-<span class="text-[11px] font-bold px-3 py-1 rounded-full bg-tertiary-fixed-dim/20 text-on-tertiary-fixed-variant flex items-center w-fit gap-1.5">
-<span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-dim"></span>
-                                        Active
-                                    </span>
-</td>
-<td class="px-8 py-5">
-<p class="text-xs text-slate-500 font-body">5 minutes ago</p>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-slate-400 hover:text-primary transition-colors" title="Edit Role">
-<span class="material-symbols-outlined text-lg" data-icon="edit_square">edit_square</span>
-</button>
-<button class="p-2 text-slate-400 hover:text-error transition-colors" title="Deactivate">
-<span class="material-symbols-outlined text-lg" data-icon="block">block</span>
-</button>
-</div>
-</td>
-</tr>
+{% endfor %}
 </tbody>
 </table>
 </div>

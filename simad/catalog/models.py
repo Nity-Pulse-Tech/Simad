@@ -269,7 +269,7 @@ class FlashSale(SIMADBASEMODEL):
 
 class ArticleCategory(SIMADBASEMODEL):
     name = models.CharField(_("Name"), max_length=150, default="")
-    slug = models.SlugField(_("Slug"), unique=True, default="")
+    slug = models.SlugField(_("Slug"), unique=True, max_length=255, default="")
     description = models.TextField(_("Description"), blank=True)
 
     class Meta:
@@ -297,7 +297,7 @@ class Article(SIMADBASEMODEL):
         related_name="articles",
     )
     title = models.CharField(_("Title"), max_length=255, default="")
-    slug = models.SlugField(_("Slug"), unique=True, default="")
+    slug = models.SlugField(_("Slug"), unique=True, max_length=255, default="")
     summary = models.CharField(_("Summary"), max_length=500, blank=True, default="")
     content = models.TextField(_("Content"), default="")
     cover_image = models.ImageField(
