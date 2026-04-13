@@ -134,15 +134,6 @@
 <div class="space-y-2 pt-1">
   <label class="text-xs font-bold uppercase tracking-wider text-slate-500">Verification Method</label>
   <div class="grid grid-cols-2 gap-4">
-    <label class="relative cursor-pointer" @click="window.toastManager.buildToast().setMessage('WhatsApp is unavailable for now, please use Email.').setType('info').show()">
-      <input class="peer sr-only" name="verification" type="radio" value="whatsapp" disabled/>
-      <div class="flex items-center gap-3 py-2 px-3 rounded-xl border-2 border-slate-100 bg-slate-50 opacity-60 transition-all cursor-not-allowed">
-        <img src="{% static 'images/img/whatsap.webp' %}" class="h-6 w-6 flex-shrink-0 grayscale">
-        <div class="flex flex-col min-w-0">
-          <span class="text-xs font-bold text-slate-500 truncate">WhatsApp</span>
-        </div>
-      </div>
-    </label>
     <label class="relative cursor-pointer">
       <input checked="" class="peer sr-only" name="verification" type="radio" value="email"/>
       <div class="flex items-center gap-3 py-2 px-3 rounded-xl border-2 border-slate-100 bg-white transition-all peer-checked:border-primary peer-checked:bg-primary/5">
@@ -152,6 +143,14 @@
         </div>
       </div>
     </label>
+    <div class="relative cursor-pointer" @click="window.toastManager.buildToast().setMessage('WhatsApp is unavailable for now, please use Email.').setType('info').show()">
+      <div class="flex items-center gap-3 py-2 px-3 rounded-xl border-2 border-slate-100 bg-slate-50 opacity-60 transition-all cursor-not-allowed">
+        <img src="{% static 'images/img/whatsap.webp' %}" class="h-6 w-6 flex-shrink-0 grayscale">
+        <div class="flex flex-col min-w-0">
+          <span class="text-xs font-bold text-slate-500 truncate">WhatsApp</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <!-- Terms & Submit -->
