@@ -91,6 +91,13 @@ class SignupView(TemplateView):
         phone_number = request.POST.get('phone_number')
         terms_accepted = request.POST.get('terms_accepted') == 'on'
         verification_method = request.POST.get('verification', 'email')
+        
+        # Temporary: Force email verification as WhatsApp is currently unavailable
+        if verification_method == 'whatsapp':
+            logger.info("WhatsApp requested but unavailable. Switching to email for %s", email)
+            verification_method = 'email'
+            messages.info(request, "WhatsApp verification is currently unavailable. Using email instead.")
+
         logger.info(
             "SignupView POST — email=%s, full_name=%s, phone=%s, method=%s, terms=%s, IP=%s",
             email,
