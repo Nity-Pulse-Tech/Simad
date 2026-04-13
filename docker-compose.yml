@@ -5,7 +5,7 @@ services:
     volumes:
       - .:/app
       - ./staticfiles:/app/staticfiles
-      - ./media:/app/media
+      - ./simad/media:/app/simad/media
     ports:
       - "8000:8000"
     env_file:
