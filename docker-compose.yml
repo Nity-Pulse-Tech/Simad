@@ -6,8 +6,8 @@ services:
       - .:/app
       - ./staticfiles:/app/staticfiles
       - ./media:/app/media
-#    ports:
-#      - "8080:8000"
+    ports:
+      - "8000:8000"
     env_file:
       - .env
     environment:
@@ -30,23 +30,6 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5433:5432"
-    networks:
-      - mynetwork
-
-  caddy:
-    build:
-      context: .
-      dockerfile: ./compose/production/caddy/Dockerfile
-    image: simad_caddy
-    depends_on:
-      - web
-    volumes:
-      - caddy_data:/data
-      - caddy_config:/config
-      - ./media:/data/media:ro
-    ports:
-      - "80:80"
-      - "443:443"
     networks:
       - mynetwork
 
@@ -77,8 +60,6 @@ services:
 
 volumes:
   postgres_data:
-  caddy_data:
-  caddy_config:
 
 networks:
   mynetwork:
