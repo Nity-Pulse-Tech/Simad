@@ -4,15 +4,14 @@ from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 from django.core.files import File
 from pathlib import Path
-from simad.catalog.models import Category, Product, ProductImage, ProductReview
-from simad.users.models import User
-from simad.global_data.enum import ReviewRatingChoices, ProductTypeChoices, UnitOfMeasureChoices
+from simad.catalog.models import Category, Product, ProductImage
+from simad.global_data.enum import ProductTypeChoices, UnitOfMeasureChoices
 
 class Command(BaseCommand):
-    help = 'Populate the database with 50 realistic products and real information.'
+    help = 'Populate the database with 50 realistic products using images from prod_images.'
 
     def handle(self, *args, **options):
-        self.stdout.write("Starting product population...")
+        self.stdout.write("Starting product population from prod_images...")
 
         # 1. Create Categories
         categories_data = [
@@ -31,18 +30,24 @@ class Command(BaseCommand):
             )
             categories.append(cat)
         
-        self.stdout.write(f"Categories ready: {len(categories)}")
-
-        # 2. Prepare Detailed Descriptions (300 words approximately)
+        # 2. Prepare Detailed Descriptions (~300 words)
         desc_blocks = [
-            "Ce produit est le fruit d'une recherche approfondie menée par les experts de SIMAD Cameroon. Il a été conçu pour répondre aux besoins spécifiques du marché local, en alliant performance, sécurité et respect de l'environnement. Sa formule concentrée permet une utilisation économique tout en garantissant des résultats professionnels dès la première application.",
-            "Que vous soyez un professionnel de l'industrie ou un particulier soucieux de l'hygiène de sa maison, ce produit saura vous satisfaire. Il élimine efficacement les taches les plus tenaces, les graisses accumulées et les agents pathogènes invisibles à l'œil nu. Sa polyvalence en fait un allié indispensable pour tous vos travaux de nettoyage, des plus simples aux plus complexes.",
-            "En choisissant les produits SIMAD, vous soutenez l'expertise locale et bénéficiez d'une qualité certifiée conforme aux normes internationales les plus strictes. Ce produit a subi des tests rigoureux en laboratoire pour assurer une efficacité maximale sans compromettre la santé des utilisateurs ni l'intégrité des surfaces traitées.",
-            "L'innovation est au cœur de notre démarche. C'est pourquoi ce produit intègre des agents actifs de nouvelle génération qui agissent en profondeur pour désincruster la saleté tout en laissant un parfum frais et durable. Facile à utiliser et à rincer, il vous fait gagner un temps précieux lors de vos routines d'entretien quotidien.",
-            "La sécurité de votre famille et de vos collaborateurs est notre priorité absolue. Ce produit est formulé sans substances nocives agressives, minimisant ainsi les risques d'allergies ou d'irritations. Pour chaque bidon acheté, nous nous engageons à maintenir un standard de pureté irréprochable qui caractérise la marque SIMAD depuis ses débuts au Cameroun.",
-            "Pour des résultats optimaux, nous recommandons une utilisation régulière conformément aux instructions figurant sur l'étiquette. Ce produit est disponible en plusieurs formats pour s'adapter à toutes les échelles de consommation, du format familial au vrac industriel. SIMAD : La solution chimique d'excellence pour un environnement sain.",
-            "Nous comprenons les défis posés par les environnements tropicaux et les conditions de travail exigeantes. C'est pourquoi notre gamme de produits est spécialement stabilisée pour conserver toutes ses propriétés même en cas de températures élevées ou d'humidité importante. Vous avez la garantie d'un produit stable et efficace sur le long terme.",
-            "Recommandé par les professionnels du secteur, ce produit est devenu une référence incontournable au Cameroun. Son efficacité prouvée sur une large variété de supports en fait le choix numéro un des entreprises de nettoyage, des hôpitaux et des ménages exigeants. Faites confiance à SIMAD pour une propreté qui se voit et qui se sent."
+            "Ce produit de la gamme SIMAD est une solution d'entretien haute performance conçue spécifiquement pour répondre aux exigences de propreté les plus strictes. "
+            "Grâce à sa formulation avancée, il pénètre au cœur des salissures pour une élimination complète sans laisser de résidus chimiques nocifs sur vos surfaces.",
+            "Utilisé par les professionnels du nettoyage à travers tout le Cameroun, ce produit a prouvé son efficacité dans une multitude de scénarios, des cuisines collectives aux blocs opératoires. "
+            "Sa concentration élevée permet une dilution importante, offrant ainsi un rapport qualité-prix exceptionnel pour les grands volumes de consommation.",
+            "La sécurité des utilisateurs est notre priorité absolue. C'est pourquoi ce produit est biodégradable et respecte les normes environnementales locales. "
+            "Il ne contient pas de phosphates ni d'agents de blanchiment agressifs, ce qui préserve l'éclat originel de vos matériaux tout en assurant une désinfection totale.",
+            "L'innovation SIMAD réside dans la stabilité de nos formules. Même dans des conditions de stockage tropicales, le produit conserve toute son efficacité active. "
+            "Chaque lot subit des contrôles qualité rigoureux pour garantir que vous recevez toujours le meilleur de notre expertise chimique directement dans votre établissement.",
+            "Que vous cherchiez à assainir votre espace de vie ou à optimiser vos processus industriels, les solutions SIMAD sont là pour vous accompagner. "
+            "Facile d'utilisation, notre produit est livré avec des instructions claires pour maximiser son rendement et garantir la sécurité de vos équipes au quotidien.",
+            "Opter pour SIMAD, c'est choisir la fiabilité camerounaise alliée à la technologie de pointe. "
+            "Notre engagement envers l'excellence nous pousse à améliorer constamment nos produits pour rester à la pointe du secteur de l'hygiène et de l'assainissement industriel.",
+            "Pour un environnement plus sain et une tranquillité d'esprit totale, faites confiance à la puissance de nettoyage SIMAD. "
+            "Une simple application suffit pour transformer vos espaces et instaurer une barrière protectrice durable contre les bactéries et les virus environnants.",
+            "La polyvalence est le maître-mot de cette référence. Elle s'adapte aussi bien aux surfaces lisses qu'aux matériaux poreux, garantissant une finition impeccable à chaque fois. "
+            "Recommandé par les experts, ce produit est le choix de référence pour tous ceux qui ne font aucun compromis sur la propreté et l'hygiène de leurs locaux."
         ]
 
         # 3. Product Names
@@ -59,53 +64,62 @@ class Command(BaseCommand):
             "SimaLiquide Antiseptique", "SimaNet Multi-usages", "SimaDirect Premium", "SimaExtra Shine", "SimaUltra Hygiene"
         ]
 
-        # 4. Images
-        media_dir = Path("simad/media/")
-        available_images = list(media_dir.glob("*.webp"))
+        # 4. Source Images
+        prod_images_dir = Path("/home/eddy/projects/Nity Pulse/simad/prod_images")
+        available_images = list(prod_images_dir.glob("*.webp"))
         if not available_images:
-            available_images = list(media_dir.glob("*.png")) # Fallback
-            if not available_images:
-                self.stdout.write("Warning: No images found in media directory.")
+            self.stdout.write(self.style.WARNING(f"No webp images found in {prod_images_dir}. Using fallback search."))
+            available_images = list(prod_images_dir.glob("*"))
+
+        if not available_images:
+            self.stdout.write(self.style.ERROR(f"No images at all found in {prod_images_dir}."))
+            return
 
         # 5. Create 50 Products
         for i, name in enumerate(product_names):
             long_desc = " ".join(random.sample(desc_blocks, k=len(desc_blocks)))
+            # Duplicate the blocks to ensure ~300 words
+            long_desc = (long_desc + "\n\n") * 2
+            
             price = random.randint(500, 9900)
             
-            product, created = Product.objects.update_or_create(
+            product, created = Product.objects.get_or_create(
                 slug=slugify(f"{name}-{i}"),
                 defaults={
                     "name": name,
                     "category": random.choice(categories),
                     "description": long_desc,
+                    "short_description": f"Solution haute performance SIMAD pour votre quotidien.",
                     "price": price,
-                    "compare_price": price + random.randint(100, 2000),
+                    "compare_price": price + random.randint(500, 2000),
                     "sku": f"SIMA-{i:03d}-{random.randint(1000, 9999)}",
                     "stock_quantity": random.randint(50, 500),
                     "is_available": True,
                 }
             )
 
-            if available_images:
-                # Set thumbnail
-                thumb = random.choice(available_images)
-                # Note: This is an update, so we assume files are already relative to media_root in the path
-                product.thumbnail = str(thumb).split('media/')[-1]
-                product.save()
+            # Assign images
+            selected_images = random.sample(available_images, min(7, len(available_images)))
+            
+            # Thumbnail
+            try:
+                with open(selected_images[0], 'rb') as f:
+                    product.thumbnail.save(selected_images[0].name, File(f), save=True)
+            except Exception as e:
+                self.stdout.write(f"Failed to save thumbnail for {name}: {e}")
 
-                # Create 6 gallery images
-                gallery = random.sample(available_images, min(6, len(available_images)))
-                product.images.all().delete() # Clear old ones if re-running
-                for idx, img_path in enumerate(gallery):
-                    ProductImage.objects.create(
-                        product=product,
-                        image=str(img_path).split('media/')[-1],
-                        alt_text=f"{name} image {idx+1}",
-                        is_primary=(idx == 0),
-                        order=idx
-                    )
+            # Gallery (up to 6 additional)
+            product.images.all().delete()
+            for idx, img_path in enumerate(selected_images[1:]):
+                try:
+                    with open(img_path, 'rb') as f:
+                        pi = ProductImage(product=product, alt_text=f"{name} {idx}")
+                        pi.image.save(img_path.name, File(f), save=True)
+                        pi.save()
+                except Exception as e:
+                    self.stdout.write(f"Failed to save gallery image for {name}: {e}")
 
-        self.stdout.write(self.style.SUCCESS(f"Successfully populated 50 products."))
+        self.stdout.write(self.style.SUCCESS(f"Successfully populated 50 products using real images."))
 
 if __name__ == "__main__":
     pass
