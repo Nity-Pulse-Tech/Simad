@@ -85,6 +85,7 @@ class AdminDashboardView(AdminRequiredMixin, TemplateView):
             
         context['analytics_days'] = days
         context['analytics_revenue'] = revenue_data
+        context['max_revenue'] = max(revenue_data) if revenue_data else 0
         
         return context
 
