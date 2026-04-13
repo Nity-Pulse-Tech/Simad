@@ -39,12 +39,19 @@ def send_whatsapp_verification_link(user: User, activation_url):
 
     url_path = url_path.replace('%7B%7B1%7D%7D', '').replace('{{1}}', '')
     
+    # Formatting phone number for Meta API (Country code 237 for Cameroon if missing)
+    phone = user.phone_number if hasattr(user, 'phone_number') else ""
+    if phone and len(phone) == 9 and phone.startswith('6'):
+        phone = f"237{phone}"
+    elif phone and phone.startswith('+'):
+        phone = phone.replace('+', '')
+    
     # Log the sending attempt
-    logger.info(f"Attempting to send WhatsApp verification to {user.phone_number}. Path: {url_path}")
+    logger.info(f"Attempting to send WhatsApp verification to {phone}. Path: {url_path}")
 
     data = {
         "messaging_product": "whatsapp",
-        "to": user.phone_number if hasattr(user, 'phone_number') else "",
+        "to": phone,
         "type": "template",
         "template": {
             "name": template_name,
@@ -70,8 +77,17 @@ def send_whatsapp_verification_link(user: User, activation_url):
     
     try:
         response = requests.post(url, headers=headers, json=data)
+        # Detailed Relay Log
+        relay_log = {
+            "status": response.status_code,
+            "url": url,
+            "payload": data,
+            "response": response.json() if response.headers.get('content-type') == 'application/json' else response.text
+        }
+        logger.info(f"WhatsApp API Relay Log: {relay_log}")
+
         if response.status_code == 200:
-            logger.info(f"WhatsApp message sent successfully to {user.phone_number}")
+            logger.info(f"WhatsApp message sent successfully to {phone}")
             return True
         else:
             logger.error(f"Failed to send WhatsApp message. Status: {response.status_code}. Response: {response.text}")

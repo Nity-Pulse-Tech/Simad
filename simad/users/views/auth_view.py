@@ -179,13 +179,18 @@ class SignupView(TemplateView):
             # Send WhatsApp via Meta Cloud API
             send_whatsapp_verification_link(user, activation_url)
             
-            messages.info(request, "A verification link has been sent to your WhatsApp.")
+            # Store verification info in session
             request.session['verification_email'] = email
+            request.session['verification_method'] = verification_method
+            
+            messages.info(request, "A verification link has been sent to your WhatsApp.")
             return render(request, self.template_name, {'delayed_redirect_url': reverse('users:whatsapp-sent')})
         
-        # Store verification info in session
-        request.session['verification_email'] = email
-        request.session['verification_method'] = verification_method
+        # Store verification info in session (for redundancy if not hit in WhatsApp block)
+        if 'verification_email' not in request.session:
+            request.session['verification_email'] = email
+        if 'verification_method' not in request.session:
+            request.session['verification_method'] = verification_method
         
         messages.success(request, f"Account created! A verification code has been sent to {email}.")
         return render(request, self.template_name, {'delayed_redirect_url': reverse('users:verify-code')})
