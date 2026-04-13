@@ -1,7 +1,7 @@
 import logging
 
 from django.views.generic import TemplateView
-from simad.catalog.models import Product, Wishlist
+from simad.catalog.models import Product, Wishlist, Article, Testimonial
 
 logger = logging.getLogger(__name__)
 
@@ -15,12 +15,31 @@ class HomeView(TemplateView):
 
         try:
             # Evaluate queryset immediately so logging and template rendering are predictable
-            products = list(Product.objects.all()[:8])
+            # Prioritize featured products, then latest products
+            products = list(Product.objects.filter(is_available=True).order_by('-is_featured', '-created')[:8])
             context["products"] = products
-            logger.info("Fetched %d products for home page grid", len(products))
+            logger.info("Fetched %d products for home page grid (featured first)", len(products))
         except Exception:
             logger.exception("Failed to load products for home page")
             context["products"] = []
+
+        try:
+            # Fetch latest 3 published articles
+            articles = list(Article.objects.filter(status="PUBLISHED").select_related('category', 'author')[:3])
+            context["articles"] = articles
+            logger.info("Fetched %d articles for home page", len(articles))
+        except Exception:
+            logger.exception("Failed to load articles for home page")
+            context["articles"] = []
+
+        try:
+            # Fetch latest 3 published testimonials
+            testimonials = list(Testimonial.objects.filter(is_published=True).select_related('user', 'product')[:3])
+            context["testimonials"] = testimonials
+            logger.info("Fetched %d testimonials for home page", len(testimonials))
+        except Exception:
+            logger.exception("Failed to load testimonials for home page")
+            context["testimonials"] = []
 
         try:
             if self.request.user.is_authenticated:

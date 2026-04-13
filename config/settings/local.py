@@ -15,6 +15,21 @@ SECRET_KEY = env(
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ["*"]  # noqa: S104
 
+# SECURITY
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#secure-ssl-redirect
+SECURE_SSL_REDIRECT = False
+# https://docs.djangoproject.com/en/dev/ref/settings/#session-cookie-secure
+SESSION_COOKIE_SECURE = False
+# https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-secure
+CSRF_COOKIE_SECURE = False
+# https://docs.djangoproject.com/en/dev/ref/settings/#secure-hsts-seconds
+SECURE_HSTS_SECONDS = 0
+# https://docs.djangoproject.com/en/dev/ref/settings/#secure-hsts-include-subdomains
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+# https://docs.djangoproject.com/en/dev/ref/settings/#secure-hsts-preload
+SECURE_HSTS_PRELOAD = False
+
 # CACHES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#caches
