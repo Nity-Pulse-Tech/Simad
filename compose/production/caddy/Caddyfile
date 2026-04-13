@@ -1,0 +1,19 @@
+{
+    email fotsoeddysteve@gmail.com
+}
+
+simad.nitypulse.com {
+    # Serve media files directly
+    handle_path /media/* {
+        root * /data/media
+        file_server
+    }
+
+    # Proxy all other requests to Django (web service)
+    reverse_proxy web:8000
+}
+
+# Flower (Celery monitoring)
+:5555 {
+    reverse_proxy flower:5555
+}
