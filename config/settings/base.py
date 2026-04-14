@@ -97,9 +97,11 @@ LOCAL_APPS = [
     "simad.core",
     "simad.catalog",
     "simad.orders",
+    "simad.payments"
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
 
 # MIGRATIONS
 # ------------------------------------------------------------------------------
@@ -361,3 +363,10 @@ SOCIALACCOUNT_FORMS = {"signup": "simad.users.forms.UserSocialSignupForm"}
 WHATSAPP_API_TOKEN = env("WHATSAPP_API_TOKEN", default="")
 WHATSAPP_PHONE_NUMBER_ID = env("WHATSAPP_PHONE_NUMBER_ID", default="")
 WHATSAPP_TEMPLATE_NAME = env("WHATSAPP_TEMPLATE_NAME", default="activated")
+
+# PayUnit
+PAYUNIT_API_KEY = env("PAYUNIT_API_KEY", default="")
+PAYUNIT_USER = env("PAYUNIT_USER", default="")
+PAYUNIT_PASSWORD = env("PAYUNIT_PASSWORD", default="")
+PAYUNIT_MODE = env("PAYUNIT_MODE", default="test")
+PAYUNIT_NOTIFY_URL = env("PAYUNIT_NOTIFY_URL", default="")

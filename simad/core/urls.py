@@ -26,6 +26,7 @@ from .views import (
     AdminDeleteProductView,
     AdminEditProductView,
 )
+from simad.payments.views import PayUnitWebhookView
 
 app_name = "core"
 
@@ -44,6 +45,7 @@ urlpatterns = [
     path("checkout/payment/", PaymentView.as_view(), name="payment"),
     path("checkout/success/", PaymentSuccessView.as_view(), name="payment-success"),
     path("checkout/failure/", PaymentFailureView.as_view(), name="payment-failure"),
+    path("payments/payunit/webhook/", PayUnitWebhookView.as_view(), name="payunit-webhook"),
     path("api/search/", ProductSearchView.as_view(), name="api-search"),
     
     # Admin URLs

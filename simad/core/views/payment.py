@@ -1,10 +1,14 @@
 import logging
-
+import uuid
 from django.views.generic import TemplateView
+from django.conf import settings
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
+from django.urls import reverse
 from simad.users.models import Address
-from simad.orders.models import Order
+from simad.orders.models import Order, Payment
+from simad.global_data.enum import PaymentMethodChoices, PaymentStatusChoices
+from simad.payments.services import PayUnitService
 
 logger = logging.getLogger(__name__)
 
@@ -157,6 +161,79 @@ class PaymentView(TemplateView):
         else:
             logger.warning("PaymentView — no order_ref available")
         return context
+
+    def post(self, request, *args, **kwargs):
+        logger.info("PaymentView POST — user=%s", request.user)
+        
+        order_ref = request.session.get('order_ref')
+        if not order_ref:
+            messages.error(request, "Order session expired.")
+            return redirect('core:cart')
+            
+        order = get_object_or_404(Order, reference=order_ref)
+        payment_method = request.POST.get('payment_method')
+        
+        if payment_method == 'cod':
+            # Handle Cash on Delivery
+            payment = Payment.objects.create(
+                order=order,
+                user=request.user,
+                reference=f"PAY-{uuid.uuid4().hex[:8].upper()}",
+                method=PaymentMethodChoices.CASH_ON_DELIVERY,
+                status=PaymentStatusChoices.PENDING,
+                amount=order.total,
+                currency="XAF"
+            )
+            order.status = "PROCESSING" # Or some appropriate status
+            order.save()
+            return redirect('core:payment-success')
+            
+        elif payment_method in ['mtn_momo', 'orange_money']:
+            phone_number = request.POST.get(f"{payment_method.split('_')[0]}_phone")
+            if not phone_number:
+                messages.error(request, "Please provide a phone number.")
+                return self.get(request, *args, **kwargs)
+                
+            # Create Payment record
+            payment_ref = f"PU-{uuid.uuid4().hex[:12].upper()}"
+            payment = Payment.objects.create(
+                order=order,
+                user=request.user,
+                reference=payment_ref,
+                method=PaymentMethodChoices.MOBILE_MONEY,
+                status=PaymentStatusChoices.PENDING,
+                amount=order.total,
+                currency="XAF",
+                phone_number=phone_number
+            )
+            
+            # Initialize PayUnit
+            payunit = PayUnitService()
+            return_url = request.build_absolute_uri(reverse('core:payment-success'))
+            notify_url = getattr(settings, "PAYUNIT_NOTIFY_URL", "")
+            
+            result = payunit.initialize_payment(
+                total_amount=order.total,
+                transaction_id=payment_ref,
+                return_url=return_url,
+                notify_url=notify_url,
+                currency="XAF"
+            )
+            
+            if result['success']:
+                payment.gateway_response = result['data']
+                payment.save()
+                return redirect(result['transaction_url'])
+            else:
+                payment.status = PaymentStatusChoices.FAILED
+                payment.gateway_response = result.get('data', {})
+                payment.save()
+                messages.error(request, f"Payment initialization failed: {result['message']}")
+                return self.get(request, *args, **kwargs)
+        
+        else:
+            messages.error(request, "Please select a valid payment method.")
+            return self.get(request, *args, **kwargs)
 
 class PaymentSuccessView(TemplateView):
     template_name = "pages/home/payments/payment_succes.html"
