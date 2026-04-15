@@ -9,6 +9,10 @@ from simad.users.models import Address
 from simad.orders.models import Order, Payment
 from simad.global_data.enum import PaymentMethodChoices, PaymentStatusChoices
 from simad.payments.services import PayUnitService
+import qrcode
+from io import BytesIO
+from django.core.files.base import ContentFile
+from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 
@@ -184,7 +188,29 @@ class PaymentView(TemplateView):
                 amount=order.total,
                 currency="XAF"
             )
-            order.status = "PROCESSING" # Or some appropriate status
+            order.status = "PROCESSING"
+
+            # Generate QR Code
+            now = timezone.now()
+            items_summary = "\n".join([f"- {item.product_name} (x{item.quantity})" for item in order.items.all()])
+            qr_data = (
+                f"ORDER SUMMARY\n"
+                f"Order ID: {order.reference}\n"
+                f"Date: {now.strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+                f"Items:\n{items_summary}\n\n"
+                f"Total: {order.total} XAF"
+            )
+            
+            qr = qrcode.QRCode(version=1, box_size=10, border=5)
+            qr.add_data(qr_data)
+            qr.make(fit=True)
+            img = qr.make_image(fill_color="black", back_color="white")
+            
+            buffer = BytesIO()
+            img.save(buffer, format="PNG")
+            file_name = f"qr_{order.reference}_{now.strftime('%Y%m%d%H%M%S')}.png"
+            order.qr_code.save(file_name, ContentFile(buffer.getvalue()), save=False)
+            
             order.save()
             return redirect('core:payment-success')
             
@@ -207,28 +233,33 @@ class PaymentView(TemplateView):
                 phone_number=phone_number
             )
             
-            # Initialize PayUnit
+            # Initialize PayUnit Direct Payment
             payunit = PayUnitService()
-            return_url = request.build_absolute_uri(reverse('core:payment-success'))
             notify_url = getattr(settings, "PAYUNIT_NOTIFY_URL", "")
+            return_url = request.build_absolute_uri(reverse('core:payment-success'))
+            payment_network = "MTN" if payment_method == 'mtn_momo' else "ORANGE"
             
-            result = payunit.initialize_payment(
+            result = payunit.make_direct_payment(
                 total_amount=order.total,
                 transaction_id=payment_ref,
-                return_url=return_url,
+                phone_number=phone_number,
+                payment_network=payment_network,
                 notify_url=notify_url,
+                return_url=return_url,
                 currency="XAF"
             )
             
             if result['success']:
                 payment.gateway_response = result['data']
                 payment.save()
-                return redirect(result['transaction_url'])
+                messages.success(request, result['message'])
+                # Redirect to success page or stay on page with instructions
+                return redirect('core:payment-success')
             else:
                 payment.status = PaymentStatusChoices.FAILED
                 payment.gateway_response = result.get('data', {})
                 payment.save()
-                messages.error(request, f"Payment initialization failed: {result['message']}")
+                messages.error(request, f"Payment failed: {result['message']}")
                 return self.get(request, *args, **kwargs)
         
         else:
@@ -237,6 +268,19 @@ class PaymentView(TemplateView):
 
 class PaymentSuccessView(TemplateView):
     template_name = "pages/home/payments/payment_succes.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order_ref = self.request.session.get('order_ref')
+        if order_ref:
+            try:
+                order = Order.objects.prefetch_related('items__product').get(reference=order_ref)
+                context['order'] = order
+                context['items'] = order.items.all()
+                logger.info("PaymentSuccessView — loaded order %s for display", order_ref)
+            except Order.DoesNotExist:
+                logger.error("PaymentSuccessView — order '%s' not found", order_ref)
+        return context
 
     def get(self, request, *args, **kwargs):
         logger.info(

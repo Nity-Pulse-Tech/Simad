@@ -104,6 +104,98 @@ class PayUnitService:
             logger.error("❌ PayUnit Connection Error: %s", str(e))
             return {"success": False, "message": str(e)}
 
+    def make_direct_payment(self, total_amount, transaction_id, phone_number, payment_network, notify_url, return_url=None, currency="XAF", country="CM"):
+        """
+        Triggers a direct payment (USSD Push) on PayUnit.
+        """
+        endpoint = f"{self.base_url}/api/gateway/makepayment"
+        
+        # Sanitize URLs for WAF
+        def sanitize_url(url):
+            if not url:
+                return url
+            if "127.0.0.1" in url or "localhost" in url:
+                logger.warning("Replacing local address in URL %s to bypass PayUnit WAF", url)
+                # Replace along with port if present
+                import re
+                url = re.sub(r'127\.0\.0\.1(:\d+)?', 'simad.cm', url)
+                url = re.sub(r'localhost(:\d+)?', 'simad.cm', url)
+                return url
+            return url
+
+        sanitized_notify_url = sanitize_url(notify_url)
+        # return_url is required by the API even for direct payments
+        sanitized_return_url = sanitize_url(return_url or "https://simad.cm/checkout/success/")
+
+        headers = {
+            "x-api-key": self.api_key,
+            "mode": self.mode,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        }
+        
+        # PayUnit Direct Pay field names can be tricky. Trying lowercase underscore names.
+        gateway = "mtn_momo" if payment_network.upper() == "MTN" else "orange_money"
+        payment_type_val = "button" 
+        
+        # Ensure phone number is exactly 9 digits for Cameroon (unprefixed)
+        clean_phone = str(phone_number).replace(" ", "").replace("+", "")
+        if clean_phone.startswith("237") and len(clean_phone) > 9:
+            clean_phone = clean_phone[3:]
+            
+        payload = {
+            "amount": int(float(total_amount)),
+            "currency": currency,
+            "transaction_id": str(transaction_id),
+            "phone_number": clean_phone,
+            "gateway": gateway,
+            "paymentType": "button",
+            "notify_url": sanitized_notify_url.replace("http://", "https://"),
+            "return_url": sanitized_return_url.replace("http://", "https://"),
+        }
+        
+        logger.info("Triggering PayUnit Direct Payment (JSON/HTTPS): %s", payload)
+        
+        try:
+            response = requests.post(
+                endpoint, 
+                json=payload, 
+                headers=headers, 
+                auth=(self.api_user, self.api_password),
+                timeout=60
+            )
+            
+            if response.status_code == 403:
+                logger.error("❌ PayUnit 403 Forbidden on Direct Pay. Headers: %s", response.headers)
+                return {"success": False, "message": "Request blocked by WAF"}
+            
+            if response.status_code == 400:
+                logger.error("❌ PayUnit 400 Bad Request. Body: %s", response.text)
+                return {"success": False, "message": f"Bad Request: {response.text}"}
+                
+            response.raise_for_status()
+            data = response.json()
+            
+            # If successful, it triggers USSD Push. Status is usually 'SUCCESS'
+            if data.get("status") == "SUCCESS":
+                logger.info("✅ PayUnit Direct Pay Success: USSD Push triggered for %s", phone_number)
+                return {
+                    "success": True,
+                    "message": "Payment prompt sent to your phone. Please confirm to complete transaction.",
+                    "data": data
+                }
+            else:
+                logger.error("❌ PayUnit Direct Pay Error: %s", data.get("message"))
+                return {"success": False, "message": data.get("message"), "data": data}
+                
+        except requests.exceptions.Timeout:
+            logger.error("❌ PayUnit Direct Pay Timeout (60s)")
+            return {"success": False, "message": "PayUnit server timed out. Please try again."}
+        except requests.exceptions.RequestException as e:
+            logger.error("❌ PayUnit Direct Pay Connection Error: %s", str(e))
+            return {"success": False, "message": str(e)}
+
     def verify_payment(self, t_id):
         """
         Optional: Verify a payment status using t_id if needed.

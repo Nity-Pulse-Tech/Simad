@@ -1,0 +1,77 @@
+{% extends "pages/user_dashboard/base.html" %} {% block dashboard_content %}
+<div class="mb-8">
+  <h3 class="text-2xl font-black text-slate-900 dark:text-slate-100 mb-2">
+    My QR Codes
+  </h3>
+  <p class="text-slate-500 dark:text-slate-400">
+    View and download QR codes for your Cash on Delivery orders.
+  </p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {% for order in orders %}
+  <div
+    class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm flex flex-col p-4"
+  >
+    <div class="flex items-center justify-between mb-4">
+      <span class="font-bold text-primary text-sm">#{{ order.reference }}</span>
+      <span class="text-xs text-slate-500"
+        >{{ order.created|date:"M d, Y H:i" }}</span
+      >
+    </div>
+
+    <div
+      class="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 flex items-center justify-center mb-4 aspect-square"
+    >
+      {% if order.qr_code %}
+      <img
+        src="{{ order.qr_code.url }}"
+        alt="Order QR Code"
+        class="max-w-full h-auto rounded shadow-sm border border-slate-100 dark:border-slate-700"
+      />
+      {% else %}
+      <div class="flex flex-col items-center gap-2 text-slate-400 text-xs">
+        <span class="material-symbols-outlined text-4xl">broken_image</span>
+        <span>QR Code not found</span>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="flex flex-col gap-2 mt-auto">
+      <p class="text-xs text-slate-600 dark:text-slate-400 font-medium">
+        Total:
+        <span class="text-slate-900 dark:text-slate-100 font-bold uppercase"
+          >{{ order.total }} XAF</span
+        >
+      </p>
+      <div class="flex gap-2 mt-2">
+        {% if order.qr_code %}
+        <a
+          href="{{ order.qr_code.url }}"
+          download="QR_{{ order.reference }}.png"
+          class="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-colors"
+        >
+          <span class="material-symbols-outlined text-sm">download</span>
+          Download
+        </a>
+        {% endif %}
+        <a
+          href="{% url 'users:order-detail' order.id %}"
+          class="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-lg hover:bg-slate-200 transition-colors"
+        >
+          View Order
+        </a>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div
+    class="col-span-full py-12 flex flex-col items-center justify-center gap-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700 text-slate-500"
+  >
+    <span class="material-symbols-outlined text-5xl">qr_code</span>
+    <p class="font-bold">No QR codes available yet.</p>
+    <p class="text-sm">QR codes are generated for Cash on Delivery orders.</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock dashboard_content %}

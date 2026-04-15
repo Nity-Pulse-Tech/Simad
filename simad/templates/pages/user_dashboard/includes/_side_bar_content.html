@@ -1,38 +1,89 @@
 <nav class="flex-1 px-4 space-y-1 mt-4">
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'dashboard' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}" href="{% url 'users:dashboard' %}">
-<span class="material-symbols-outlined {% if request.resolver_match.url_name == 'dashboard' %}fill-1{% endif %}">dashboard</span>
-<span>Dashboard</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'my-orders' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}" href="{% url 'users:my-orders' %}">
-<span class="material-symbols-outlined {% if request.resolver_match.url_name == 'my-orders' %}fill-1{% endif %}">shopping_bag</span>
-<span>My Orders</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'favorites' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}" href="{% url 'users:favorites' %}">
-<span class="material-symbols-outlined {% if request.resolver_match.url_name == 'favorites' %}fill-1{% endif %}">favorite</span>
-<span>Favorites</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'addresses' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}" href="{% url 'users:addresses' %}">
-<span class="material-symbols-outlined {% if request.resolver_match.url_name == 'addresses' %}fill-1{% endif %}">location_on</span>
-<span>Addresses</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'profile' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}" href="{% url 'users:profile' %}">
-<span class="material-symbols-outlined {% if request.resolver_match.url_name == 'profile' %}fill-1{% endif %}">person</span>
-<span>Profile</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'my-invoices' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}" href="{% url 'users:my-invoices' %}">
-<span class="material-symbols-outlined {% if request.resolver_match.url_name == 'my-invoices' %}fill-1{% endif %}">receipt_long</span>
-<span>Invoices</span>
-</a>
+  <a
+    class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'dashboard' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}"
+    href="{% url 'users:dashboard' %}"
+  >
+    <span
+      class="material-symbols-outlined {% if request.resolver_match.url_name == 'dashboard' %}fill-1{% endif %}"
+      >dashboard</span
+    >
+    <span>Dashboard</span>
+  </a>
+  <a
+    class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'my-orders' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}"
+    href="{% url 'users:my-orders' %}"
+  >
+    <span
+      class="material-symbols-outlined {% if request.resolver_match.url_name == 'my-orders' %}fill-1{% endif %}"
+      >shopping_bag</span
+    >
+    <span>My Orders</span>
+  </a>
+  <a
+    class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'favorites' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}"
+    href="{% url 'users:favorites' %}"
+  >
+    <span
+      class="material-symbols-outlined {% if request.resolver_match.url_name == 'favorites' %}fill-1{% endif %}"
+      >favorite</span
+    >
+    <span>Favorites</span>
+  </a>
+  <a
+    class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'addresses' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}"
+    href="{% url 'users:addresses' %}"
+  >
+    <span
+      class="material-symbols-outlined {% if request.resolver_match.url_name == 'addresses' %}fill-1{% endif %}"
+      >location_on</span
+    >
+    <span>Addresses</span>
+  </a>
+  <a
+    class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'profile' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}"
+    href="{% url 'users:profile' %}"
+  >
+    <span
+      class="material-symbols-outlined {% if request.resolver_match.url_name == 'profile' %}fill-1{% endif %}"
+      >person</span
+    >
+    <span>Profile</span>
+  </a>
+  <a
+    class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'my-qr-codes' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}"
+    href="{% url 'users:my-qr-codes' %}"
+  >
+    <span
+      class="material-symbols-outlined {% if request.resolver_match.url_name == 'my-qr-codes' %}fill-1{% endif %}"
+      >qr_code</span
+    >
+    <span>My QR Codes</span>
+  </a>
+  <a
+    class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.url_name == 'my-invoices' %}bg-primary/10 text-primary font-medium{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors{% endif %}"
+    href="{% url 'users:my-invoices' %}"
+  >
+    <span
+      class="material-symbols-outlined {% if request.resolver_match.url_name == 'my-invoices' %}fill-1{% endif %}"
+      >receipt_long</span
+    >
+    <span>Invoices</span>
+  </a>
 </nav>
 
 <div class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800">
-<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer">
-<div class="size-9 shrink-0 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden bg-cover bg-center" 
-     style="background-image: url('{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}https://ui-avatars.com/api/?name={{ user.full_name|default:user.email|urlencode }}&background=0284c7&color=fff{% endif %}')">
-</div>
-<div class="flex flex-col min-w-0">
-<span class="text-sm font-semibold truncate">{{ user.full_name|default:"Utilisateur" }}</span>
-<span class="text-xs text-slate-500 truncate">{{ user.email }}</span>
-</div>
-</div>
+  <div
+    class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
+  >
+    <div
+      class="size-9 shrink-0 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden bg-cover bg-center"
+      style="background-image: url('{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}https://ui-avatars.com/api/?name={{ user.full_name|default:user.email|urlencode }}&background=0284c7&color=fff{% endif %}')"
+    ></div>
+    <div class="flex flex-col min-w-0">
+      <span class="text-sm font-semibold truncate"
+        >{{ user.full_name|default:"Utilisateur" }}</span
+      >
+      <span class="text-xs text-slate-500 truncate">{{ user.email }}</span>
+    </div>
+  </div>
 </div>

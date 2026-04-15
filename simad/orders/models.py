@@ -102,6 +102,7 @@ class Order(SIMADBASEMODEL):
     note = models.TextField(_("Customer Note"), blank=True)
     coupon_code = models.CharField(_("Coupon Code"), max_length=50, blank=True)
     is_paid = models.BooleanField(_("Paid"), default=False)
+    qr_code = models.ImageField(_("Order QR Code"), upload_to="order_qrcodes/", null=True, blank=True)
 
     class Meta:
         verbose_name = _("Order")

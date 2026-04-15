@@ -15,6 +15,7 @@ from .views import (
     ProfileView,
     OrderDetailView,
     FavoritesView,
+    MyQRCodesView,
 )
 
 app_name = "users"
@@ -32,5 +33,6 @@ urlpatterns = [
     path("dashboard/invoices/", view=MyInvoiceView.as_view(), name="my-invoices"),
     path("dashboard/addresses/", view=AddressView.as_view(), name="addresses"),
     path("dashboard/profile/", view=ProfileView.as_view(), name="profile"),
+    path("dashboard/qr-codes/", view=MyQRCodesView.as_view(), name="my-qr-codes"),
     path("dashboard/orders/<uuid:pk>/", view=OrderDetailView.as_view(), name="order-detail"),
 ]

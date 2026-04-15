@@ -300,4 +300,12 @@ class ProfileView(LoginRequiredMixin, View):
                 logger.info("Password changed successfully for user %s", user.email)
                 messages.success(request, "Password changed successfully.")
 
-        return redirect("users:profile")
+class MyQRCodesView(LoginRequiredMixin, TemplateView):
+    template_name = "pages/user_dashboard/pages/my_qr_codes.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        orders_with_qr = self.request.user.orders.filter(qr_code__isnull=False).exclude(qr_code='').order_by('-created')
+        context['orders'] = orders_with_qr
+        logger.info("MyQRCodesView — loaded %d orders with QR codes for user %s", orders_with_qr.count(), self.request.user.email)
+        return context
