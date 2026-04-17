@@ -1353,6 +1353,7 @@ dependencies = [
     { name = "python-slugify" },
     { name = "qrcode", extra = ["pil"] },
     { name = "redis" },
+    { name = "stripe" },
     { name = "whitenoise" },
 ]
 
@@ -1400,6 +1401,7 @@ requires-dist = [
     { name = "python-slugify", specifier = "==8.0.4" },
     { name = "qrcode", extras = ["pil"], specifier = ">=8.2" },
     { name = "redis", specifier = "==6.4.0" },
+    { name = "stripe", specifier = "==11.5.0" },
     { name = "whitenoise", specifier = "==6.10.0" },
 ]
 
@@ -1577,6 +1579,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c4/68/79977123bb7be889ad680d79a40f339082c1978b5cfcf62c2d8d196873ac/starlette-0.52.1.tar.gz", hash = "sha256:834edd1b0a23167694292e94f597773bc3f89f362be6effee198165a35d62933", size = 2653702, upload-time = "2026-01-18T13:34:11.062Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/81/0d/13d1d239a25cbfb19e740db83143e95c772a1fe10202dda4b76792b114dd/starlette-0.52.1-py3-none-any.whl", hash = "sha256:0029d43eb3d273bc4f83a08720b4912ea4b071087a3b48db01b7c839f7954d74", size = 74272, upload-time = "2026-01-18T13:34:09.188Z" },
+]
+
+[[package]]
+name = "stripe"
+version = "11.5.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "requests" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/3c/49/902b7cb88e788754c529710598a5110242f788c8694ffbbacbf58a3c6882/stripe-11.5.0.tar.gz", hash = "sha256:bc3e0358ffc23d5ecfa8aafec1fa4f048ee8107c3237bcb00003e68c8c96fa02", size = 1386601, upload-time = "2025-01-27T21:32:49.971Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b2/76/a5a7b407da86ed47c41e88e8450ea4965e0a49a9cc301602edc6733382d7/stripe-11.5.0-py2.py3-none-any.whl", hash = "sha256:3b2cd47ed3002328249bff5cacaee38d5e756c3899ab425d3bd07acdaf32534a", size = 1633231, upload-time = "2025-01-27T21:32:47.156Z" },
 ]
 
 [[package]]

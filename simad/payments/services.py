@@ -204,3 +204,58 @@ class PayUnitService:
         # Note: Polling endpoint might be different, 
         # but the main integration flow uses return_url and notify_url.
         pass
+
+import stripe
+
+class StripeService:
+    """
+    Service class to handle interactions with Stripe API.
+    """
+
+    def __init__(self):
+        self.secret_key = getattr(settings, "STRIPE_SECRET_KEY", "")
+        stripe.api_key = self.secret_key
+
+    def create_payment_intent(self, amount, currency="xaf", metadata=None):
+        """
+        Creates a Stripe PaymentIntent.
+        Amount should be in the smallest unit of the currency (e.g., cents for USD, subunits for XAF).
+        Note: Stripe supports XAF, but it's a zero-decimal currency.
+        """
+        try:
+            intent = stripe.PaymentIntent.create(
+                amount=int(amount),
+                currency=currency.lower(),
+                metadata=metadata or {},
+                automatic_payment_methods={
+                    'enabled': True,
+                },
+            )
+            return {
+                "success": True,
+                "client_secret": intent.client_secret,
+                "intent_id": intent.id,
+                "data": intent
+            }
+        except stripe.error.StripeError as e:
+            logger.error("❌ Stripe Error: %s", str(e))
+            return {"success": False, "message": str(e)}
+
+    def construct_event(self, payload, sig_header):
+        """
+        Verifies and constructs a Stripe event from a webhook payload.
+        """
+        webhook_secret = getattr(settings, "STRIPE_WEBHOOK_SECRET", "")
+        try:
+            event = stripe.Webhook.construct_event(
+                payload, sig_header, webhook_secret
+            )
+            return {"success": True, "event": event}
+        except ValueError as e:
+            # Invalid payload
+            logger.error("❌ Stripe Webhook Error: Invalid payload - %s", str(e))
+            return {"success": False, "message": "Invalid payload"}
+        except stripe.error.SignatureVerificationError as e:
+            # Invalid signature
+            logger.error("❌ Stripe Webhook Error: Invalid signature - %s", str(e))
+            return {"success": False, "message": "Invalid signature"}

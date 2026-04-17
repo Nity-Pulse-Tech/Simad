@@ -8,7 +8,7 @@ from django.urls import reverse
 from simad.users.models import Address
 from simad.orders.models import Order, Payment
 from simad.global_data.enum import PaymentMethodChoices, PaymentStatusChoices
-from simad.payments.services import PayUnitService
+from simad.payments.services import PayUnitService, StripeService
 import qrcode
 from io import BytesIO
 from django.core.files.base import ContentFile
@@ -260,6 +260,54 @@ class PaymentView(TemplateView):
                 payment.gateway_response = result.get('data', {})
                 payment.save()
                 messages.error(request, f"Payment failed: {result['message']}")
+                return self.get(request, *args, **kwargs)
+        
+        elif payment_method == 'card':
+            # Handle Stripe Payment
+            stripe_service = StripeService()
+            # Stripe amount is in integer subunits (XAF is zero-decimal, so amount is base amount)
+            amount = int(order.total)
+            
+            # Create a pending Payment record
+            payment_ref = f"ST-{uuid.uuid4().hex[:12].upper()}"
+            payment = Payment.objects.create(
+                order=order,
+                user=request.user,
+                reference=payment_ref,
+                method=PaymentMethodChoices.CREDIT_CARD,
+                status=PaymentStatusChoices.PENDING,
+                amount=order.total,
+                currency="XAF"
+            )
+            
+            result = stripe_service.create_payment_intent(
+                amount=amount,
+                currency="XAF",
+                metadata={
+                    "order_reference": order.reference,
+                    "payment_reference": payment_ref,
+                    "user_email": request.user.email if request.user.is_authenticated else ""
+                }
+            )
+            
+            if result['success']:
+                payment.gateway_response = {"intent_id": result['intent_id']}
+                payment.save()
+                
+                context = self.get_context_data(**kwargs)
+                context.update({
+                    'client_secret': result['client_secret'],
+                    'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY,
+                    'payment_method': 'card'
+                })
+                # We return the same page but with the client_secret to trigger the Stripe confirm flow
+                from django.shortcuts import render
+                return render(request, self.template_name, context)
+            else:
+                payment.status = PaymentStatusChoices.FAILED
+                payment.gateway_response = result
+                payment.save()
+                messages.error(request, f"Stripe Error: {result['message']}")
                 return self.get(request, *args, **kwargs)
         
         else:
