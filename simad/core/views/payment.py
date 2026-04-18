@@ -2,7 +2,7 @@ import logging
 import uuid
 from django.views.generic import TemplateView
 from django.conf import settings
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
 from simad.users.models import Address
@@ -190,16 +190,12 @@ class PaymentView(TemplateView):
             )
             order.status = "PROCESSING"
 
-            # Generate QR Code
+            # Generate QR Code Link
             now = timezone.now()
-            items_summary = "\n".join([f"- {item.product_name} (x{item.quantity})" for item in order.items.all()])
-            qr_data = (
-                f"ORDER SUMMARY\n"
-                f"Order ID: {order.reference}\n"
-                f"Date: {now.strftime('%Y-%m-%d %H:%M:%S')}\n\n"
-                f"Items:\n{items_summary}\n\n"
-                f"Total: {order.total} XAF"
+            qr_link = request.build_absolute_uri(
+                reverse('core:order-public-summary', kwargs={'reference': order.reference})
             )
+            qr_data = qr_link
             
             qr = qrcode.QRCode(version=1, box_size=10, border=5)
             qr.add_data(qr_data)
@@ -212,7 +208,7 @@ class PaymentView(TemplateView):
             order.qr_code.save(file_name, ContentFile(buffer.getvalue()), save=False)
             
             order.save()
-            return redirect('core:payment-success')
+            return redirect('core:cod-success')
             
         elif payment_method in ['mtn_momo', 'orange_money']:
             phone_number = request.POST.get(f"{payment_method.split('_')[0]}_phone")
@@ -301,7 +297,6 @@ class PaymentView(TemplateView):
                     'payment_method': 'card'
                 })
                 # We return the same page but with the client_secret to trigger the Stripe confirm flow
-                from django.shortcuts import render
                 return render(request, self.template_name, context)
             else:
                 payment.status = PaymentStatusChoices.FAILED
@@ -338,6 +333,29 @@ class PaymentSuccessView(TemplateView):
         )
         return super().get(request, *args, **kwargs)
 
+class CODSuccessView(TemplateView):
+    template_name = "pages/home/payments/cod_success.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order_ref = self.request.session.get('order_ref')
+        if order_ref:
+            try:
+                order = Order.objects.prefetch_related('items__product').get(reference=order_ref)
+                context['order'] = order
+                context['items'] = order.items.all()
+                logger.info("CODSuccessView — loaded order %s for display", order_ref)
+            except Order.DoesNotExist:
+                logger.error("CODSuccessView — order '%s' not found", order_ref)
+        return context
+
+    def get(self, request, *args, **kwargs):
+        logger.info(
+            "CODSuccessView GET — user=%s",
+            request.user if request.user.is_authenticated else "Anonymous",
+        )
+        return super().get(request, *args, **kwargs)
+
 class PaymentFailureView(TemplateView):
     template_name = "pages/home/payments/payment_failure.html"
 
@@ -348,3 +366,19 @@ class PaymentFailureView(TemplateView):
             request.META.get("REMOTE_ADDR"),
         )
         return super().get(request, *args, **kwargs)
+
+class OrderPublicSummaryView(TemplateView):
+    template_name = "pages/home/orders/order_public_summary.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reference = self.kwargs.get('reference')
+        if reference:
+            try:
+                order = Order.objects.prefetch_related('items__product').get(reference=reference)
+                context['order'] = order
+                context['items'] = order.items.all()
+                logger.info("OrderPublicSummaryView — loaded order %s for display", reference)
+            except Order.DoesNotExist:
+                logger.error("OrderPublicSummaryView — order '%s' not found", reference)
+        return context

@@ -425,8 +425,22 @@
     if (mtnInput) mtnInput.required = selected === "mtn_momo";
     if (orangeInput) orangeInput.required = selected === "orange_money";
 
-    if (selected !== "mtn_momo" && mtnInput) mtnInput.value = "";
     if (selected !== "orange_money" && orangeInput) orangeInput.value = "";
+
+    // Auto-submit if Cash on Delivery is selected
+    if (selected === "cod") {
+      const form = document.getElementById("payment-form");
+      const submitBtn = form.querySelector('button[type="submit"]');
+
+      // Update UI to show processing
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span> Traitement...';
+      }
+
+      // Submit the form
+      form.submit();
+    }
   }
 
   paymentRadios.forEach((radio) => {
