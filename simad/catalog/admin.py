@@ -57,7 +57,6 @@ class ProductAdmin(admin.ModelAdmin):
     ]
     list_filter = [
         "product_type", "is_available", "is_featured", "status", "category",
-        ("stock_quantity", admin.EmptyFieldListFilter),  # Just a placeholder, better use custom filter
     ]
     search_fields = ["name", "sku", "barcode"]
     prepopulated_fields = {"slug": ("name",)}
