@@ -1,25 +1,52 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
-<main class="container mx-auto px-6 md:px-40 py-12">
+{% extends 'pages/base.html' %} {% load static %} {% block content %}
+<main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Progress Tracker -->
+  <div class="mb-10 max-w-2xl mx-auto">
+    <div class="flex items-center justify-between mb-2">
+      <a
+        href="{% url 'core:cart' %}"
+        class="text-primary font-bold text-sm hover:underline"
+        >Panier</a
+      >
+      <a
+        href="{% url 'core:order-summary' %}"
+        class="text-primary font-bold text-sm hover:underline"
+        >Livraison</a
+      >
+      <span class="text-primary font-bold text-sm">Paiement</span>
+    </div>
+    <div class="relative h-2 w-full bg-slate-200 rounded-full overflow-hidden">
+      <div
+        class="absolute top-0 left-0 h-full bg-primary transition-all duration-500"
+        style="width: 100%"
+      ></div>
+    </div>
+    <p class="text-center text-xs text-slate-500 mt-4">
+      Étape 3 sur 3 : Mode de paiement
+    </p>
+  </div>
+
   <div class="flex flex-col lg:flex-row gap-8">
     <!-- Left Column: Payment Methods -->
-    <div class="flex-1 space-y-8">
-      <div>
-        <h1 class="text-3xl font-black text-slate-900 mb-2">Paiement</h1>
-        <p class="text-slate-500 font-medium">
-          Choisissez votre mode de paiement préféré pour finaliser votre
-          commande.
-        </p>
-      </div>
+    <div class="flex-1 space-y-6">
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="material-symbols-outlined text-primary">payment</span>
+          <h2 class="text-2xl font-bold">Mode de paiement</h2>
+        </div>
 
-      <form
-        id="payment-form"
-        method="POST"
-        action="{% url 'core:payment' %}"
-        class="space-y-4"
-      >
-        {% csrf_token %}
-        <div class="grid grid-cols-1 gap-4">
-          <!-- Mobile Money (PayUnit) -->
+        <p class="text-slate-600 mb-6 text-sm">
+          Veuillez sélectionner votre mode de paiement préféré ci-dessous.
+        </p>
+
+        <form
+          class="space-y-4"
+          id="payment-form"
+          method="POST"
+          action="{% url 'core:payment' %}"
+        >
+          {% csrf_token %}
+          <!-- MTN MoMo -->
           <label class="relative block cursor-pointer group">
             <input
               type="radio"
@@ -34,7 +61,7 @@
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
                   <div
-                    class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center shrink-0"
+                    class="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center shrink-0"
                   >
                     <img
                       src="https://upload.wikimedia.org/wikipedia/commons/9/93/MTN_Logo.svg"
@@ -45,7 +72,8 @@
                   <div>
                     <h3 class="font-bold text-slate-900">MTN Mobile Money</h3>
                     <p class="text-xs text-slate-500">
-                      Paiement rapide et sécurisé via MTN
+                      Payez en toute sécurité directement depuis votre compte
+                      MTN
                     </p>
                   </div>
                 </div>
@@ -58,7 +86,6 @@
                 </div>
               </div>
 
-              <!-- Phone number input for MTN -->
               <div
                 id="mtn_momo_wrapper"
                 class="phone-wrapper mt-4 hidden animate-fade-in-down"
@@ -87,6 +114,7 @@
             </div>
           </label>
 
+          <!-- Orange Money -->
           <label class="relative block cursor-pointer group">
             <input
               type="radio"
@@ -100,7 +128,7 @@
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
                   <div
-                    class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center shrink-0"
+                    class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center shrink-0"
                   >
                     <img
                       src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Orange_logo.svg"
@@ -111,7 +139,7 @@
                   <div>
                     <h3 class="font-bold text-slate-900">Orange Money</h3>
                     <p class="text-xs text-slate-500">
-                      Paiement sécurisé via Orange Money
+                      Paiement rapide et sécurisé via votre compte Orange
                     </p>
                   </div>
                 </div>
@@ -124,7 +152,6 @@
                 </div>
               </div>
 
-              <!-- Phone number input for Orange -->
               <div
                 id="orange_money_wrapper"
                 class="phone-wrapper mt-4 hidden animate-fade-in-down"
@@ -176,7 +203,7 @@
                   <div>
                     <h3 class="font-bold text-slate-900">Carte Bancaire</h3>
                     <p class="text-xs text-slate-500">
-                      Stripe : Visa, Mastercard, AMEX
+                      Visa, Mastercard, AMEX (via Stripe)
                     </p>
                   </div>
                 </div>
@@ -216,7 +243,7 @@
                       Paiement à la livraison
                     </h3>
                     <p class="text-xs text-slate-500">
-                      Payez en espèces lors de la réception
+                      Payez en espèces lors de la réception de votre commande
                     </p>
                   </div>
                 </div>
@@ -230,70 +257,87 @@
               </div>
             </div>
           </label>
-        </div>
-      </form>
+        </form>
+      </div>
+
+      <div class="flex items-center justify-between pt-4">
+        <a
+          href="{% url 'core:order-summary' %}"
+          class="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors font-semibold"
+        >
+          <span class="material-symbols-outlined text-base">arrow_back</span>
+          Retour à la livraison
+        </a>
+      </div>
     </div>
 
     <!-- Right Column: Order Summary -->
-    <aside class="w-full lg:w-[400px]">
+    <aside class="w-full lg:w-[400px] shrink-0">
       <div
-        class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden sticky top-32"
+        class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden sticky top-24"
       >
-        <div class="p-6 border-b border-slate-100 bg-slate-50/50">
-          <h2 class="text-xl font-black text-slate-900">
-            Résumé de la commande
-          </h2>
+        <div class="p-6 border-b border-slate-100">
+          <h3 class="text-lg font-bold">Résumé de la commande</h3>
+          <p class="text-sm text-slate-500 mt-1">
+            {{ items.count }} article{{ items.count|pluralize }} dans votre
+            panier
+          </p>
         </div>
-
         <div class="p-6 space-y-4 max-h-[400px] overflow-y-auto">
           {% for item in items %}
-          <div class="flex items-center gap-4">
+          <div class="flex gap-4">
             <div
-              class="w-16 h-16 bg-slate-100 rounded-xl overflow-hidden shrink-0 border border-slate-200"
+              class="w-16 h-16 bg-slate-100 rounded-lg overflow-hidden flex-shrink-0 border border-slate-200"
             >
-              {% if item.product.main_image %}
               <img
-                src="{{ item.product.main_image.url }}"
-                alt="{{ item.product_name }}"
                 class="w-full h-full object-cover"
+                src="{% if item.product.main_image %}{{ item.product.main_image.url }}{% else %}{% static 'images/placeholder.webp' %}{% endif %}"
+                alt="{{ item.product_name }}"
               />
-              {% endif %}
             </div>
-            <div class="flex-1 min-w-0">
-              <h4 class="font-bold text-slate-900 truncate text-sm">
-                {{ item.product_name }}
-              </h4>
-              <p class="text-xs text-slate-500 font-medium">
-                Quantité : {{ item.quantity }}
-              </p>
+            <div class="flex-1 flex flex-col justify-between min-w-0">
+              <div>
+                <h4
+                  class="text-sm font-bold text-slate-900 leading-tight truncate"
+                >
+                  {{ item.product_name }}
+                </h4>
+                <p class="text-xs text-slate-500 font-medium">
+                  Qté : {{ item.quantity }}
+                </p>
+              </div>
               <p class="text-sm font-bold text-primary">
                 {{ item.unit_price|floatformat:0 }} FCFA
               </p>
             </div>
           </div>
           {% endfor %}
-        </div>
 
-        <div class="p-6 bg-slate-50 border-t border-slate-100 space-y-3">
-          <div class="flex justify-between text-sm">
-            <span class="text-slate-600 font-medium">Sous-total</span>
-            <span class="font-bold text-slate-900"
-              >{{ order.subtotal|floatformat:0 }} FCFA</span
-            >
-          </div>
-          <div class="flex justify-between text-sm">
-            <span class="text-slate-600 font-medium">Frais de livraison</span>
-            <span class="font-bold text-green-600"
-              >{{ order.shipping_cost|floatformat:0 }} FCFA</span
-            >
-          </div>
+          <!-- Calculations -->
           <div
-            class="flex justify-between text-lg font-black pt-2 border-t border-slate-200 text-slate-900"
+            class="px-6 py-4 bg-slate-50 border-t border-slate-100 space-y-2 rounded-lg"
           >
-            <span>Total</span>
-            <span class="text-primary"
-              >{{ order.total|floatformat:0 }} FCFA</span
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-600 font-medium">Sous-total</span>
+              <span class="font-bold text-slate-900"
+                >{{ order.subtotal|floatformat:0 }} FCFA</span
+              >
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-600 font-medium">Frais de livraison</span>
+              <span class="font-bold text-green-600"
+                >{{ order.shipping_cost|floatformat:0 }} FCFA</span
+              >
+            </div>
+
+            <div
+              class="flex justify-between text-lg font-black pt-2 border-t border-slate-200 text-slate-900"
             >
+              <span>Total</span>
+              <span class="text-primary"
+                >{{ order.total|floatformat:0 }} FCFA</span
+              >
+            </div>
           </div>
         </div>
 
@@ -312,11 +356,11 @@
           >
             <span class="material-symbols-outlined text-sm">verified_user</span>
             <span class="text-[10px] uppercase font-bold tracking-widest"
-              >Secure Checkout</span
+              >Paiement Sécurisé</span
             >
           </div>
           <p class="text-[10px] text-center text-slate-400">
-            Your payment information is encrypted and secure.
+            Vos informations de paiement sont cryptées et sécurisées.
           </p>
         </div>
       </div>
@@ -325,17 +369,6 @@
 </main>
 
 <style>
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  .animate-spin {
-    animation: spin 1s linear infinite;
-  }
   @keyframes fadeInDown {
     from {
       opacity: 0;
@@ -348,6 +381,17 @@
   }
   .animate-fade-in-down {
     animation: fadeInDown 0.3s ease-out forwards;
+  }
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .animate-spin {
+    animation: spin 1s linear infinite;
   }
 </style>
 
@@ -363,18 +407,24 @@
       'input[name="payment_method"]:checked',
     );
     if (!checkedEl) return;
+
     const selected = checkedEl.value;
 
-    document
-      .querySelectorAll(".phone-wrapper")
-      .forEach((wrapper) => wrapper.classList.add("hidden"));
+    // Hide all phone wrappers
+    document.querySelectorAll(".phone-wrapper").forEach((wrapper) => {
+      wrapper.classList.add("hidden");
+    });
+
+    // Show the active one
     const activeWrapper = document.getElementById(selected + "_wrapper");
-    if (activeWrapper) activeWrapper.classList.remove("hidden");
+    if (activeWrapper) {
+      activeWrapper.classList.remove("hidden");
+    }
 
     if (mtnInput) mtnInput.required = selected === "mtn_momo";
     if (orangeInput) orangeInput.required = selected === "orange_money";
 
-    // Auto-submit if Cash on Delivery is selected
+    // Auto-submit if COD is selected (user previously had this, keeping it but showing loader)
     if (selected === "cod") {
       const form = document.getElementById("payment-form");
       const submitBtn = form.querySelector('button[type="submit"]');
@@ -387,13 +437,14 @@
     }
   }
 
-  paymentRadios.forEach((radio) =>
-    radio.addEventListener("change", updateRequirements),
-  );
+  paymentRadios.forEach((radio) => {
+    radio.addEventListener("change", updateRequirements);
+  });
 
+  // Handle initial form submission UI
   const paymentForm = document.getElementById("payment-form");
   paymentForm.addEventListener("submit", function () {
-    const submitBtn = this.querySelector('button[type="submit"]');
+    const submitBtn = document.querySelector('button[type="submit"]');
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.innerHTML =
