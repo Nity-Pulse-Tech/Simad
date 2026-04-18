@@ -1,0 +1,114 @@
+{% extends 'pages/base.html' %} {% load static %} {% block content %}
+<main class="flex-1 justify-center py-8 px-4 md:px-0 bg-slate-50 min-h-screen">
+  <div
+    class="max-w-[640px] mx-auto bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-10"
+  >
+    <!-- Polling Icon & Message -->
+    <div class="flex flex-col items-center text-center space-y-4 mb-8">
+      <div
+        class="size-20 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mb-2 animate-spin-slow"
+      >
+        <span class="material-symbols-outlined text-[48px] font-bold"
+          >sync</span
+        >
+      </div>
+      <h1 class="text-slate-900 text-3xl font-bold leading-tight">
+        Confirmation requise
+      </h1>
+      <p class="text-slate-600 text-base max-w-md">
+        Un message de confirmation a été envoyé à votre téléphone. Veuillez
+        entrer votre code PIN pour valider le paiement de la commande
+        <span class="font-semibold text-primary">#{{ order.reference }}</span>.
+      </p>
+
+      <div
+        class="p-4 bg-amber-50 rounded-lg border border-amber-200 flex flex-col items-center gap-2"
+      >
+        <p class="text-amber-800 text-sm font-bold">
+          En attente de votre validation...
+        </p>
+        <div class="flex gap-1">
+          <div
+            class="w-1.5 h-1.5 bg-amber-400 rounded-full animate-bounce"
+            style="animation-delay: 0s"
+          ></div>
+          <div
+            class="w-1.5 h-1.5 bg-amber-400 rounded-full animate-bounce"
+            style="animation-delay: 0.2s"
+          ></div>
+          <div
+            class="w-1.5 h-1.5 bg-amber-400 rounded-full animate-bounce"
+            style="animation-delay: 0.4s"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="space-y-4 mb-8">
+      <h3 class="text-slate-900 font-bold flex items-center gap-2">
+        <span class="material-symbols-outlined">info</span>
+        Instructions
+      </h3>
+      <ul class="text-sm text-slate-600 space-y-2 list-disc pl-5">
+        <li>Gardez votre téléphone à portée de main.</li>
+        <li>
+          Ne fermez pas cette page, elle s'actualisera automatiquement une fois
+          le paiement validé.
+        </li>
+        <li>
+          Si vous n'avez pas reçu de message après une minute, veuillez
+          réessayer.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col gap-3">
+      <a
+        href="{% url 'users:dashboard' %}"
+        class="w-full h-12 bg-white text-slate-600 font-semibold border border-slate-200 rounded-lg flex items-center justify-center gap-2 hover:bg-slate-50 transition-all"
+      >
+        Aller au Tableau de bord
+      </a>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Poll for status via AJAX for better UX
+  async function checkStatus() {
+    try {
+      const response = await fetch(
+        "{% url 'core:payment-status' %}?reference={{ payment.reference }}",
+      );
+      const data = await response.json();
+      if (data.is_paid) {
+        window.location.href = "{% url 'core:payment-success' %}";
+      } else {
+        setTimeout(checkStatus, 3000);
+      }
+    } catch (e) {
+      console.error("Polling error:", e);
+      setTimeout(checkStatus, 5000);
+    }
+  }
+
+  // Start polling
+  checkStatus();
+</script>
+
+<style>
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .animate-spin-slow {
+    animation: spin-slow 3s linear infinite;
+  }
+</style>
+{% endblock %}

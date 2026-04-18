@@ -6,7 +6,7 @@ from simad.global_data.enum import DeliveryMethodChoices
 from simad.global_data.enum import DeliveryStatusChoices
 from simad.global_data.enum import OrderStatusChoices
 from simad.global_data.enum import OrderTypeChoices
-from simad.global_data.enum import PaymentMethodChoices
+from simad.global_data.enum import PaymentMethodChoices, PaymentProviderChoices
 from simad.global_data.enum import PaymentStatusChoices
 from simad.users.models import Address
 from simad.users.models import User
@@ -168,8 +168,26 @@ class Payment(SIMADBASEMODEL):
     phone_number = models.CharField(
         _("Mobile Money Phone"), max_length=20, blank=True
     )
+    provider = models.CharField(
+        _("Payment Provider"),
+        max_length=30,
+        choices=PaymentProviderChoices.choices,
+        default=PaymentProviderChoices.PAYUNIT,
+    )
+    stripe_payment_intent_id = models.CharField(
+        _("Stripe Payment Intent ID"), max_length=255, blank=True, null=True
+    )
+    stripe_checkout_session_id = models.CharField(
+        _("Stripe Checkout Session ID"), max_length=255, blank=True, null=True
+    )
+    webhook_events = models.JSONField(
+        _("Webhook Events"), default=list, blank=True
+    )
     gateway_response = models.JSONField(
         _("Gateway Response"), default=dict, blank=True
+    )
+    metadata = models.JSONField(
+        _("Metadata"), default=dict, blank=True
     )
     paid_at = models.DateTimeField(_("Paid At"), null=True, blank=True)
 

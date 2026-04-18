@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.urls import reverse
 from simad.users.models import Address
 from simad.orders.models import Order, Payment
-from simad.global_data.enum import PaymentMethodChoices, PaymentStatusChoices
+from simad.global_data.enum import PaymentMethodChoices, PaymentStatusChoices, PaymentProviderChoices
 from simad.payments.services import PayUnitService, StripeService
 import qrcode
 from io import BytesIO
@@ -184,6 +184,7 @@ class PaymentView(TemplateView):
                 user=request.user,
                 reference=f"PAY-{uuid.uuid4().hex[:8].upper()}",
                 method=PaymentMethodChoices.CASH_ON_DELIVERY,
+                provider=PaymentProviderChoices.MANUAL,
                 status=PaymentStatusChoices.PENDING,
                 amount=order.total,
                 currency="XAF"
@@ -247,10 +248,17 @@ class PaymentView(TemplateView):
             
             if result['success']:
                 payment.gateway_response = result['data']
+                payment.status = PaymentStatusChoices.PROCESSING
                 payment.save()
                 messages.success(request, result['message'])
-                # Redirect to success page or stay on page with instructions
-                return redirect('core:payment-success')
+                # Render specialized polling page for PayUnit
+                context = self.get_context_data(**kwargs)
+                context.update({
+                    'payment': payment,
+                    'order': order,
+                    'items': order.items.all()
+                })
+                return render(request, "pages/home/payments/payment_polling.html", context)
             else:
                 payment.status = PaymentStatusChoices.FAILED
                 payment.gateway_response = result.get('data', {})
@@ -259,10 +267,8 @@ class PaymentView(TemplateView):
                 return self.get(request, *args, **kwargs)
         
         elif payment_method == 'card':
-            # Handle Stripe Payment
+            # Handle Stripe Checkout Redirect
             stripe_service = StripeService()
-            # Stripe amount is in integer subunits (XAF is zero-decimal, so amount is base amount)
-            amount = int(order.total)
             
             # Create a pending Payment record
             payment_ref = f"ST-{uuid.uuid4().hex[:12].upper()}"
@@ -271,33 +277,30 @@ class PaymentView(TemplateView):
                 user=request.user,
                 reference=payment_ref,
                 method=PaymentMethodChoices.CREDIT_CARD,
+                provider=PaymentProviderChoices.STRIPE,
                 status=PaymentStatusChoices.PENDING,
                 amount=order.total,
                 currency="XAF"
             )
             
-            result = stripe_service.create_payment_intent(
-                amount=amount,
-                currency="XAF",
-                metadata={
-                    "order_reference": order.reference,
-                    "payment_reference": payment_ref,
-                    "user_email": request.user.email if request.user.is_authenticated else ""
-                }
+            success_url = request.build_absolute_uri(reverse('core:payment-success')) + "?session_id={CHECKOUT_SESSION_ID}"
+            cancel_url = request.build_absolute_uri(reverse('core:payment')) # Redirect back to checkout
+            
+            result = stripe_service.create_checkout_session(
+                order=order,
+                success_url=success_url,
+                cancel_url=cancel_url,
+                payment_reference=payment_ref,
+                customer_email=request.user.email if request.user.is_authenticated else None
             )
             
             if result['success']:
-                payment.gateway_response = {"intent_id": result['intent_id']}
+                payment.stripe_checkout_session_id = result['session_id']
+                payment.status = PaymentStatusChoices.PROCESSING
                 payment.save()
                 
-                context = self.get_context_data(**kwargs)
-                context.update({
-                    'client_secret': result['client_secret'],
-                    'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY,
-                    'payment_method': 'card'
-                })
-                # We return the same page but with the client_secret to trigger the Stripe confirm flow
-                return render(request, self.template_name, context)
+                # Redirect to Stripe-hosted Checkout Page
+                return redirect(result['url'])
             else:
                 payment.status = PaymentStatusChoices.FAILED
                 payment.gateway_response = result
@@ -310,7 +313,7 @@ class PaymentView(TemplateView):
             return self.get(request, *args, **kwargs)
 
 class PaymentSuccessView(TemplateView):
-    template_name = "pages/home/payments/payment_succes.html"
+    template_name = "pages/home/payments/payment_success.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -326,6 +329,42 @@ class PaymentSuccessView(TemplateView):
         return context
 
     def get(self, request, *args, **kwargs):
+        session_id = request.GET.get('session_id')
+        if session_id:
+            from simad.payments.services import StripeService
+            from simad.orders.models import Order, Payment
+            from simad.global_data.enum import PaymentStatusChoices
+            import django.utils.timezone as timezone
+            
+            stripe_service = StripeService()
+            result = stripe_service.retrieve_checkout_session(session_id)
+            
+            if result['success']:
+                session = result['data']
+                if session.payment_status == 'paid':
+                    order_ref = session.client_reference_id
+                    try:
+                        order = Order.objects.get(reference=order_ref)
+                        if not order.is_paid:
+                            order.is_paid = True
+                            order.save()
+                            
+                            # Update payment record
+                            payment = Payment.objects.filter(
+                                order=order, 
+                                stripe_checkout_session_id=session_id
+                            ).first()
+                            if payment:
+                                payment.status = PaymentStatusChoices.SUCCEEDED
+                                payment.paid_at = timezone.now()
+                                payment.save()
+                                
+                            logger.info("PaymentSuccessView — confirmed Stripe payment immediately for %s", order_ref)
+                    except Order.DoesNotExist:
+                        logger.error("PaymentSuccessView — order %s not found during Stripe check", order_ref)
+                    except Exception as e:
+                        logger.error("PaymentSuccessView — error during Stripe check: %s", str(e))
+
         logger.info(
             "PaymentSuccessView GET — user=%s, IP=%s",
             request.user if request.user.is_authenticated else "Anonymous",

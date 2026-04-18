@@ -1,12 +1,18 @@
 import json
 import logging
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+import uuid
+from django.db import transaction
+from django.http import JsonResponse, HttpResponse
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+from django.shortcuts import get_object_or_404
+
 from simad.orders.models import Payment, Order
-from simad.global_data.enum import PaymentStatusChoices, OrderStatusChoices
-from django.utils import timezone
+from simad.global_data.enum import PaymentStatusChoices, PaymentProviderChoices, PaymentMethodChoices
+from simad.payments.services import StripeService
 
 logger = logging.getLogger(__name__)
 
@@ -22,8 +28,6 @@ class PayUnitWebhookView(View):
             data = json.loads(request.body)
             logger.debug("Webhook Data: %s", data)
             
-            # PayUnit notification payload fields (assuming based on common patterns)
-            # You might need to adjust these based on actual PayUnit behavior
             transaction_id = data.get('transaction_id')
             status = data.get('status') # Usually 'SUCCESS' or 'FAILED'
             
@@ -34,8 +38,12 @@ class PayUnitWebhookView(View):
             try:
                 payment = Payment.objects.get(reference=transaction_id)
                 
+                # Check if already processed
+                if payment.status in [PaymentStatusChoices.SUCCEEDED, PaymentStatusChoices.FAILED]:
+                    return JsonResponse({"status": "ok", "message": "Already processed"})
+
                 if status == 'SUCCESS':
-                    payment.status = PaymentStatusChoices.COMPLETED
+                    payment.status = PaymentStatusChoices.SUCCEEDED
                     payment.paid_at = timezone.now()
                     payment.gateway_response = data
                     payment.save()
@@ -43,7 +51,7 @@ class PayUnitWebhookView(View):
                     # Update Order status
                     order = payment.order
                     order.is_paid = True
-                    # order.status = OrderStatusChoices.CONFIRMED # Or PROCESSING
+                    order.status = "PROCESSING"
                     order.save()
                     
                     logger.info("Payment %s marked as SUCCESS via Webhook", transaction_id)
@@ -61,22 +69,107 @@ class PayUnitWebhookView(View):
                 
         except json.JSONDecodeError:
             logger.error("Invalid JSON in PayUnit webhook")
-            return JsonResponse({"status": "success"})
+            return JsonResponse({"status": "error", "message": "Invalid JSON"}, status=400)
         except Exception as e:
             logger.error(f"Error in PayUnitWebhookView: {str(e)}")
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from simad.payments.services import StripeService
-from simad.orders.models import Order, Payment
-from simad.global_data.enum import PaymentStatusChoices
+@method_decorator(csrf_exempt, name='dispatch')
+class CreateStripePaymentIntentView(View):
+    """
+    Creates a Stripe PaymentIntent and returns the client_secret.
+    """
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return JsonResponse({"error": "Authentication required"}, status=401)
+        
+        try:
+            data = json.loads(request.body)
+            order_reference = data.get('order_reference')
+            
+            if not order_reference:
+                return JsonResponse({"error": "order_reference is required"}, status=400)
+            
+            order = get_object_or_404(Order, reference=order_reference, user=request.user)
+            
+            # Check if there's already an active payment for this order
+            # We allow retrying if the previous one failed or was canceled
+            
+            with transaction.atomic():
+                payment_ref = f"ST-{uuid.uuid4().hex[:12].upper()}"
+                payment = Payment.objects.create(
+                    order=order,
+                    user=request.user,
+                    reference=payment_ref,
+                    method=PaymentMethodChoices.CREDIT_CARD,
+                    provider=PaymentProviderChoices.STRIPE,
+                    status=PaymentStatusChoices.PENDING,
+                    amount=order.total,
+                    currency="XAF"
+                )
+                
+                stripe_service = StripeService()
+                result = stripe_service.create_payment_intent(
+                    amount=int(order.total),
+                    currency="XAF",
+                    metadata={
+                        "order_reference": order.reference,
+                        "payment_reference": payment_ref,
+                        "user_id": str(request.user.id)
+                    },
+                    idempotency_key=payment_ref
+                )
+                
+                if result['success']:
+                    payment.stripe_payment_intent_id = result['intent_id']
+                    payment.status = PaymentStatusChoices.PROCESSING
+                    payment.save()
+                    
+                    return JsonResponse({
+                        "client_secret": result['client_secret'],
+                        "payment_reference": payment_ref,
+                        "intent_id": result['intent_id']
+                    })
+                else:
+                    payment.status = PaymentStatusChoices.FAILED
+                    payment.gateway_response = result
+                    payment.save()
+                    return JsonResponse({"error": result['message']}, status=400)
+                    
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+        except Exception as e:
+            logger.exception("Error creating payment intent")
+            return JsonResponse({"error": "Internal server error"}, status=500)
+
+class GetPaymentStatusView(View):
+    """
+    Returns the current status of a payment.
+    """
+    def get(self, request, *args, **kwargs):
+        payment_reference = request.GET.get('reference')
+        if not payment_reference:
+            return JsonResponse({"error": "reference is required"}, status=400)
+        
+        payment = get_object_or_404(Payment, reference=payment_reference)
+        
+        # Security check: only the owner or staff can see status
+        if payment.user != request.user and not request.user.is_staff:
+             return JsonResponse({"error": "Permission denied"}, status=403)
+
+        return JsonResponse({
+            "reference": payment.reference,
+            "status": payment.status,
+            "status_display": payment.get_status_display(),
+            "is_paid": payment.status == PaymentStatusChoices.SUCCEEDED,
+            "order_reference": payment.order.reference
+        })
 
 @method_decorator(csrf_exempt, name='dispatch')
 class StripeWebhookView(View):
     """
     Webhook handler for Stripe events.
+    Source of truth for payment confirmation.
     """
     def post(self, request, *args, **kwargs):
         payload = request.body
@@ -86,45 +179,97 @@ class StripeWebhookView(View):
         result = stripe_service.construct_event(payload, sig_header)
         
         if not result['success']:
+            logger.error(f"Webhook Signature Verification Failed: {result.get('message')}")
             return HttpResponse(status=400)
             
         event = result['event']
+        event_id = event['id']
         
         # Handle the event
+        # 1. Success
         if event['type'] == 'payment_intent.succeeded':
             payment_intent = event['data']['object']
-            logger.info(f"✅ Stripe Webhook: PaymentIntent {payment_intent['id']} succeeded")
-            
-            # Update Payment and Order status
+            self._process_payment_success(payment_intent, event_id)
+
+        # 2. Failure
+        elif event['type'] == 'payment_intent.payment_failed':
+            payment_intent = event['data']['object']
+            self._process_payment_failure(payment_intent, event_id)
+
+        # 3. Canceled
+        elif event['type'] == 'payment_intent.canceled':
+            payment_intent = event['data']['object']
+            self._process_payment_canceled(payment_intent, event_id)
+
+        return HttpResponse(status=200)
+
+    def _process_payment_success(self, payment_intent, event_id):
+        payment_ref = payment_intent.get('metadata', {}).get('payment_reference')
+        if not payment_ref:
+            logger.error(f"No payment_reference in Stripe metadata for intent {payment_intent['id']}")
+            return
+
+        with transaction.atomic():
             try:
-                # Use metadata to find the payment/order
-                payment_ref = payment_intent.get('metadata', {}).get('payment_reference')
-                if payment_ref:
-                    payment = Payment.objects.get(reference=payment_ref)
-                    payment.status = PaymentStatusChoices.COMPLETED
-                    payment.gateway_response['webhook_event'] = event['type']
+                payment = Payment.objects.select_for_update().get(reference=payment_ref)
+                
+                # Idempotency check
+                if event_id in (payment.webhook_events or []):
+                    logger.info(f"Event {event_id} already processed for payment {payment_ref}")
+                    return
+
+                # Record event
+                if payment.webhook_events is None:
+                    payment.webhook_events = []
+                payment.webhook_events.append(event_id)
+
+                if payment.status != PaymentStatusChoices.SUCCEEDED:
+                    payment.status = PaymentStatusChoices.SUCCEEDED
+                    payment.paid_at = timezone.now()
+                    payment.gateway_response['latest_event'] = payment_intent
                     payment.save()
                     
                     order = payment.order
-                    order.status = "PROCESSING"
                     order.is_paid = True
+                    order.status = "PROCESSING" # Or whatever fulfillment status you use
                     order.save()
-                    logger.info(f"✅ Order {order.reference} marked as PAID")
-            except Exception as e:
-                logger.error(f"❌ Webhook Error processing success: {str(e)}")
+                    
+                    logger.info(f"✅ Webhook: Payment {payment_ref} and Order {order.reference} marked as SUCCEEDED")
+                
+            except Payment.DoesNotExist:
+                logger.error(f"Payment {payment_ref} not found during webhook processing")
 
-        elif event['type'] == 'payment_intent.payment_failed':
-            payment_intent = event['data']['object']
-            logger.warning(f"❌ Stripe Webhook: PaymentIntent {payment_intent['id']} failed")
+    def _process_payment_failure(self, payment_intent, event_id):
+        payment_ref = payment_intent.get('metadata', {}).get('payment_reference')
+        if not payment_ref: return
+
+        try:
+            payment = Payment.objects.get(reference=payment_ref)
+            if event_id in (payment.webhook_events or []): return
             
-            try:
-                payment_ref = payment_intent.get('metadata', {}).get('payment_reference')
-                if payment_ref:
-                    payment = Payment.objects.get(reference=payment_ref)
-                    payment.status = PaymentStatusChoices.FAILED
-                    payment.gateway_response['error'] = payment_intent.get('last_payment_error', {}).get('message')
-                    payment.save()
-            except Exception as e:
-                logger.error(f"❌ Webhook Error processing failure: {str(e)}")
+            if payment.webhook_events is None: payment.webhook_events = []
+            payment.webhook_events.append(event_id)
+            
+            payment.status = PaymentStatusChoices.FAILED
+            payment.gateway_response['error'] = payment_intent.get('last_payment_error', {}).get('message')
+            payment.save()
+            logger.warning(f"❌ Webhook: Payment {payment_ref} marked as FAILED")
+        except Payment.DoesNotExist:
+            logger.error(f"Payment {payment_ref} not found during webhook failure processing")
 
-        return HttpResponse(status=200)
+    def _process_payment_canceled(self, payment_intent, event_id):
+        payment_ref = payment_intent.get('metadata', {}).get('payment_reference')
+        if not payment_ref: return
+
+        try:
+            payment = Payment.objects.get(reference=payment_ref)
+            if event_id in (payment.webhook_events or []): return
+            
+            if payment.webhook_events is None: payment.webhook_events = []
+            payment.webhook_events.append(event_id)
+            
+            payment.status = PaymentStatusChoices.CANCELED
+            payment.save()
+            logger.info(f"⚪ Webhook: Payment {payment_ref} marked as CANCELED")
+        except Payment.DoesNotExist:
+            pass

@@ -1,0 +1,176 @@
+{% extends 'pages/base.html' %} {% load static %} {% block content %}
+<main class="flex-1 justify-center py-8 px-4 md:px-0 bg-slate-50 min-h-screen">
+  <div
+    class="max-w-[640px] mx-auto bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-10"
+  >
+    <!-- Status Icon & Message -->
+    <div class="flex flex-col items-center text-center space-y-4 mb-8">
+      {% if order.is_paid %}
+      <div
+        class="size-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-2 animate-bounce"
+      >
+        <span class="material-symbols-outlined text-[48px] font-bold"
+          >check_circle</span
+        >
+      </div>
+      <h1 class="text-slate-900 text-3xl font-bold leading-tight">
+        Paiement Réussi !
+      </h1>
+      <p class="text-slate-600 text-base max-w-md">
+        Votre commande
+        <span class="font-semibold text-primary">#{{ order.reference }}</span> a
+        été confirmée avec succès.
+      </p>
+      {% elif order.payment_method == 'cod' %}
+      <div
+        class="size-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-2"
+      >
+        <span class="material-symbols-outlined text-[48px] font-bold"
+          >check_circle</span
+        >
+      </div>
+      <h1 class="text-slate-900 text-3xl font-bold leading-tight">
+        Commande Confirmée !
+      </h1>
+      <p class="text-slate-600 text-base max-w-md">
+        Votre commande
+        <span class="font-semibold text-primary">#{{ order.reference }}</span> a
+        été enregistrée en Paiement à la livraison.
+      </p>
+      {% else %}
+      <!-- Pending / Polling State -->
+      <div
+        class="size-20 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mb-2 animate-spin-slow"
+      >
+        <span class="material-symbols-outlined text-[48px] font-bold"
+          >sync</span
+        >
+      </div>
+      <h1 class="text-slate-900 text-3xl font-bold leading-tight">
+        Confirmation en cours...
+      </h1>
+      <p class="text-slate-600 text-base max-w-md">
+        Nous finalisons la confirmation de votre paiement pour la commande
+        <span class="font-semibold text-primary">#{{ order.reference }}</span>.
+      </p>
+      <div class="flex items-center gap-2 text-amber-600 text-sm font-medium">
+        <span class="animate-pulse"
+          >Veuillez patienter quelques instants...</span
+        >
+      </div>
+      <script>
+        // Auto-refresh to check for webhook confirmation
+        setTimeout(() => {
+          window.location.reload();
+        }, 4000);
+      </script>
+      {% endif %}
+    </div>
+
+    <!-- QR Code Section -->
+    {% if order.qr_code %}
+    <div
+      class="flex flex-col items-center p-6 bg-primary/5 rounded-xl border-2 border-dashed border-primary/20 mb-8 animate-fade-in-down"
+    >
+      <h3 class="text-slate-900 font-bold mb-4 flex items-center gap-2">
+        <span class="material-symbols-outlined">qr_code</span>
+        Votre Code QR
+      </h3>
+      <div class="bg-white p-4 rounded-lg shadow-sm mb-4">
+        <img
+          src="{{ order.qr_code.url }}"
+          alt="Order QR Code"
+          class="h-48 w-48 mx-auto"
+        />
+      </div>
+      <p class="text-xs text-slate-500 text-center mb-4">
+        Présentez ce code lors de la réception pour confirmer la livraison.
+      </p>
+      <a
+        href="{{ order.qr_code.url }}"
+        download="QR_{{ order.reference }}.png"
+        class="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition-all text-sm shadow-sm"
+      >
+        <span class="material-symbols-outlined text-sm">download</span>
+        Télécharger le Code QR
+      </a>
+    </div>
+    {% endif %}
+
+    <!-- Info Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+      <div class="p-4 rounded-lg bg-slate-50 border border-slate-100">
+        <p
+          class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1"
+        >
+          Status
+        </p>
+        <div
+          class="flex items-center gap-2 {% if order.is_paid %}text-green-600{% else %}text-amber-600{% endif %} font-bold"
+        >
+          <span class="material-symbols-outlined text-sm"
+            >{% if order.is_paid %}verified{% else %}pending{% endif %}</span
+          >
+          <span>{% if order.is_paid %}Payé{% else %}En attente{% endif %}</span>
+        </div>
+      </div>
+      <div class="p-4 rounded-lg bg-slate-50 border border-slate-100">
+        <p
+          class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1"
+        >
+          Montant Total
+        </p>
+        <div class="flex items-center gap-2 text-slate-900 font-bold">
+          <span class="material-symbols-outlined text-sm">payments</span>
+          <span>{{ order.total|floatformat:0 }} FCFA</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col gap-3">
+      <a
+        href="{% url 'users:dashboard' %}"
+        class="w-full h-12 bg-primary text-white font-bold rounded-lg flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-md shadow-primary/20"
+      >
+        <span class="material-symbols-outlined">dashboard</span>
+        Consulter mes commandes
+      </a>
+      <a
+        href="{% url 'core:home' %}"
+        class="w-full h-12 bg-white text-slate-600 font-semibold border border-slate-200 rounded-lg flex items-center justify-center gap-2 hover:bg-slate-50 transition-all"
+      >
+        Continuer mes achats
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+</main>
+
+<style>
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .animate-spin-slow {
+    animation: spin-slow 3s linear infinite;
+  }
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in-down {
+    animation: fadeInDown 0.5s ease-out forwards;
+  }
+</style>
+{% endblock %}

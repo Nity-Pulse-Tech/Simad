@@ -214,15 +214,19 @@ class StripeService:
 
     def __init__(self):
         self.secret_key = getattr(settings, "STRIPE_SECRET_KEY", "")
+        if not self.secret_key:
+            logger.error("STRIPE_SECRET_KEY is not set in settings")
         stripe.api_key = self.secret_key
 
-    def create_payment_intent(self, amount, currency="xaf", metadata=None):
+    def create_payment_intent(self, amount, currency="xaf", metadata=None, idempotency_key=None):
         """
         Creates a Stripe PaymentIntent.
-        Amount should be in the smallest unit of the currency (e.g., cents for USD, subunits for XAF).
-        Note: Stripe supports XAF, but it's a zero-decimal currency.
         """
         try:
+            # Stripe expects amount in the smallest unit of the currency.
+            # XAF is zero-decimal, so 1000 CFA = 1000 in Stripe.
+            # For USD, 10.00 = 1000 in Stripe.
+            
             intent = stripe.PaymentIntent.create(
                 amount=int(amount),
                 currency=currency.lower(),
@@ -230,15 +234,100 @@ class StripeService:
                 automatic_payment_methods={
                     'enabled': True,
                 },
+                idempotency_key=idempotency_key
             )
             return {
                 "success": True,
-                "client_secret": intent.client_secret,
                 "intent_id": intent.id,
+                "client_secret": intent.client_secret,
+                "status": intent.status,
                 "data": intent
             }
         except stripe.error.StripeError as e:
-            logger.error("❌ Stripe Error: %s", str(e))
+            logger.error("❌ Stripe Error (Create Intent): %s", str(e))
+            return {"success": False, "message": str(e)}
+
+    def create_checkout_session(self, order, success_url, cancel_url, payment_reference, customer_email=None):
+        """
+        Creates a Stripe Checkout Session for the given order.
+        """
+        try:
+            # Prepare line items. 
+            # XAF is zero-decimal, so amount is passed as is.
+            line_items = []
+            for item in order.items.all():
+                line_items.append({
+                    'price_data': {
+                        'currency': 'xaf',
+                        'product_data': {
+                            'name': item.product_name,
+                        },
+                        'unit_amount': int(item.unit_price),
+                    },
+                    'quantity': item.quantity,
+                })
+            
+            # Add shipping if any
+            if order.shipping_cost > 0:
+                line_items.append({
+                    'price_data': {
+                        'currency': 'xaf',
+                        'product_data': {
+                            'name': 'Frais de livraison',
+                        },
+                        'unit_amount': int(order.shipping_cost),
+                    },
+                    'quantity': 1,
+                })
+
+            session = stripe.checkout.Session.create(
+                payment_method_types=['card'],
+                line_items=line_items,
+                mode='payment',
+                success_url=success_url,
+                cancel_url=cancel_url,
+                customer_email=customer_email,
+                client_reference_id=order.reference,
+                metadata={
+                    "order_reference": order.reference,
+                    "payment_reference": payment_reference
+                },
+                payment_intent_data={
+                    "metadata": {
+                        "order_reference": order.reference,
+                        "payment_reference": payment_reference
+                    }
+                }
+            )
+            return {
+                "success": True,
+                "session_id": session.id,
+                "url": session.url
+            }
+        except stripe.error.StripeError as e:
+            logger.error("❌ Stripe Error (Create Session): %s", str(e))
+            return {"success": False, "message": str(e)}
+
+    def retrieve_checkout_session(self, session_id):
+        """
+        Retrieves a Stripe Checkout Session.
+        """
+        try:
+            session = stripe.checkout.Session.retrieve(session_id)
+            return {"success": True, "data": session}
+        except stripe.error.StripeError as e:
+            logger.error("❌ Stripe Error (Retrieve Session): %s", str(e))
+            return {"success": False, "message": str(e)}
+
+    def retrieve_payment_intent(self, intent_id):
+        """
+        Retrieves a Stripe PaymentIntent.
+        """
+        try:
+            intent = stripe.PaymentIntent.retrieve(intent_id)
+            return {"success": True, "data": intent}
+        except stripe.error.StripeError as e:
+            logger.error("❌ Stripe Error (Retrieve Intent): %s", str(e))
             return {"success": False, "message": str(e)}
 
     def construct_event(self, payload, sig_header):
@@ -246,16 +335,21 @@ class StripeService:
         Verifies and constructs a Stripe event from a webhook payload.
         """
         webhook_secret = getattr(settings, "STRIPE_WEBHOOK_SECRET", "")
+        if not webhook_secret:
+            logger.error("STRIPE_WEBHOOK_SECRET is not set in settings")
+            return {"success": False, "message": "Webhook secret not configured"}
+
         try:
             event = stripe.Webhook.construct_event(
                 payload, sig_header, webhook_secret
             )
             return {"success": True, "event": event}
         except ValueError as e:
-            # Invalid payload
             logger.error("❌ Stripe Webhook Error: Invalid payload - %s", str(e))
             return {"success": False, "message": "Invalid payload"}
         except stripe.error.SignatureVerificationError as e:
-            # Invalid signature
             logger.error("❌ Stripe Webhook Error: Invalid signature - %s", str(e))
             return {"success": False, "message": "Invalid signature"}
+        except Exception as e:
+            logger.error("❌ Stripe Webhook Error: %s", str(e))
+            return {"success": False, "message": str(e)}

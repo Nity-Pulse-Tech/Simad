@@ -146,7 +146,7 @@ class OrderItemAdmin(admin.ModelAdmin):
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
     list_display = [
-        "reference", "order", "user", "method", "status", "amount_display",
+        "reference", "order", "user", "method", "provider", "status", "amount_display",
         "paid_at", "created",
     ]
     list_filter = ["method", "status", "currency", "created"]
@@ -156,13 +156,17 @@ class PaymentAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ("Transaction Details", {
-            "fields": ("order", "user", "reference", "method", "status"),
+            "fields": ("order", "user", "reference", "method", "provider", "status"),
         }),
         ("Financial Data", {
             "fields": ("amount", "currency", "phone_number", "paid_at"),
         }),
+        ("Stripe Info", {
+            "fields": ("stripe_payment_intent_id", "stripe_checkout_session_id", "webhook_events"),
+            "classes": ("collapse",),
+        }),
         ("Gateway Feedback", {
-            "fields": ("gateway_response",),
+            "fields": ("gateway_response", "metadata"),
             "classes": ("collapse",),
         }),
         ("Metadata", {
@@ -177,7 +181,7 @@ class PaymentAdmin(admin.ModelAdmin):
 
     @admin.action(description=_("Mark selected payments as Paid"))
     def mark_as_paid(self, request, queryset):
-        queryset.update(status=PaymentStatusChoices.COMPLETED, paid_at=timezone.now())
+        queryset.update(status=PaymentStatusChoices.SUCCEEDED, paid_at=timezone.now())
         for payment in queryset:
             if payment.order:
                 payment.order.is_paid = True

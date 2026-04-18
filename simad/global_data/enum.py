@@ -60,8 +60,10 @@ class OrderTypeChoices(models.TextChoices):
 
 class PaymentStatusChoices(models.TextChoices):
     PENDING = "PENDING", _("Pending")
-    COMPLETED = "COMPLETED", _("Completed")
+    PROCESSING = "PROCESSING", _("Processing")
+    SUCCEEDED = "SUCCEEDED", _("Succeeded")
     FAILED = "FAILED", _("Failed")
+    CANCELED = "CANCELED", _("Canceled")
     REFUNDED = "REFUNDED", _("Refunded")
     PARTIALLY_REFUNDED = "PARTIALLY_REFUNDED", _("Partially Refunded")
 
@@ -73,6 +75,12 @@ class PaymentMethodChoices(models.TextChoices):
     DEBIT_CARD = "DEBIT_CARD", _("Debit Card")
     BANK_TRANSFER = "BANK_TRANSFER", _("Bank Transfer")
     PAYPAL = "PAYPAL", _("PayPal")
+
+
+class PaymentProviderChoices(models.TextChoices):
+    PAYUNIT = "PAYUNIT", _("PayUnit")
+    STRIPE = "STRIPE", _("Stripe")
+    MANUAL = "MANUAL", _("Manual")
 
 
 class DeliveryStatusChoices(models.TextChoices):
